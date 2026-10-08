@@ -1,0 +1,14 @@
+# Demo 8 reference dashboard. Regenerate the JSON with code/dashboards/build_dashboard.py.
+resources:
+  dashboards:
+    portfolio_review:
+      display_name: "Revantage Portfolio Review (Reference)"
+      file_path: ../dashboards/revantage-portfolio-review.lvdash.json
+      parent_path: ${var.dashboard_path}
+      warehouse_id: ${var.warehouse_id}
+      dataset_catalog: ${var.catalog}
+      dataset_schema: ${resources.schemas.demo_schema.name}
+      embed_credentials: false
+      permissions:
+        - group_name: ${var.consumer_group}
+          level: CAN_READ

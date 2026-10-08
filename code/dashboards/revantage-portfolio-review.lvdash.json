@@ -1,0 +1,1210 @@
+{
+  "datasets": [
+    {
+      "name": "kpi_latest",
+      "displayName": "Portfolio KPIs, 2026-Q2 (metric views)",
+      "queryLines": [
+        "SELECT m.revenue, m.net_profit, m.net_profit_margin, t.target_attainment, t.properties_met_target, t.properties, g.qoq_net_profit_growth\n",
+        "FROM (SELECT MEASURE(revenue) AS revenue, MEASURE(net_profit) AS net_profit, MEASURE(net_profit_margin) AS net_profit_margin\n",
+        "      FROM ref_mv_net_profit_margin WHERE fiscal_quarter = '2026-Q2') m\n",
+        "CROSS JOIN (SELECT MEASURE(target_attainment) AS target_attainment, MEASURE(properties_met_target) AS properties_met_target,\n",
+        "                   MEASURE(properties) AS properties FROM ref_mv_target_attainment WHERE fiscal_quarter = '2026-Q2') t\n",
+        "CROSS JOIN (SELECT MEASURE(qoq_net_profit_growth) AS qoq_net_profit_growth FROM ref_mv_qoq_revenue_growth WHERE fiscal_quarter = '2026-Q2') g\n"
+      ]
+    },
+    {
+      "name": "trend_region",
+      "displayName": "Net profit and margin by quarter and region (metric view)",
+      "queryLines": [
+        "SELECT fiscal_quarter, region_name, property_type, MEASURE(revenue) AS revenue, MEASURE(net_profit) AS net_profit\n",
+        "FROM ref_mv_net_profit_margin\n",
+        "GROUP BY ALL\n"
+      ]
+    },
+    {
+      "name": "property_quarter",
+      "displayName": "Property x quarter (certified gold)",
+      "queryLines": [
+        "SELECT property_name, property_type, region_name, market, fiscal_quarter, revenue, revenue_target, net_profit,\n",
+        "       net_profit_target, net_profit - net_profit_target AS variance_to_target, met_target, qoq_change_pct,\n",
+        "       CASE WHEN qoq_change_pct < -10 THEN 'Sharp decline' WHEN qoq_change_pct < 0 THEN 'Decline' ELSE 'OK' END AS qoq_flag\n",
+        "FROM gold_property_quarterly\n"
+      ]
+    },
+    {
+      "name": "market_qoq",
+      "displayName": "QoQ net profit growth by market (metric view)",
+      "queryLines": [
+        "SELECT market, fiscal_quarter, region_name, MEASURE(qoq_net_profit_growth) AS qoq_net_profit_growth\n",
+        "FROM ref_mv_qoq_revenue_growth\n",
+        "WHERE fiscal_quarter >= '2024-Q2'\n",
+        "GROUP BY ALL\n"
+      ]
+    },
+    {
+      "name": "forecast",
+      "displayName": "Revenue actuals + ai_forecast with 95% interval (Demo 14)",
+      "queryLines": [
+        "SELECT property_name, region_name, property_type, fiscal_quarter_date, series, value FROM (\n",
+        "  SELECT property_name, region_name, property_type, fiscal_quarter_date,\n",
+        "         stack(5, 'Actual', revenue_actual, 'Forecast', revenue_forecast, 'Lower 95%', revenue_lower,\n",
+        "                  'Upper 95%', revenue_upper, 'Target', revenue_target) AS (series, value)\n",
+        "  FROM ref_d14_revenue_forecast)\n",
+        "WHERE value IS NOT NULL\n",
+        "UNION ALL\n",
+        "-- anchor the forecast and interval lines on the last actual so they connect\n",
+        "SELECT property_name, region_name, property_type, fiscal_quarter_date, s.series, revenue_actual\n",
+        "FROM ref_d14_revenue_forecast\n",
+        "CROSS JOIN (SELECT explode(array('Forecast', 'Lower 95%', 'Upper 95%')) AS series) s\n",
+        "WHERE fiscal_quarter = '2026-Q2'\n"
+      ]
+    }
+  ],
+  "pages": [
+    {
+      "name": "exec",
+      "displayName": "Executive Summary",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "txt001",
+            "multilineTextboxSpec": {
+              "lines": [
+                "# Revantage Portfolio Review\n\nCertified view of **2026-Q2** (latest complete quarter). KPIs come from the governed metric views (`ref_mv_*`): net profit = revenue \u2212 operating expense \u2212 management fees (Finance definition)."
+              ]
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 6,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "ctr002",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_latest",
+                  "fields": [
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "revenue",
+                  "displayName": "Revenue 2026-Q2",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue 2026-Q2"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "ctr003",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_latest",
+                  "fields": [
+                    {
+                      "name": "net_profit_margin",
+                      "expression": "`net_profit_margin`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "net_profit_margin",
+                  "displayName": "Net profit margin",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net profit margin"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 2,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "ctr004",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_latest",
+                  "fields": [
+                    {
+                      "name": "target_attainment",
+                      "expression": "`target_attainment`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "target_attainment",
+                  "displayName": "Target attainment",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Target attainment"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 1,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "ctr005",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "kpi_latest",
+                  "fields": [
+                    {
+                      "name": "qoq_net_profit_growth",
+                      "expression": "`qoq_net_profit_growth`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "qoq_net_profit_growth",
+                  "displayName": "Net profit QoQ",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net profit QoQ"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 2,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "chr006",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "trend_region",
+                  "fields": [
+                    {
+                      "name": "fiscal_quarter",
+                      "expression": "`fiscal_quarter`"
+                    },
+                    {
+                      "name": "sum(net_profit)",
+                      "expression": "SUM(`net_profit`)"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "fiscal_quarter",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Fiscal quarter"
+                },
+                "y": {
+                  "fieldName": "sum(net_profit)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Net profit",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net profit trend by region"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "regional",
+      "displayName": "Regional Performance",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "flt007",
+            "queries": [
+              {
+                "name": "f_property_quarter_fiscal_quarter",
+                "query": {
+                  "datasetName": "property_quarter",
+                  "fields": [
+                    {
+                      "name": "fiscal_quarter",
+                      "expression": "`fiscal_quarter`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "fiscal_quarter",
+                    "displayName": "Fiscal quarter",
+                    "queryName": "f_property_quarter_fiscal_quarter"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Fiscal quarter"
+              },
+              "selection": {
+                "defaultSelection": {
+                  "values": {
+                    "dataType": "STRING",
+                    "values": [
+                      {
+                        "value": "2026-Q2"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "chr008",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "property_quarter",
+                  "fields": [
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    },
+                    {
+                      "name": "sum(net_profit)",
+                      "expression": "SUM(`net_profit`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "region_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Region"
+                },
+                "y": {
+                  "fieldName": "sum(net_profit)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Net profit",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Net profit by region"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "chr009",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "property_quarter",
+                  "fields": [
+                    {
+                      "name": "revenue_target",
+                      "expression": "`revenue_target`"
+                    },
+                    {
+                      "name": "revenue",
+                      "expression": "`revenue`"
+                    },
+                    {
+                      "name": "property_name",
+                      "expression": "`property_name`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "revenue_target",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Revenue target",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "revenue",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Revenue",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "property_name",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Property"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue vs target by property"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "chr010",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "market_qoq",
+                  "fields": [
+                    {
+                      "name": "fiscal_quarter",
+                      "expression": "`fiscal_quarter`"
+                    },
+                    {
+                      "name": "market",
+                      "expression": "`market`"
+                    },
+                    {
+                      "name": "qoq",
+                      "expression": "`qoq_net_profit_growth`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "heatmap",
+              "encodings": {
+                "x": {
+                  "fieldName": "fiscal_quarter",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Quarter"
+                },
+                "y": {
+                  "fieldName": "market",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Market"
+                },
+                "color": {
+                  "fieldName": "qoq",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "QoQ net profit growth",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "QoQ net profit growth by market"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 9,
+            "width": 6,
+            "height": 7
+          }
+        }
+      ]
+    },
+    {
+      "name": "exceptions",
+      "displayName": "Exceptions & Risks",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "flt011",
+            "queries": [
+              {
+                "name": "f_property_quarter_fiscal_quarter",
+                "query": {
+                  "datasetName": "property_quarter",
+                  "fields": [
+                    {
+                      "name": "fiscal_quarter",
+                      "expression": "`fiscal_quarter`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "fiscal_quarter",
+                    "displayName": "Fiscal quarter",
+                    "queryName": "f_property_quarter_fiscal_quarter"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Fiscal quarter"
+              },
+              "selection": {
+                "defaultSelection": {
+                  "values": {
+                    "dataType": "STRING",
+                    "values": [
+                      {
+                        "value": "2026-Q2"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "flt012",
+            "queries": [
+              {
+                "name": "f_property_quarter_met_target",
+                "query": {
+                  "datasetName": "property_quarter",
+                  "fields": [
+                    {
+                      "name": "met_target",
+                      "expression": "`met_target`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "met_target",
+                    "displayName": "Met target",
+                    "queryName": "f_property_quarter_met_target"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Met target"
+              }
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "tbl013",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "property_quarter",
+                  "fields": [
+                    {
+                      "name": "property_name",
+                      "expression": "`property_name`"
+                    },
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    },
+                    {
+                      "name": "property_type",
+                      "expression": "`property_type`"
+                    },
+                    {
+                      "name": "net_profit",
+                      "expression": "`net_profit`"
+                    },
+                    {
+                      "name": "net_profit_target",
+                      "expression": "`net_profit_target`"
+                    },
+                    {
+                      "name": "variance_to_target",
+                      "expression": "`variance_to_target`"
+                    },
+                    {
+                      "name": "qoq_change_pct",
+                      "expression": "`qoq_change_pct`"
+                    },
+                    {
+                      "name": "qoq_flag",
+                      "expression": "`qoq_flag`"
+                    },
+                    {
+                      "name": "met_target",
+                      "expression": "`met_target`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "property_name",
+                    "displayName": "Property"
+                  },
+                  {
+                    "fieldName": "region_name",
+                    "displayName": "Region"
+                  },
+                  {
+                    "fieldName": "property_type",
+                    "displayName": "Type"
+                  },
+                  {
+                    "fieldName": "net_profit",
+                    "displayName": "Net profit",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "EUR",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "net_profit_target",
+                    "displayName": "Target",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "EUR",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "variance_to_target",
+                    "displayName": "Variance",
+                    "format": {
+                      "type": "number-currency",
+                      "currencyCode": "EUR",
+                      "abbreviation": "none",
+                      "decimalPlaces": {
+                        "type": "exact",
+                        "places": 0
+                      }
+                    }
+                  },
+                  {
+                    "fieldName": "qoq_change_pct",
+                    "displayName": "QoQ %"
+                  },
+                  {
+                    "fieldName": "qoq_flag",
+                    "displayName": "QoQ flag"
+                  },
+                  {
+                    "fieldName": "met_target",
+                    "displayName": "Met target"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Properties vs target"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 8
+          }
+        }
+      ]
+    },
+    {
+      "name": "forecast_page",
+      "displayName": "Forecast",
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layout": [
+        {
+          "widget": {
+            "name": "flt014",
+            "queries": [
+              {
+                "name": "f_forecast_property_name",
+                "query": {
+                  "datasetName": "forecast",
+                  "fields": [
+                    {
+                      "name": "property_name",
+                      "expression": "`property_name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-single-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "property_name",
+                    "displayName": "Property",
+                    "queryName": "f_forecast_property_name"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Property"
+              },
+              "selection": {
+                "defaultSelection": {
+                  "values": {
+                    "dataType": "STRING",
+                    "values": [
+                      {
+                        "value": "Harbor Tower"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 2,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "txt015",
+            "multilineTextboxSpec": {
+              "lines": [
+                "Revenue actuals to 2026-Q2 and `ai_forecast` for 2026-Q3/Q4 with the 95% interval, against target. The forecast can't see that Harbor Tower's anchor tenant left on 31 March."
+              ]
+            }
+          },
+          "position": {
+            "x": 2,
+            "y": 0,
+            "width": 4,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "chr016",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "forecast",
+                  "fields": [
+                    {
+                      "name": "fiscal_quarter_date",
+                      "expression": "`fiscal_quarter_date`"
+                    },
+                    {
+                      "name": "sum(value)",
+                      "expression": "SUM(`value`)"
+                    },
+                    {
+                      "name": "series",
+                      "expression": "`series`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "fiscal_quarter_date",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "Quarter"
+                },
+                "y": {
+                  "fieldName": "sum(value)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Revenue",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "EUR",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 1
+                    }
+                  }
+                },
+                "color": {
+                  "fieldName": "series",
+                  "scale": {
+                    "type": "categorical"
+                  },
+                  "displayName": "Series"
+                }
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Revenue: actual, forecast, interval, target"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 6,
+            "height": 8
+          }
+        }
+      ]
+    },
+    {
+      "name": "global_filters",
+      "displayName": "Global filters",
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layout": [
+        {
+          "widget": {
+            "name": "flt017",
+            "queries": [
+              {
+                "name": "f_trend_region_region_name",
+                "query": {
+                  "datasetName": "trend_region",
+                  "fields": [
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_property_quarter_region_name",
+                "query": {
+                  "datasetName": "property_quarter",
+                  "fields": [
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_market_qoq_region_name",
+                "query": {
+                  "datasetName": "market_qoq",
+                  "fields": [
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_forecast_region_name",
+                "query": {
+                  "datasetName": "forecast",
+                  "fields": [
+                    {
+                      "name": "region_name",
+                      "expression": "`region_name`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "region_name",
+                    "displayName": "Region",
+                    "queryName": "f_trend_region_region_name"
+                  },
+                  {
+                    "fieldName": "region_name",
+                    "displayName": "Region",
+                    "queryName": "f_property_quarter_region_name"
+                  },
+                  {
+                    "fieldName": "region_name",
+                    "displayName": "Region",
+                    "queryName": "f_market_qoq_region_name"
+                  },
+                  {
+                    "fieldName": "region_name",
+                    "displayName": "Region",
+                    "queryName": "f_forecast_region_name"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Region"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "flt018",
+            "queries": [
+              {
+                "name": "f_trend_region_property_type",
+                "query": {
+                  "datasetName": "trend_region",
+                  "fields": [
+                    {
+                      "name": "property_type",
+                      "expression": "`property_type`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_property_quarter_property_type",
+                "query": {
+                  "datasetName": "property_quarter",
+                  "fields": [
+                    {
+                      "name": "property_type",
+                      "expression": "`property_type`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              },
+              {
+                "name": "f_forecast_property_type",
+                "query": {
+                  "datasetName": "forecast",
+                  "fields": [
+                    {
+                      "name": "property_type",
+                      "expression": "`property_type`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "property_type",
+                    "displayName": "Property type",
+                    "queryName": "f_trend_region_property_type"
+                  },
+                  {
+                    "fieldName": "property_type",
+                    "displayName": "Property type",
+                    "queryName": "f_property_quarter_property_type"
+                  },
+                  {
+                    "fieldName": "property_type",
+                    "displayName": "Property type",
+                    "queryName": "f_forecast_property_type"
+                  }
+                ]
+              },
+              "frame": {
+                "showTitle": true,
+                "title": "Property type"
+              }
+            }
+          },
+          "position": {
+            "x": 1,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ]
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "LEFT"
+    }
+  }
+}
