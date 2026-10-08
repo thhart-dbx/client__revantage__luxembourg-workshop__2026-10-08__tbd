@@ -7,6 +7,15 @@ resources:
       name: ${var.app_name}
       description: Lease Expiry Tracker (Demo 9) for the Revantage asset management team
       source_code_path: ../app
+      config: # replaces app.yaml so catalog/schema come from bundle variables
+        command: ["npm", "run", "start"]
+        env:
+          - name: DATABRICKS_WAREHOUSE_ID
+            value_from: sql-warehouse
+          - name: DATABRICKS_CATALOG
+            value: ${var.catalog}
+          - name: DATABRICKS_SCHEMA
+            value: ${resources.schemas.demo_schema.name}
       resources:
         - name: sql-warehouse # referenced from app.yaml via valueFrom
           sql_warehouse:
