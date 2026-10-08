@@ -31,6 +31,9 @@ variables:
     default: "2026-10-13"
   approvals_app_name:
     description: Invoice Approvals app name, Demo 12 (lowercase letters, numbers, hyphens; max 30 chars)
+  consumer_group:
+    description: Account group of workshop business users (UC grants)
+    default: revantage_consumers
 
 targets:
   dev:
@@ -49,11 +52,19 @@ targets:
       app_name: revantage-lease-tracker
       approvals_app_name: revantage-invoice-approvals
 
-  # To reproduce elsewhere, copy the dev target, rename it, and change its values:
-  # customer:
-  #   workspace:
-  #     profile: <profile>
-  #     root_path: /Workspace/Users/<you>/.bundle/${bundle.name}/${bundle.target}
-  #   variables:
-  #     catalog: <catalog>
-  #     ...
+  # Revantage dev workspace (where participants build live). Fill in the TODOs once access is
+  # granted, run preflight/preflight.py, then: bundle deploy -t revantage && bundle run setup_starting_state -t revantage
+  revantage:
+    workspace:
+      profile: revantage-dev # TODO: `databricks auth login --host <revantage dev host> --profile revantage-dev`
+      root_path: /Workspace/Users/${workspace.current_user.userName}/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: revantage_dev # TODO: catalog where the facilitator can CREATE SCHEMA
+      schema: databricks_workshop
+      warehouse_id: TODO_WAREHOUSE_ID # serverless SQL warehouse
+      experiment_path: /Users/${workspace.current_user.userName}/experiments
+      genie_space_path: /Users/${workspace.current_user.userName}/spaces
+      dashboard_path: /Users/${workspace.current_user.userName}/dashboards
+      alerts_path: /Users/${workspace.current_user.userName}/alerts
+      app_name: revantage-lease-tracker
+      approvals_app_name: revantage-invoice-approvals

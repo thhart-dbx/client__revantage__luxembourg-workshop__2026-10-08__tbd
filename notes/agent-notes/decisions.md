@@ -3,3 +3,7 @@
 - 2026-10-08 · Group reporting currency EUR for all GL/gold amounts (US properties converted); invoices keep their source currency.
 - 2026-10-08 · Starting state built by one serverless job (`setup_starting_state`): generator → volumes → SQL files with ${catalog}/${schema}. Plain Delta tables (not a pipeline), so Demo 11's participant pipeline writes its own tables; ref pipeline output is checked against the same oracle.
 - 2026-10-08 · gold_property_quarterly ships without a table description and without comments on net_profit / met_target / qoq_change_pct; participants write them in Demo 10.
+- 2026-10-08 · Bundle target `revantage` added (profile `revantage-dev`, catalog/warehouse TODO). `validate -t revantage` fails until that profile exists — expected.
+- 2026-10-08 · Participant sandboxes: job `setup_participant_sandboxes` (participants=emails, group) grants read on the starting-state schema and creates `<schema>_<name>` with ALL PRIVILEGES per participant.
+- 2026-10-08 · Pre-flight `code/preflight/preflight.py` (read-only): 15 automated checks + 2 manual (Agent Bricks tiles, Genie Code panel). FEVM: all 16 demos GO. ai_query must probe several endpoints (some foundation endpoints reject batch inference).
+- 2026-10-08 · monitoring subagent enabled AI Gateway usage tracking + inference table (prefix ref_d13, schema revantage_20261008) on databricks-claude-sonnet-4-6; prior gateway config of that endpoint unknown. Sibling's databricks-claude-sonnet-5-5 untouched.

@@ -1,0 +1,42 @@
+# Reference solutions (answer keys) for the SQL demos: D3 migrated view, D7 metric views, D14 forecast.
+#   databricks bundle run ref_analytics
+resources:
+  jobs:
+    ref_analytics:
+      name: "[Revantage workshop] Reference: D3 view, D7 metric views, D14 forecast"
+      description: Answer keys for Demos 3, 7, 14. Safe to re-run; replaces only ref_* objects.
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: build_refs
+          spark_python_task:
+            python_file: ../setup/run_sql.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${resources.schemas.demo_schema.name}
+              - --bundle-root
+              - ${workspace.file_path}
+              - reference/d03_property_performance_v.sql
+              - reference/d07_metric_views.sql
+          environment_key: default
+        - task_key: build_forecast # ai_forecast runs only on a SQL warehouse
+          depends_on:
+            - task_key: build_refs
+          spark_python_task:
+            python_file: ../setup/run_sql.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${resources.schemas.demo_schema.name}
+              - --bundle-root
+              - ${workspace.file_path}
+              - --warehouse
+              - ${var.warehouse_id}
+              - reference/d14_forecast.sql
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "4"

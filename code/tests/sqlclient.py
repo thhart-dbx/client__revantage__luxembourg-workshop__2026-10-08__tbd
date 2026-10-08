@@ -17,5 +17,5 @@ def query(sql, profile, warehouse_id):
         res = json.loads(out)
     if res["status"]["state"] != "SUCCEEDED":
         raise RuntimeError(f"{res['status']}\n{sql}")
-    cols = [c["name"] for c in res["manifest"]["schema"]["columns"]]
+    cols = [c["name"] for c in res.get("manifest", {}).get("schema", {}).get("columns", [])]
     return pd.DataFrame(res.get("result", {}).get("data_array", []) or [], columns=cols)

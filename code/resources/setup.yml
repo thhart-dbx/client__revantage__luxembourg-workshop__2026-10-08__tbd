@@ -28,3 +28,30 @@ resources:
             dependencies:
               - pandas>=2.2
               - numpy>=1.26
+
+    setup_participant_sandboxes:
+      name: "[Revantage workshop] Participant sandboxes"
+      description: Read access to the starting state + one sandbox schema per participant. Run with --params participants=a@x.com,b@x.com
+      parameters:
+        - name: participants
+          default: ""
+        - name: group
+          default: ""
+      tasks:
+        - task_key: sandboxes
+          spark_python_task:
+            python_file: ../setup/setup_sandboxes.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${resources.schemas.demo_schema.name}
+              - --participants
+              - "{{job.parameters.participants}}"
+              - --group
+              - "{{job.parameters.group}}"
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "4"
