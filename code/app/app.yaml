@@ -1,0 +1,6 @@
+# Databricks Apps runtime config. The platform runs `npm install` and `npm run build` before this.
+# package.json "start" must be: next start -H 0.0.0.0 -p ${DATABRICKS_APP_PORT:-3000}
+command: ['npm', 'run', 'start']
+env:
+  - name: DATABRICKS_WAREHOUSE_ID
+    valueFrom: sql-warehouse

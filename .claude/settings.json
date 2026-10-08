@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(databricks bundle validate *)",
+      "Bash(databricks bundle plan *)",
+      "Bash(databricks bundle summary *)",
+      "Bash(npm run *)",
+      "Bash(npx playwright test *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ],
+    "ask": [
+      "Bash(databricks bundle destroy *)",
+      "Bash(databricks repos delete *)",
+      "Bash(databricks workspace delete *)",
+      "Bash(databricks schemas delete *)",
+      "Bash(databricks catalogs delete *)",
+      "Bash(git push *)"
+    ],
+    "deny": [
+      "Read(**/.env*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guard_scope.py"
+          }
+        ]
+      }
+    ]
+  }
+}

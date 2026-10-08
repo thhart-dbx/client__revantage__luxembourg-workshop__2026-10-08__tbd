@@ -1,0 +1,13 @@
+{
+  "profile": "fevm-thhart-october-2026",
+  "catalog": "thhart_october_2026_catalog",
+  "schema": "revantage_20261008",
+  "workspace_paths": [
+    "/Users/thomas.hart@databricks.com/client__revantage__luxembourg-workshop__2026-10-08__tbd",
+    "/Users/thomas.hart@databricks.com/.bundle/client__revantage__luxembourg_workshop__2026_10_08__tbd",
+    "/Users/thomas.hart@databricks.com/experiments",
+    "/Users/thomas.hart@databricks.com/spaces",
+    "/Users/thomas.hart@databricks.com/dashboards",
+    "/Users/thomas.hart@databricks.com/alerts"
+  ]
+}

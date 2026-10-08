@@ -1,0 +1,13 @@
+resources:
+  schemas:
+    demo_schema:
+      catalog_name: ${var.catalog}
+      name: ${var.schema}
+      comment: "Revantage Luxembourg workshop - starting-state data and reference solutions"
+      # The app's service principal reads the demo's data. Add MODIFY if the app writes to Delta.
+      # The catalog isn't bundle-managed, so USE CATALOG is a one-time grant (see RUNBOOK Step 3).
+      grants:
+        - principal: ${resources.apps.demo_app.service_principal_client_id}
+          privileges: [USE_SCHEMA, SELECT]
+        - principal: ${resources.apps.approvals_app.service_principal_client_id}
+          privileges: [USE_SCHEMA, SELECT]

@@ -1,0 +1,28 @@
+# Next.js app on Databricks Apps. `bundle deploy` uploads code/app (respecting .gitignore) and
+# creates the app; `bundle run demo_app` deploys and starts it. On deploy, the platform runs
+# `npm install`, then `npm run build`, then the command in code/app/app.yaml.
+resources:
+  apps:
+    demo_app:
+      name: ${var.app_name}
+      description: Lease Expiry Tracker (Demo 9) for the Revantage asset management team
+      source_code_path: ../app
+      resources:
+        - name: sql-warehouse # referenced from app.yaml via valueFrom
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+      # On-behalf-of-user auth: the user's token arrives in the x-forwarded-access-token header,
+      # so Unity Catalog row filters/masks apply per user. A workspace admin must enable it first.
+      # user_api_scopes:
+      #   - sql
+
+    approvals_app:
+      name: ${var.approvals_app_name}
+      description: Invoice Approvals on Lakebase (Demo 12), approve extracted invoices before they reach the GL
+      source_code_path: ../app-approvals
+      resources:
+        - name: sql-warehouse
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE

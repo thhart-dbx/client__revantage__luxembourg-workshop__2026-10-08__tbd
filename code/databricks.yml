@@ -1,0 +1,56 @@
+# Declarative Automation Bundle for client__revantage__luxembourg-workshop__2026-10-08__tbd.
+# This file is the single source of environment config: to port the demo, add/edit a target
+# below and run `databricks bundle deploy -t <target>`. Resource files under resources/ reference
+# these variables and never hardcode a workspace, catalog, schema, or path.
+bundle:
+  name: client__revantage__luxembourg_workshop__2026_10_08__tbd
+  engine: direct # direct deployment engine (no Terraform); required for some resource types, e.g. catalogs
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Unity Catalog catalog the demo writes to
+  schema:
+    description: Schema for all demo data (created by this bundle)
+  warehouse_id:
+    description: SQL warehouse used by dashboards, Genie, alerts, and the app
+  experiment_path:
+    description: Workspace folder for MLflow experiments
+  genie_space_path:
+    description: Workspace folder for Genie spaces
+  dashboard_path:
+    description: Workspace folder for AI/BI dashboards
+  alerts_path:
+    description: Workspace folder for SQL alerts
+  app_name:
+    description: Lease Expiry Tracker app name, Demo 9 (lowercase letters, numbers, hyphens; max 30 chars)
+  approvals_app_name:
+    description: Invoice Approvals app name, Demo 12 (lowercase letters, numbers, hyphens; max 30 chars)
+
+targets:
+  dev:
+    default: true
+    workspace:
+      profile: fevm-thhart-october-2026
+      root_path: /Workspace/Users/thomas.hart@databricks.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: thhart_october_2026_catalog
+      schema: revantage_20261008
+      warehouse_id: 0fb3aaac7c7d373c
+      experiment_path: /Users/thomas.hart@databricks.com/experiments
+      genie_space_path: /Users/thomas.hart@databricks.com/spaces
+      dashboard_path: /Users/thomas.hart@databricks.com/dashboards
+      alerts_path: /Users/thomas.hart@databricks.com/alerts
+      app_name: revantage-lease-tracker
+      approvals_app_name: revantage-invoice-approvals
+
+  # To reproduce elsewhere, copy the dev target, rename it, and change its values:
+  # customer:
+  #   workspace:
+  #     profile: <profile>
+  #     root_path: /Workspace/Users/<you>/.bundle/${bundle.name}/${bundle.target}
+  #   variables:
+  #     catalog: <catalog>
+  #     ...
