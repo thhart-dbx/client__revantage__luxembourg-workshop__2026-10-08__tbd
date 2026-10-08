@@ -1,0 +1,60 @@
+==================================================================================================== 
+Q: Which properties missed their quarterly target in 2026-Q2?
+status: COMPLETED
+SQL:
+SELECT
+  `property_name`,
+  MEASURE(`net_profit_vs_target`) AS `net_profit_vs_target`
+FROM `thhart_october_2026_catalog`.`revantage_20261008`.`ref_mv_target_attainment`
+WHERE `fiscal_quarter` = '2026-Q2'
+  AND `property_name` IS NOT NULL
+GROUP BY ALL
+HAVING `net_profit_vs_target` < 0
+ORDER BY `net_profit_vs_target` ASC
+ROWS: ['property_name', 'net_profit_vs_target']
+    ['Peachtree Center', '-71293.16']
+    ['Harbor Tower', '-43234.95']
+    ['Zuidas Residences', '-41701.20']
+TEXT: In **2026-Q2**, **3 properties** missed their quarterly target based on **ref_mv_target_attainment** and its **net_profit_vs_target** measure (negative values indicate the target was missed).
+- **Peachtree Center**: **EUR -71,293.16** vs target
+- **Harbor Tower**: **EUR -43,234.95** vs target
+- **Zuidas Residences**: **EUR -41,701.20** vs target
+
+Among these, **Peachtree Center** had the largest shortfall, while **Zuidas Residences** had the smallest gap to target.
+==================================================================================================== 
+Q: Why did Southeast net profit drop in Q2?
+status: COMPLETED
+SQL:
+SELECT `q2`.`property_name`,
+  `q2`.`net_profit` - `q1`.`net_profit` AS `net_profit_change`,
+  `q2`.`revenue` - `q1`.`revenue` AS `revenue_change`,
+  `q2`.`operating_expense` - `q1`.`operating_expense` AS `opex_change`,
+  `q2`.`mgmt_fee` - `q1`.`mgmt_fee` AS `mgmt_fee_change`
+FROM `thhart_october_2026_catalog`.`revantage_20261008`.`gold_property_quarterly` `q2`
+JOIN `thhart_october_2026_catalog`.`revantage_20261008`.`gold_property_quarterly` `q1`
+  ON `q1`.`property_id` = `q2`.`property_id`
+ AND `q1`.`fiscal_quarter` = '2026-Q1'
+WHERE `q2`.`fiscal_quarter` = '2026-Q2'
+  AND `q2`.`region_name` ILIKE '%Southeast%'
+  AND `q2`.`property_name` IS NOT NULL
+ORDER BY `net_profit_change` ASC
+ROWS: ['property_name', 'net_profit_change', 'revenue_change', 'opex_change', 'mgmt_fee_change']
+    ['Harbor Tower', '-506697.15', '-321489.73', '194852.12', '-9644.70']
+    ['Peachtree Center', '4343.78', '16002.01', '11178.17', '480.06']
+    ['Biscayne Point', '22161.82', '38250.65', '14941.32', '1147.51']
+TEXT: Southeast net profit fell in **2026-Q2 vs 2026-Q1** because **Harbor Tower** had a **€506,697.15** decline, driven by **€321,489.73 lower revenue** and **€194,852.12 higher operating expense**; its management fee decreased by **€9,644.70**, which only partly offset the drop. The other two Southeast properties improved, with **Peachtree Center** up **€4,343.78** and **Biscayne Point** up **€22,161.82**, so the regional decline in this result set was driven by Harbor Tower as the clear outlier.
+==================================================================================================== 
+Q: What is our net profit margin this quarter, and how would it differ under the Asset Management definition?
+status: COMPLETED
+SQL:
+SELECT MEASURE(`net_profit`) AS `net_profit`, MEASURE(`net_profit_margin`) AS `net_profit_margin`, MEASURE(`asset_mgmt_net_profit`) AS `asset_mgmt_net_profit`, MEASURE(`asset_mgmt_net_profit_margin`) AS `asset_mgmt_net_profit_margin`
+FROM `thhart_october_2026_catalog`.`revantage_20261008`.`ref_mv_net_profit_margin`
+WHERE `fiscal_quarter` = '2026-Q2'
+GROUP BY ALL
+ROWS: ['net_profit', 'net_profit_margin', 'asset_mgmt_net_profit', 'asset_mgmt_net_profit_margin']
+    ['6375345.36', '0.593336', '5797100.87', '0.539520']
+TEXT: Using **ref_mv_net_profit_margin** for **2026-Q2**, the approved net profit margin is **59.3336%** with net profit of **EUR 6,375,345.36**. Under the **Asset Management** definition, net profit is **EUR 5,797,100.87** and net profit margin is **53.9520%**, which is **5.3816 percentage points lower** than the approved margin.
+==================================================================================================== 
+Q: Summarize the top 3 risks across the portfolio this quarter
+status: FAILED
+ERROR: {'error': 'REQUEST_LIMIT_EXCEEDED: An error occurred accessing the schema. Unity Catalog request failed after retries. Cause: REQUEST_LIMIT_EXCEEDED: Your request was rejected since your organization has exceeded the rate limit. Please retry your request later.', 'type': 'COULD_NOT_GET_UC_SCHEMA_EXCEPTION'}

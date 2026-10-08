@@ -1,0 +1,127 @@
+==================================================================================================== 
+Q: How many properties are in the bronze layer vs. the gold layer?
+status: COMPLETED
+SQL:
+SELECT 'bronze' AS layer, COUNT(DISTINCT bronze_properties.property_id) AS property_count
+FROM thhart_october_2026_catalog.revantage_20261008.bronze_properties
+WHERE bronze_properties.property_id IS NOT NULL
+UNION ALL
+SELECT 'gold' AS layer, COUNT(DISTINCT gold_property_quarterly.property_id) AS property_count
+FROM thhart_october_2026_catalog.revantage_20261008.gold_property_quarterly
+WHERE gold_property_quarterly.property_id IS NOT NULL AND gold_property_quarterly.fiscal_quarter = '2026-Q2'
+ROWS: ['layer', 'property_count']
+    ['bronze', '10']
+    ['gold', '8']
+TEXT: There are **10** properties in the **bronze** layer and **8** properties in the **gold** layer for **2026-Q2**. Based on these results, the gold layer contains **2 fewer** properties than the bronze layer.
+==================================================================================================== 
+Q: Which properties exist in bronze but not in gold?
+status: COMPLETED
+SQL:
+SELECT DISTINCT
+  b.`property_id`,
+  b.`property_name`,
+  b.`region_id`,
+  b.`market`,
+  b.`property_type`
+FROM `thhart_october_2026_catalog`.`revantage_20261008`.`bronze_properties` b
+LEFT ANTI JOIN (
+  SELECT DISTINCT `property_id`
+  FROM `thhart_october_2026_catalog`.`revantage_20261008`.`gold_property_quarterly`
+  WHERE `property_id` IS NOT NULL
+) g
+ON b.`property_id` = g.`property_id`
+WHERE b.`property_id` IS NOT NULL
+  AND b.`property_name` IS NOT NULL
+ORDER BY b.`property_id`, b.`property_name`
+ROWS: ['property_id', 'property_name', 'region_id', 'market', 'property_type']
+    ['9', 'Riverside Annex', None, 'Charlotte', 'Retail']
+    ['10', 'Harbor Tower', None, 'Miami Bch', 'Office']
+TEXT: There are **2 properties** present in bronze but not in gold: **Riverside Annex** (property ID **9**) in **Charlotte**, a **Retail** property, and **Harbor Tower** (property ID **10**) in **Miami Bch**, an **Office** property. In this result set, **both properties have no region ID populated**, which may help explain why they have not carried through to gold.
+==================================================================================================== 
+Q: Show me the null rate for every column in bronze_properties
+status: COMPLETED
+SQL:
+WITH `base` AS (
+  SELECT *
+  FROM `thhart_october_2026_catalog`.`revantage_20261008`.`bronze_properties`
+), `counts` AS (
+  SELECT
+    COUNT(*) AS `total_rows`,
+    SUM(CASE WHEN `property_id` IS NULL THEN 1 ELSE 0 END) AS `property_id_nulls`,
+    SUM(CASE WHEN `property_name` IS NULL THEN 1 ELSE 0 END) AS `property_name_nulls`,
+    SUM(CASE WHEN `region_id` IS NULL THEN 1 ELSE 0 END) AS `region_id_nulls`,
+    SUM(CASE WHEN `market` IS NULL THEN 1 ELSE 0 END) AS `market_nulls`,
+    SUM(CASE WHEN `property_type` IS NULL THEN 1 ELSE 0 END) AS `property_type_nulls`,
+    SUM(CASE WHEN `_rescued_data` IS NULL THEN 1 ELSE 0 END) AS `_rescued_data_nulls`
+  FROM `base`
+)
+SELECT
+  `column_name`,
+  `total_rows`,
+  `null_count`,
+  100 * (try_divide(`null_count`,`total_rows`)) AS `null_rate_pct`
+FROM (
+  SELECT 'property_id' AS `column_name`, `total_rows`, `property_id_nulls` AS `null_count` FROM `counts`
+  UNION ALL
+  SELECT 'property_name' AS `column_name`, `total_rows`, `property_name_nulls` AS `null_count` FROM `counts`
+  UNION ALL
+  SELECT 'region_id' AS `column_name`, `total_rows`, `region_id_nulls` AS `null_count` FROM `counts`
+  UNION ALL
+  SELECT 'market' AS `column_name`, `total_rows`, `market_nulls` AS `null_count` FROM `counts`
+  UNION ALL
+  SELECT 'property_type' AS `column_name`, `total_rows`, `property_type_nulls` AS `null_count` FROM `counts`
+  UNION ALL
+  SELECT '_rescued_data' AS `column_name`, `total_rows`, `_rescued_data_nulls` AS `null_count` FROM `counts`
+) `u`
+ORDER BY `column_name`
+ROWS: ['column_name', 'total_rows', 'null_count', 'null_rate_pct']
+    ['_rescued_data', '10', '10', '100.0']
+    ['market', '10', '0', '0.0']
+    ['property_id', '10', '0', '0.0']
+    ['property_name', '10', '0', '0.0']
+    ['property_type', '10', '0', '0.0']
+    ['region_id', '10', '2', '20.0']
+TEXT: Across **10 rows** in `bronze_properties`, only **2 columns** have any missing values: **_rescued_data** is **100.0% null** (**10 of 10** rows) and **region_id** is **20.0% null** (**2 of 10** rows). The other columns checked—**market**, **property_id**, **property_name**, and **property_type**—are all **0.0% null**, so missing data is concentrated in just those two fields.
+==================================================================================================== 
+Q: Are there any duplicate property names with different IDs?
+status: COMPLETED
+SQL:
+SELECT bronze_properties.property_name, COUNT(DISTINCT bronze_properties.property_id) AS distinct_property_ids, SORT_ARRAY(COLLECT_SET(bronze_properties.property_id)) AS property_ids
+FROM thhart_october_2026_catalog.revantage_20261008.bronze_properties
+WHERE bronze_properties.property_name IS NOT NULL
+  AND bronze_properties.property_id IS NOT NULL
+GROUP BY bronze_properties.property_name
+HAVING COUNT(DISTINCT bronze_properties.property_id) > 1
+ORDER BY distinct_property_ids DESC, bronze_properties.property_name ASC
+ROWS: ['property_name', 'distinct_property_ids', 'property_ids']
+    ['Harbor Tower', '2', '["3","10"]']
+TEXT: **Yes** — property name **Harbor Tower** appears with **2** different property IDs: **3** and **10**. In the visible results, **Harbor Tower** is the only duplicate property name with different IDs.
+==================================================================================================== 
+Q: Compare market names between bronze and silver for mismatches
+status: COMPLETED
+SQL:
+SELECT
+  b.`property_id`,
+  b.`property_name` AS `bronze_property_name`,
+  s.`property_name` AS `silver_property_name`,
+  b.`market` AS `bronze_market`,
+  s.`market` AS `silver_market`
+FROM `thhart_october_2026_catalog`.`revantage_20261008`.`bronze_properties` b
+INNER JOIN `thhart_october_2026_catalog`.`revantage_20261008`.`silver_properties` s
+  ON b.`property_id` = s.`property_id`
+WHERE b.`market` IS NOT NULL
+  AND s.`market` IS NOT NULL
+  AND b.`market` <> s.`market`
+ORDER BY b.`property_id`
+ROWS: ['property_id', 'bronze_property_name', 'silver_property_name', 'bronze_market', 'silver_market']
+    ['3', 'Harbor Tower', 'Harbor Tower', 'Miami Bch', 'Miami Beach']
+    ['4', 'Chelsea Lofts', 'Chelsea Lofts', 'NYC', 'New York']
+    ['6', 'Kirchberg Plaza', 'Kirchberg Plaza', 'Lux-Ville', 'Luxembourg City']
+TEXT: There are **3** market name mismatches between bronze and silver, and in all three cases the **property name matches** while the **market label differs**.
+
+- **Harbor Tower**: bronze = **Miami Bch**; silver = **Miami Beach**
+- **Chelsea Lofts**: bronze = **NYC**; silver = **New York**
+- **Kirchberg Plaza**: bronze = **Lux-Ville**; silver = **Luxembourg City**
+
+Across all 3 mismatches, silver uses the more standardized market naming.
+TEXT: Would you prefer to see market name mismatches using a case-insensitive comparison or normalized market names instead?

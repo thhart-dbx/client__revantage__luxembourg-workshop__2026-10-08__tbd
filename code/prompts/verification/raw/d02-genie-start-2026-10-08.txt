@@ -1,0 +1,204 @@
+==================================================================================================== 
+Q: Which properties missed their quarterly target in 2026-Q2?
+status: COMPLETED
+SQL:
+SELECT
+  gold_property_quarterly.property_id,
+  gold_property_quarterly.property_name,
+  gold_property_quarterly.property_type,
+  gold_property_quarterly.region_name,
+  gold_property_quarterly.market,
+  gold_property_quarterly.fiscal_quarter,
+  gold_property_quarterly.net_profit,
+  gold_property_quarterly.net_profit_target,
+  (gold_property_quarterly.net_profit - gold_property_quarterly.net_profit_target) AS variance_to_target
+FROM thhart_october_2026_catalog.revantage_20261008.gold_property_quarterly
+WHERE gold_property_quarterly.fiscal_quarter = '2026-Q2'
+  AND gold_property_quarterly.met_target = false
+  AND gold_property_quarterly.property_name IS NOT NULL
+  AND gold_property_quarterly.net_profit IS NOT NULL
+  AND gold_property_quarterly.net_profit_target IS NOT NULL
+ORDER BY variance_to_target ASC, gold_property_quarterly.property_name ASC;
+ROWS: ['property_id', 'property_name', 'property_type', 'region_name', 'market', 'fiscal_quarter', 'net_profit', 'net_profit_target', 'variance_to_target']
+    ['2', 'Peachtree Center', 'Office', 'Southeast', 'Atlanta', '2026-Q2', '842606.84', '913900.00', '-71293.16']
+    ['3', 'Harbor Tower', 'Office', 'Southeast', 'Miami Beach', '2026-Q2', '643565.05', '686800.00', '-43234.95']
+    ['8', 'Zuidas Residences', 'Multifamily', 'Western Europe', 'Amsterdam', '2026-Q2', '747398.80', '789100.00', '-41701.20']
+TEXT: **Three properties** missed their quarterly target in **2026-Q2**.
+
+- **Peachtree Center** (Office, Atlanta) missed target by **EUR 71,293.16**; net profit was **EUR 842,606.84** vs target **EUR 913,900.00**.
+- **Harbor Tower** (Office, Miami Beach) missed target by **EUR 43,234.95**; net profit was **EUR 643,565.05** vs target **EUR 686,800.00**.
+- **Zuidas Residences** (Multifamily, Amsterdam) missed target by **EUR 41,701.20**; net profit was **EUR 747,398.80** vs target **EUR 789,100.00**.
+
+Among these, **Peachtree Center** had the largest shortfall, and **2 of the 3** underperforming properties were **Office** assets.
+==================================================================================================== 
+Q: What changed from Q1 to Q2 for the Southeast region?
+status: COMPLETED
+SQL:
+SELECT
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN 1 ELSE 0 END) AS `property_count_q1`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN 1 ELSE 0 END) AS `property_count_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `revenue` ELSE 0 END) AS `revenue_q1`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `revenue` ELSE 0 END) AS `revenue_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `revenue` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `revenue` ELSE 0 END) AS `revenue_change`,
+  CASE WHEN SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `revenue` ELSE 0 END) = 0 THEN NULL ELSE 100 * (try_divide((SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `revenue` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `revenue` ELSE 0 END)),SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `revenue` ELSE 0 END))) END AS `revenue_change_pct`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `operating_expense` ELSE 0 END) AS `operating_expense_q1`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `operating_expense` ELSE 0 END) AS `operating_expense_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `operating_expense` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `operating_expense` ELSE 0 END) AS `operating_expense_change`,
+  CASE WHEN SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `operating_expense` ELSE 0 END) = 0 THEN NULL ELSE 100 * (try_divide((SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `operating_expense` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `operating_expense` ELSE 0 END)),SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `operating_expense` ELSE 0 END))) END AS `operating_expense_change_pct`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `mgmt_fee` ELSE 0 END) AS `mgmt_fee_q1`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `mgmt_fee` ELSE 0 END) AS `mgmt_fee_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `mgmt_fee` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `mgmt_fee` ELSE 0 END) AS `mgmt_fee_change`,
+  CASE WHEN SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `mgmt_fee` ELSE 0 END) = 0 THEN NULL ELSE 100 * (try_divide((SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `mgmt_fee` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `mgmt_fee` ELSE 0 END)),SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `mgmt_fee` ELSE 0 END))) END AS `mgmt_fee_change_pct`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `capex` ELSE 0 END) AS `capex_q1`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `capex` ELSE 0 END) AS `capex_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `capex` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `capex` ELSE 0 END) AS `capex_change`,
+  CASE WHEN SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `capex` ELSE 0 END) = 0 THEN NULL ELSE 100 * (try_divide((SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `capex` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `capex` ELSE 0 END)),SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `capex` ELSE 0 END))) END AS `capex_change_pct`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `intercompany` ELSE 0 END) AS `intercompany_q1`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `intercompany` ELSE 0 END) AS `intercompany_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `intercompany` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `intercompany` ELSE 0 END) AS `intercompany_change`,
+  CASE WHEN SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `intercompany` ELSE 0 END) = 0 THEN NULL ELSE 100 * (try_divide((SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `intercompany` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `intercompany` ELSE 0 END)),SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `intercompany` ELSE 0 END))) END AS `intercompany_change_pct`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `net_profit` ELSE 0 END) AS `net_profit_q1`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `net_profit` ELSE 0 END) AS `net_profit_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `net_profit` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `net_profit` ELSE 0 END) AS `net_profit_change`,
+  CASE WHEN SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `net_profit` ELSE 0 END) = 0 THEN NULL ELSE 100 * (try_divide((SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `net_profit` ELSE 0 END) - SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `net_profit` ELSE 0 END)),SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `net_profit` ELSE 0 END))) END AS `net_profit_change_pct`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN `net_profit_target` ELSE 0 END) AS `net_profit_target_q1`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN `net_profit_target` ELSE 0 END) AS `net_profit_target_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' AND `met_target` = true THEN 1 ELSE 0 END) AS `met_target_count_q2`,
+  SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' AND `met_target` = true THEN 1 ELSE 0 END) AS `met_target_count_q1`,
+  100 * (try_divide(SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' AND `met_target` = true THEN 1 ELSE 0 END),NULLIF(SUM(CASE WHEN `fiscal_quarter` = '2026-Q1' THEN 1 ELSE 0 END), 0))) AS `met_target_rate_q1`,
+  100 * (try_divide(SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' AND `met_target` = true THEN 1 ELSE 0 END),NULLIF(SUM(CASE WHEN `fiscal_quarter` = '2026-Q2' THEN 1 ELSE 0 END), 0))) AS `met_target_rate_q2`
+FROM `thhart_october_2026_catalog`.`revantage_20261008`.`gold_property_quarterly`
+WHERE `region_name` IS NOT NULL
+  AND `fiscal_quarter` IS NOT NULL
+  AND `region_name` ILIKE '%Southeast%'
+  AND `fiscal_quarter` IN ('2026-Q1', '2026-Q2')
+ROWS: ['property_count_q1', 'property_count_q2', 'revenue_q1', 'revenue_q2', 'revenue_change', 'revenue_change_pct', 'operating_expense_q1', 'operating_expense_q2', 'operating_expense_change', 'operating_expense_change_pct', 'mgmt_fee_q1', 'mgmt_fee_q2', 'mgmt_fee_change', 'mgmt_fee_change_pct', 'capex_q1', 'capex_q2', 'capex_change', 'capex_change_pct', 'intercompany_q1', 'intercompany_q2', 'intercompany_change', 'intercompany_change_pct', 'net_profit_q1', 'net_profit_q2', 'net_profit_change', 'net_profit_change_pct', 'net_profit_target_q1', 'net_profit_target_q2', 'met_target_count_q2', 'met_target_count_q1', 'met_target_rate_q1', 'met_target_rate_q2']
+    ['3', '3', '4150575.13', '3883338.06', '-267237.07', '-6.438600', '1450916.41', '1671888.02', '220971.61', '15.229800', '124517.26', '116500.13', '-8017.13', '-6.438600', '200385.30', '298825.16', '98439.86', '49.125300', '78595.39', '74031.81', '-4563.58', '-5.806400', '2575141.46', '2094949.91', '-480191.55', '-18.647200', '2542500.00', '2165200.00', '1', '2', '66.66666666666666', '33.33333333333333']
+TEXT: From **2026-Q1** to **2026-Q2** in the Southeast region, the property count stayed at **3**, while revenue fell from **EUR 4,150,575.13** to **EUR 3,883,338.06** (**EUR -267,237.07**, **-6.44%**) and net profit fell from **EUR 2,575,141.46** to **EUR 2,094,949.91** (**EUR -480,191.55**, **-18.65%**). Over the same period, operating expense rose from **EUR 1,450,916.41** to **EUR 1,671,888.02** (**EUR +220,971.61**, **+15.23%**), management fees fell from **EUR 124,517.26** to **EUR 116,500.13** (**EUR -8,017.13**), and the share of properties meeting target dropped from **2 of 3 properties** (**66.67%**) in **2026-Q1** to **1 of 3 properties** (**33.33%**) in **2026-Q2**.
+==================================================================================================== 
+Q: Show me revenue by property type as a bar chart
+status: COMPLETED
+SQL:
+SELECT `property_type`, SUM(`revenue`) AS `total_revenue`
+FROM `thhart_october_2026_catalog`.`revantage_20261008`.`gold_property_quarterly`
+WHERE `property_type` IS NOT NULL
+GROUP BY `property_type`
+ORDER BY `total_revenue` DESC
+ROWS: ['property_type', 'total_revenue']
+    ['Office', '46658987.30']
+    ['Multifamily', '37220868.95']
+    ['Retail', '19677260.59']
+TEXT: Revenue is highest for **Office** properties at **EUR 46,658,987.30**, followed by **Multifamily** at **EUR 37,220,868.95** and **Retail** at **EUR 19,677,260.59**. Across the **3 property types** shown, **Office** leads and generates more than double the revenue of **Retail**.
+==================================================================================================== 
+Q: Which market has the highest quarter-over-quarter net profit growth?
+status: COMPLETED
+SQL:
+WITH market_quarterly AS (
+  SELECT
+    gold_property_quarterly.market,
+    gold_property_quarterly.fiscal_quarter,
+    gold_property_quarterly.fiscal_quarter_date,
+    SUM(gold_property_quarterly.net_profit) AS market_net_profit
+  FROM thhart_october_2026_catalog.revantage_20261008.gold_property_quarterly
+  WHERE gold_property_quarterly.market IS NOT NULL
+    AND gold_property_quarterly.fiscal_quarter_date IS NOT NULL
+    AND gold_property_quarterly.net_profit IS NOT NULL
+  GROUP BY gold_property_quarterly.market, gold_property_quarterly.fiscal_quarter, gold_property_quarterly.fiscal_quarter_date
+), market_growth AS (
+  SELECT
+    market,
+    fiscal_quarter,
+    fiscal_quarter_date,
+    market_net_profit,
+    LAG(market_net_profit) OVER (PARTITION BY market ORDER BY fiscal_quarter_date) AS prior_market_net_profit
+  FROM market_quarterly
+), ranked AS (
+  SELECT
+    market,
+    fiscal_quarter,
+    market_net_profit,
+    prior_market_net_profit,
+    100 * TRY_DIVIDE(market_net_profit - prior_market_net_profit, prior_market_net_profit) AS qoq_net_profit_growth_pct,
+    RANK() OVER (
+      ORDER BY 100 * TRY_DIVIDE(market_net_profit - prior_market_net_profit, prior_market_net_profit) DESC
+    ) AS growth_rank
+  FROM market_growth
+  WHERE prior_market_net_profit IS NOT NULL
+    AND market IS NOT NULL
+    AND market_net_profit IS NOT NULL
+    AND prior_market_net_profit IS NOT NULL
+)
+SELECT
+  market,
+  fiscal_quarter,
+  market_net_profit,
+  prior_market_net_profit,
+  qoq_net_profit_growth_pct
+FROM ranked
+WHERE growth_rank = 1;
+ROWS: ['market', 'fiscal_quarter', 'market_net_profit', 'prior_market_net_profit', 'qoq_net_profit_growth_pct']
+    ['Boston', '2024-Q4', '652635.79', '571785.66', '14.139900']
+TEXT: **Boston** has the highest quarter-over-quarter net profit growth in the result set: **14.139900%** in **2024-Q4**, with market net profit of **EUR 652,635.79** versus **EUR 571,785.66** in the prior quarter. This means Boston delivered the strongest quarter-over-quarter net profit increase among the markets evaluated.
+==================================================================================================== 
+Q: Summarize the top 3 risks across the portfolio this quarter
+status: COMPLETED
+SQL:
+WITH `base` AS (
+  SELECT
+    `property_id`,
+    `property_name`,
+    `region_name`,
+    `market`,
+    `net_profit`,
+    `net_profit_target`,
+    `qoq_change_pct`
+  FROM `thhart_october_2026_catalog`.`revantage_20261008`.`gold_property_quarterly`
+  WHERE `fiscal_quarter` = '2026-Q2'
+    AND `property_name` IS NOT NULL
+    AND `region_name` IS NOT NULL
+    AND `market` IS NOT NULL
+    AND `net_profit` IS NOT NULL
+    AND `net_profit_target` IS NOT NULL
+    AND `qoq_change_pct` IS NOT NULL
+), `risks` AS (
+  SELECT
+    'Target miss gap' AS `risk_type`,
+    SUM(CASE WHEN `net_profit` < `net_profit_target` THEN `net_profit_target` - `net_profit` ELSE 0 END) AS `risk_value`,
+    CONCAT(CAST(SUM(CASE WHEN `net_profit` < `net_profit_target` THEN 1 ELSE 0 END) AS STRING), ' properties missed target') AS `risk_summary`
+  FROM `base`
+
+  UNION ALL
+
+  SELECT
+    'Quarter-over-quarter profit decline' AS `risk_type`,
+    SUM(CASE WHEN `qoq_change_pct` < 0 THEN -`qoq_change_pct` ELSE 0 END) AS `risk_value`,
+    CONCAT(CAST(SUM(CASE WHEN `qoq_change_pct` < 0 THEN 1 ELSE 0 END) AS STRING), ' properties had negative QoQ net profit change') AS `risk_summary`
+  FROM `base`
+
+  UNION ALL
+
+  SELECT
+    'Loss-making properties' AS `risk_type`,
+    SUM(CASE WHEN `net_profit` < 0 THEN -`net_profit` ELSE 0 END) AS `risk_value`,
+    CONCAT(CAST(SUM(CASE WHEN `net_profit` < 0 THEN 1 ELSE 0 END) AS STRING), ' properties had negative net profit') AS `risk_summary`
+  FROM `base`
+), `ranked` AS (
+  SELECT
+    `risk_type`,
+    `risk_value`,
+    `risk_summary`,
+    RANK() OVER (ORDER BY `risk_value` DESC) AS `risk_rank`
+  FROM `risks`
+)
+SELECT
+  `risk_type`,
+  `risk_value`,
+  `risk_summary`
+FROM `ranked`
+WHERE `risk_rank` <= 3
+ORDER BY `risk_rank`, `risk_type`
+ROWS: ['risk_type', 'risk_value', 'risk_summary']
+    ['Target miss gap', '156229.31', '3 properties missed target']
+    ['Quarter-over-quarter profit decline', '44.05', '1 properties had negative QoQ net profit change']
+    ['Loss-making properties', '0.00', '0 properties had negative net profit']
+TEXT: This quarter, the biggest portfolio risk is **target misses**, with a combined shortfall of **EUR 156,229.31** across **3 properties**. The next risk is **quarter-over-quarter profit decline**, affecting **1 property** with a total decline of **44.05 percentage points**, while **no properties** were loss-making in **2026-Q2**. Across the 3 measured risk categories, **target misses stand out clearly as the main portfolio issue this quarter**.
