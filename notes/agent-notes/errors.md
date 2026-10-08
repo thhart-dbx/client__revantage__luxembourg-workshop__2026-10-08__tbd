@@ -7,3 +7,5 @@
 - 2026-10-08 · analytics-sql subagent wrote non-existent `CREATE METRIC TABLE` syntax and didn't deploy; orchestrator rewrote D7 metric views. It also added code/setup/sql/05_d03_broken_view.sql (out of scope; reviewed separately).
 - 2026-10-08 · Pattern: lakeflow, monitoring, lakebase-approvals, analytics-sql, agent-bricks subagents all stopped at "code written" and labelled syntax checks VERIFIED. Orchestrator verifies everything directly before commit.
 - 2026-10-08 · ai_forecast fails on serverless job compute (UNSUPPORTED_FEATURE.AI_FUNCTION_PREVIEW); run it on a SQL warehouse (run_sql.py --warehouse).
+- 2026-10-08 · CSV reader with schemaHints amount DECIMAL silently mis-parsed European decimals: "980,40" → 98040.00, "1.850,75" → 1.85 (no error, no _rescued_data). Fixed by keeping amount STRING in bronze + try_cast + FAIL UPDATE expectation in silver. Used as the D11 teaching story.
+- 2026-10-08 · Production-mode pipeline auto-retried a failed update ~5 times; bad rows remained in bronze streaming state until a full refresh after removing the file.

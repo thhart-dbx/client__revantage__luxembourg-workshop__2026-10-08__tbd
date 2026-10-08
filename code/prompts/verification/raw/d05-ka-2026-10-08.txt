@@ -1,0 +1,32 @@
+==================================================================================================== 
+Q: What is the approval threshold for expenses over €50,000?
+A: For expenses over €50,000, approval requires co-signature of the CFO and Asset Management Director (two signatories, never the same person) . Additionally,  the two signatories for expenses >€50,000 must be independent (different roles, different individuals) .
+
+ Supporting documentation (quotes, scope of work, business rationale) must accompany all approvals .
+CITES: ['expense-approval-policy.pdf']
+==================================================================================================== 
+Q: If a tenant's lease expires in 90 days, what steps should I take?
+A: Based on the lease renewal procedures, if a tenant's lease expires in 90 days, you are at the "Day 90 Before Expiry" stage. Here are the steps you should take:
+
+ If no tenant response has been received to the renewal proposal, you should issue a formal written notice via registered letter (a Luxembourg requirement if applicable). You should also escalate the matter to the Head of Asset Management. In parallel, you should begin re-letting marketing and vacancy planning. 
+
+Additionally, keep in mind that  at Day 30 Before Expiry (60 days from now), a final decision on renewal or vacancy plan must be made.  If you decide to renew at that point,  you will need to engage external legal counsel to prepare the renewal lease agreement. If you decide to vacate, you will need to finalize vacancy readiness, including tenant coordination, make-good scope, and marketing.
+CITES: ['lease-renewal-procedures.pdf']
+==================================================================================================== 
+Q: Is a new HVAC system for Harbor Tower classified as CapEx or OpEx?
+A: A replacement of a central HVAC chiller at Harbor Tower is classified as CapEx because it replaces the failed building system (chiller), the cost is well above the €25,000 threshold, and the useful life is 20 years (exceeds the 3-year threshold) .
+
+More broadly,  an expenditure is classified as CapEx when all three criteria are met: it replaces or improves a building system or component, the cost exceeds €25,000 (or currency equivalent), and the useful life of the asset is greater than 3 years . In contrast,  routine HVAC servicing (such as seasonal filter replacement, refrigerant top-up, or minor repairs) is classified as OpEx because it does not replace or substantially improve the system and has a useful life under 1 year .
+CITES: ['capital-expenditure-guidelines.pdf']
+==================================================================================================== 
+Q: What is the intercompany shared-services recharge percentage billed quarterly by Revantage Europe to each Propco?
+A: The intercompany shared-services recharge equals 1.5% of gross rental revenue (and other property operating revenue) per quarter.
+CITES: ['intercompany-transfer-policy.pdf']
+==================================================================================================== 
+Q: What must be done if an intercompany charge variance exceeds €1,000 at quarter close?
+A: If an intercompany charge variance exceeds €1,000 (absolute amount) at quarter close, it must be investigated and resolved before quarter close. Prepayments or underpayments exceeding €1,000 must be documented and carried forward to the next quarter.
+CITES: ['intercompany-transfer-policy.pdf']
+==================================================================================================== 
+Q: What credit rating threshold requires Head of Asset Management sign-off for lease renewal?
+A: Any tenant with a credit rating below BB requires written sign-off from the Head of Asset Management before lease renewal is approved.
+CITES: ['lease-renewal-procedures.pdf']

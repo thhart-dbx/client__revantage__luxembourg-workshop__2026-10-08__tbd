@@ -1,0 +1,20 @@
+# Demo 11 reference pipeline: raw CSVs -> bronze -> silver -> gold, every table prefixed ref_d11_.
+#   databricks bundle run ref_property_pipeline            (incremental)
+#   databricks bundle run ref_property_pipeline --full-refresh-all   (after removing the bad batch)
+resources:
+  pipelines:
+    ref_property_pipeline:
+      name: "[Revantage workshop] Property Pipeline (Reference)"
+      catalog: ${var.catalog}
+      schema: ${resources.schemas.demo_schema.name}
+      serverless: true
+      channel: CURRENT
+      configuration:
+        raw_path: /Volumes/${var.catalog}/${resources.schemas.demo_schema.name}/raw
+      libraries:
+        - file:
+            path: ../pipelines/ref_property_pipeline/01_bronze.sql
+        - file:
+            path: ../pipelines/ref_property_pipeline/02_silver.sql
+        - file:
+            path: ../pipelines/ref_property_pipeline/03_gold.sql

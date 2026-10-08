@@ -1,0 +1,4 @@
+transaction_id,property_id,account_id,posting_date,fiscal_period,amount,currency,description,source_system
+90001,6,5100,2026-06-30,2026-Q2,"1.850,75",EUR,Utilities June 2026 (late manual batch),SAP-LUX
+90002,6,5400,2026-06-30,2026-Q2,"2.410,00",EUR,Cleaning & Security June 2026 (late manual batch),SAP-LUX
+90003,7,5000,2026-06-30,2026-Q2,"980,40",EUR,Repairs & Maintenance June 2026 (late manual batch),SAP-LUX
