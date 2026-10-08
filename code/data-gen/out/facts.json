@@ -1,0 +1,72 @@
+{
+  "F1_q2_2026_missed_target": [
+    "Harbor Tower",
+    "Peachtree Center",
+    "Zuidas Residences"
+  ],
+  "F2_southeast_np_q1_q2_2026_pct": -18.6,
+  "F2_southeast_np": {
+    "2026-Q1": 2575141,
+    "2026-Q2": 2094950
+  },
+  "F2_harbor_tower_np": {
+    "2026-Q1": 1150262,
+    "2026-Q2": 643565
+  },
+  "F2_harbor_tower_revenue": {
+    "2026-Q1": 1828602,
+    "2026-Q2": 1507112
+  },
+  "F2_hvac_booked_to_opex_eur": 312390.76,
+  "F2_anchor_rent_lost_per_quarter_eur": 325637,
+  "F3_market_qoq_np_growth_2026_q2_pct": {
+    "Luxembourg City": 10.0,
+    "Boston": 4.3,
+    "New York": 4.2,
+    "Miami": 3.8,
+    "Amsterdam": 2.8,
+    "Atlanta": 0.5,
+    "Miami Beach": -44.1
+  },
+  "F4_finance_vs_asset_mgmt_gap_pct_all_quarters": 10.1,
+  "F4_q2_2026_finance_np": 6375345,
+  "F4_q2_2026_asset_mgmt_np": 5797101,
+  "F5_market_mismatches": {
+    "Harbor Tower": [
+      "Miami Bch",
+      "Miami Beach"
+    ],
+    "Chelsea Lofts": [
+      "NYC",
+      "New York"
+    ],
+    "Kirchberg Plaza": [
+      "Lux-Ville",
+      "Luxembourg City"
+    ]
+  },
+  "F6_projected_to_miss_2026_q3_revenue_target_naive": [
+    "Harbor Tower",
+    "Zuidas Residences"
+  ],
+  "met_target_rate_before_2026_q2_pct": 68.1,
+  "portfolio_revenue_2026_q2": 10744919,
+  "portfolio_net_profit_2026_q2": 6375345,
+  "as_of": "2026-10-13",
+  "leases_by_window": {
+    "expired": 4,
+    "0-90": 6,
+    "91-180": 8,
+    "181-365": 10,
+    ">365": 22
+  },
+  "rows": {
+    "bronze_gl_transactions": 2696,
+    "silver_gl_transactions": 2681,
+    "gold_property_quarterly": 80,
+    "customer_performance": 470,
+    "leases": 50,
+    "raw_leases": 52,
+    "tenants": 40
+  }
+}

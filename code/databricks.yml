@@ -26,6 +26,9 @@ variables:
     description: Workspace folder for SQL alerts
   app_name:
     description: Lease Expiry Tracker app name, Demo 9 (lowercase letters, numbers, hyphens; max 30 chars)
+  as_of:
+    description: Workshop day 1 (YYYY-MM-DD). Lease-expiry windows are relative to this date.
+    default: "2026-10-13"
   approvals_app_name:
     description: Invoice Approvals app name, Demo 12 (lowercase letters, numbers, hyphens; max 30 chars)
 

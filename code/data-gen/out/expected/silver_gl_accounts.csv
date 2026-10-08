@@ -1,0 +1,16 @@
+account_id,account_name,category
+4000,Base Rent,Revenue
+4100,Service Charge Recoveries,Revenue
+4200,Parking & Other Income,Revenue
+5000,Repairs & Maintenance,OpEx
+5100,Utilities,OpEx
+5200,Property Tax,OpEx
+5300,Insurance,OpEx
+5400,Cleaning & Security,OpEx
+5500,Leasing & Marketing,OpEx
+5600,Professional & Legal Fees,OpEx
+6000,Management Fees,MgmtFee
+7000,Building Improvements,CapEx
+7100,Tenant Improvements,CapEx
+8000,Intercompany Charges,Intercompany
+8100,Intercompany Interest,Intercompany

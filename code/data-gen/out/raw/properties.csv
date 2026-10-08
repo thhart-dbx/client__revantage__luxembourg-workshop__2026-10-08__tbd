@@ -1,0 +1,11 @@
+property_id,property_name,region_id,market,property_type
+1,Biscayne Point,1,Miami,Multifamily
+2,Peachtree Center,1,Atlanta,Office
+3,Harbor Tower,1,Miami Bch,Office
+4,Chelsea Lofts,2,NYC,Multifamily
+5,Back Bay Commons,2,Boston,Retail
+6,Kirchberg Plaza,3,Lux-Ville,Office
+7,Cloche d'Or Retail Park,3,Luxembourg City,Retail
+8,Zuidas Residences,3,Amsterdam,Multifamily
+9,Riverside Annex,,Charlotte,Retail
+10,Harbor Tower,,Miami Bch,Office

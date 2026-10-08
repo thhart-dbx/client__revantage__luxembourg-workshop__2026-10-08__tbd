@@ -1,0 +1,41 @@
+tenant_id,tenant_name,industry,credit_rating,contact_name,contact_email,contact_phone
+1,Meridian Health Partners,Healthcare,BBB,Anna Atlas,leasing@meridian.example.com,+352 632 134 429
+2,Nordlicht Asset Advisory S.A.,Financial Services,A,Luc Beacon,leasing@nordlicht.example.com,+352 450 754 335
+3,Grachten Coffee B.V.,Food & Beverage,BB,Sofia Cedar,leasing@grachten.example.com,+352 434 984 864
+4,Atlas S.A.,Retail,A,Marc Delta,leasing@atlas.example.com,+352 267 223 913
+5,Beacon LLC,Food & Beverage,AA,Elena Ember,leasing@beacon.example.com,+352 368 541 227
+6,Cedar B.V.,Professional Services,BB,Tom Fjord,leasing@cedar.example.com,+352 335 820 515
+7,Delta Holdings,Logistics,BBB,Anna Granite,leasing@delta.example.com,+352 434 636 446
+8,Ember & Co,Media,AAA,Luc Helix,leasing@ember.example.com,+352 690 712 761
+9,Fjord Group,Education,A,Sofia Iris,leasing@fjord.example.com,+352 450 801 794
+10,Granite Partners,Public Sector,B,Marc Juniper,leasing@granite.example.com,+352 204 953 660
+11,Helix Labs,Healthcare,A,Elena Kestrel,leasing@helix.example.com,+352 493 114 483
+12,Iris S.A.,Financial Services,BBB,Tom Lumen,leasing@iris.example.com,+352 595 335 458
+13,Juniper LLC,Technology,AA,Anna Mosaic,leasing@juniper.example.com,+352 439 867 496
+14,Kestrel B.V.,Retail,AA,Luc Nimbus,leasing@kestrel.example.com,+352 685 295 468
+15,Lumen Holdings,Food & Beverage,AA,Sofia Orchid,leasing@lumen.example.com,+352 391 134 129
+16,Mosaic & Co,Professional Services,AA,Marc Pinnacle,leasing@mosaic.example.com,+352 473 714 789
+17,Nimbus Group,Logistics,AA,Elena Quarry,leasing@nimbus.example.com,+352 617 990 597
+18,Orchid Partners,Media,AAA,Tom Rhine,leasing@orchid.example.com,+352 404 606 304
+19,Pinnacle Labs,Education,AA,Anna Summit,leasing@pinnacle.example.com,+352 314 788 607
+20,Quarry S.A.,Public Sector,A,Luc Tidal,leasing@quarry.example.com,+352 256 902 397
+21,Rhine LLC,Healthcare,A,Sofia Umbra,leasing@rhine.example.com,+352 506 282 599
+22,Summit B.V.,Financial Services,A,Marc Vertex,leasing@summit.example.com,+352 559 853 847
+23,Tidal Holdings,Technology,A,Elena Willow,leasing@tidal.example.com,+352 500 299 465
+24,Umbra & Co,Retail,AAA,Tom Xylo,leasing@umbra.example.com,+352 504 943 482
+25,Vertex Group,Food & Beverage,AA,Anna Yarrow,leasing@vertex.example.com,+352 304 547 913
+26,Willow Partners,Professional Services,B,Luc Zenith,leasing@willow.example.com,+352 570 570 514
+27,Xylo Labs,Logistics,BBB,Sofia Alder,leasing@xylo.example.com,+352 448 293 566
+28,Yarrow S.A.,Media,BBB,Marc Brook,leasing@yarrow.example.com,+352 636 413 435
+29,Zenith LLC,Education,BB,Elena Cobalt,leasing@zenith.example.com,+352 514 539 100
+30,Alder B.V.,Public Sector,A,Tom Dune,leasing@alder.example.com,+352 623 648 308
+31,Brook Holdings,Healthcare,BBB,Anna Elm,leasing@brook.example.com,+352 698 586 237
+32,Cobalt & Co,Financial Services,BBB,Luc Flint,leasing@cobalt.example.com,+352 555 565 833
+33,Dune Group,Technology,BBB,Sofia Grove,leasing@dune.example.com,+352 369 950 206
+34,Elm Partners,Retail,BBB,Marc Harbor,leasing@elm.example.com,+352 204 653 536
+35,Flint Labs,Food & Beverage,AA,Elena Indigo,leasing@flint.example.com,+352 570 161 763
+36,Grove S.A.,Professional Services,BBB,Tom Jade,leasing@grove.example.com,+352 298 391 984
+37,Harbor LLC,Logistics,BBB,Anna Keel,leasing@harbor.example.com,+352 566 930 771
+38,Indigo B.V.,Media,AA,Luc Atlas,leasing@indigo.example.com,+352 591 360 376
+39,Jade Holdings,Education,BBB,Sofia Beacon,leasing@jade.example.com,+352 202 184 298
+40,Keel & Co,Public Sector,AAA,Marc Cedar,leasing@keel.example.com,+352 521 699 129

@@ -1,0 +1,304 @@
+[
+  {
+    "file": "HV-2026-0417.pdf",
+    "vendor_name": "Coastal Climate Systems LLC",
+    "invoice_number": "HV-2026-0417",
+    "invoice_date": "2026-05-12",
+    "due_date": "2026-06-11",
+    "line_items": [
+      {
+        "description": "Carrier 30XA 400-ton air-cooled chiller (replacement unit)",
+        "quantity": 1,
+        "unit_price": 214500.0,
+        "amount": 214500.0
+      },
+      {
+        "description": "Crane lift, rigging and removal of failed chiller",
+        "quantity": 1,
+        "unit_price": 38900.0,
+        "amount": 38900.0
+      },
+      {
+        "description": "Installation, piping and controls integration",
+        "quantity": 1,
+        "unit_price": 61200.0,
+        "amount": 61200.0
+      },
+      {
+        "description": "Commissioning and 5-year parts warranty",
+        "quantity": 1,
+        "unit_price": 25000.0,
+        "amount": 25000.0
+      }
+    ],
+    "subtotal": 339600.0,
+    "tax": 0.0,
+    "total": 339600.0,
+    "currency": "USD"
+  },
+  {
+    "file": "PE-2026-06-0088.pdf",
+    "vendor_name": "Peachtree Energy Services",
+    "invoice_number": "PE-2026-06-0088",
+    "invoice_date": "2026-06-05",
+    "due_date": "2026-07-05",
+    "line_items": [
+      {
+        "description": "Electricity consumption \u2013 May 2026 (125,400 kWh @ $0.1245/kWh)",
+        "quantity": 1,
+        "unit_price": 15617.48,
+        "amount": 15617.48
+      },
+      {
+        "description": "Chilled water service \u2013 May 2026",
+        "quantity": 1,
+        "unit_price": 19430.0,
+        "amount": 19430.0
+      },
+      {
+        "description": "Water & sewer usage \u2013 May 2026",
+        "quantity": 1,
+        "unit_price": 5952.52,
+        "amount": 5952.52
+      }
+    ],
+    "subtotal": 41000.0,
+    "tax": 0.0,
+    "total": 41000.0,
+    "currency": "USD"
+  },
+  {
+    "file": "TM-POL-2026-3391.pdf",
+    "vendor_name": "Thames Mutual Property Insurance plc",
+    "invoice_number": "TM-POL-2026-3391",
+    "invoice_date": "2026-06-20",
+    "due_date": "2026-07-20",
+    "line_items": [
+      {
+        "description": "Q3 2026 all-risks property premium (Western Europe schedule, 8 properties)",
+        "quantity": 1,
+        "unit_price": 42000.0,
+        "amount": 42000.0
+      },
+      {
+        "description": "Terrorism cover \u2013 optional extension",
+        "quantity": 1,
+        "unit_price": 6500.0,
+        "amount": 6500.0
+      },
+      {
+        "description": "Administration fee",
+        "quantity": 1,
+        "unit_price": 850.0,
+        "amount": 850.0
+      }
+    ],
+    "subtotal": 49350.0,
+    "tax": 5922.0,
+    "total": 55272.0,
+    "currency": "GBP"
+  },
+  {
+    "file": "ACD-2026-IF-55120.pdf",
+    "vendor_name": "Ville de Luxembourg \u2013 Service des Contributions",
+    "invoice_number": "ACD-2026-IF-55120",
+    "invoice_date": "2026-04-15",
+    "due_date": "2026-05-31",
+    "line_items": [
+      {
+        "description": "Imp\u00f4t foncier 2026 \u2013 Kirchberg Plaza (cadastral value \u20ac1,950,000 \u00d7 1.427%)",
+        "quantity": 1,
+        "unit_price": 27826.5,
+        "amount": 27826.5
+      }
+    ],
+    "subtotal": 27826.5,
+    "tax": 0.0,
+    "total": 27826.5,
+    "currency": "EUR"
+  },
+  {
+    "file": "NGD-26-1184.pdf",
+    "vendor_name": "Nettoyage Grand-Duch\u00e9 S.\u00e0 r.l.",
+    "invoice_number": "NGD-26-1184",
+    "invoice_date": "2026-06-30",
+    "due_date": "2026-07-30",
+    "line_items": [
+      {
+        "description": "Office cleaning June 2026 (16 days @ \u20ac480/day)",
+        "quantity": 1,
+        "unit_price": 7680.0,
+        "amount": 7680.0
+      },
+      {
+        "description": "Window cleaning \u2013 quarterly deep clean",
+        "quantity": 1,
+        "unit_price": 2400.0,
+        "amount": 2400.0
+      },
+      {
+        "description": "Carpet deep-clean \u2013 lobby and 3 floor areas",
+        "quantity": 1,
+        "unit_price": 4200.0,
+        "amount": 4200.0
+      },
+      {
+        "description": "Consumables (detergents, supplies, waste disposal)",
+        "quantity": 1,
+        "unit_price": 1820.0,
+        "amount": 1820.0
+      },
+      {
+        "description": "Waste removal and recycling management",
+        "quantity": 1,
+        "unit_price": 1350.0,
+        "amount": 1350.0
+      }
+    ],
+    "subtotal": 17450.0,
+    "tax": 2966.5,
+    "total": 20416.5,
+    "currency": "EUR"
+  },
+  {
+    "file": "VSB-2026-0612.pdf",
+    "vendor_name": "Vigilis Security Benelux B.V.",
+    "invoice_number": "VSB-2026-0612",
+    "invoice_date": "2026-06-12",
+    "due_date": "2026-07-12",
+    "line_items": [
+      {
+        "description": "On-site guard services (224 hours @ \u20ac35/hour)",
+        "quantity": 1,
+        "unit_price": 7840.0,
+        "amount": 7840.0
+      },
+      {
+        "description": "Mobile patrol visits (8 visits/month, 3 months)",
+        "quantity": 1,
+        "unit_price": 2400.0,
+        "amount": 2400.0
+      },
+      {
+        "description": "CCTV system maintenance and monitoring",
+        "quantity": 1,
+        "unit_price": 3600.0,
+        "amount": 3600.0
+      },
+      {
+        "description": "Access-card batch production and issuance (120 cards)",
+        "quantity": 1,
+        "unit_price": 1800.0,
+        "amount": 1800.0
+      },
+      {
+        "description": "Alarm response call-out fees (2 incidents)",
+        "quantity": 1,
+        "unit_price": 600.0,
+        "amount": 600.0
+      },
+      {
+        "description": "24/7 monitoring service charge",
+        "quantity": 1,
+        "unit_price": 9200.0,
+        "amount": 9200.0
+      }
+    ],
+    "subtotal": 25440.0,
+    "tax": 5342.4,
+    "total": 30782.4,
+    "currency": "EUR"
+  },
+  {
+    "file": "ELV-2026-0331.pdf",
+    "vendor_name": "Elevatech Lifts S.A.",
+    "invoice_number": "ELV-2026-0331",
+    "invoice_date": "2026-03-31",
+    "due_date": "2026-04-30",
+    "line_items": [
+      {
+        "description": "Q1 2026 escalator & lift maintenance contract (3-month service)",
+        "quantity": 1,
+        "unit_price": 9600.0,
+        "amount": 9600.0
+      },
+      {
+        "description": "Emergency call-out service \u2013 1 incident (hydraulic system repair)",
+        "quantity": 1,
+        "unit_price": 1980.0,
+        "amount": 1980.0
+      }
+    ],
+    "subtotal": 11580.0,
+    "tax": 1968.6,
+    "total": 13548.6,
+    "currency": "EUR"
+  },
+  {
+    "file": "MK-2026-0278.pdf",
+    "vendor_name": "Moreau & Klein Avocats",
+    "invoice_number": "MK-2026-0278",
+    "invoice_date": "2026-06-28",
+    "due_date": "2026-07-28",
+    "line_items": [
+      {
+        "description": "2026-06-03, Legal research & drafting \u2013 MK, Lease renewal negotiation prep",
+        "quantity": 4.5,
+        "unit_price": 350.0,
+        "amount": 1575.0
+      },
+      {
+        "description": "2026-06-05, Tenant meeting & negotiation \u2013 PJ",
+        "quantity": 3.0,
+        "unit_price": 380.0,
+        "amount": 1140.0
+      },
+      {
+        "description": "2026-06-07, Lease amendment drafting \u2013 MK",
+        "quantity": 6.0,
+        "unit_price": 350.0,
+        "amount": 2100.0
+      },
+      {
+        "description": "2026-06-10, Review of tenant proposal \u2013 PJ",
+        "quantity": 2.5,
+        "unit_price": 380.0,
+        "amount": 950.0
+      },
+      {
+        "description": "2026-06-12, Financial review with client \u2013 MK & PJ",
+        "quantity": 2.0,
+        "unit_price": 365.0,
+        "amount": 730.0
+      },
+      {
+        "description": "2026-06-15, Drafting final lease agreement \u2013 MK",
+        "quantity": 7.0,
+        "unit_price": 350.0,
+        "amount": 2450.0
+      },
+      {
+        "description": "2026-06-18, Execution coordination & closing logistics \u2013 PJ",
+        "quantity": 1.5,
+        "unit_price": 380.0,
+        "amount": 570.0
+      },
+      {
+        "description": "2026-06-22, Post-execution administration \u2013 MK",
+        "quantity": 0.5,
+        "unit_price": 350.0,
+        "amount": 175.0
+      },
+      {
+        "description": "2026-06-25, Client communication & follow-up \u2013 PJ",
+        "quantity": 1.0,
+        "unit_price": 380.0,
+        "amount": 380.0
+      }
+    ],
+    "subtotal": 10070.0,
+    "tax": 1711.9,
+    "total": 11781.9,
+    "currency": "EUR"
+  }
+]

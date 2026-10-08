@@ -4,3 +4,8 @@
 .env*
 node_modules/
 .DS_Store
+
+# Generated working files
+code/documents/build/
+__pycache__/
+.venv/

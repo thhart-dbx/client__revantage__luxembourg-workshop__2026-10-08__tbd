@@ -11,3 +11,15 @@ resources:
           privileges: [USE_SCHEMA, SELECT]
         - principal: ${resources.apps.approvals_app.service_principal_client_id}
           privileges: [USE_SCHEMA, SELECT]
+
+  volumes:
+    raw_volume:
+      catalog_name: ${var.catalog}
+      schema_name: ${resources.schemas.demo_schema.name}
+      name: raw
+      comment: Source-system CSV extracts (regions, properties, tenants, leases, gl_accounts, gl_transactions, quarterly_targets). Demo 11 ingests these.
+    documents_volume:
+      catalog_name: ${var.catalog}
+      schema_name: ${resources.schemas.demo_schema.name}
+      name: documents
+      comment: Unstructured documents. invoices/ (Demo 4, 12), policies/ (Demo 5), leases/ (Demo 1).

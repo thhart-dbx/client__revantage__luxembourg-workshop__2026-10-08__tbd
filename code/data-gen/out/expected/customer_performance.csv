@@ -1,0 +1,471 @@
+property_id,property_name,region_name,tenant_id,tenant_name,industry,credit_rating,contact_email,contact_phone,fiscal_quarter,rent_billed,revenue_allocated,net_profit_allocated
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2024-Q1,24048.09,246690.59,144781.85
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2024-Q2,24048.09,257034.77,153067.25
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2024-Q3,24048.09,264768.5,156961.02
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2024-Q4,24048.09,258708.27,156134.3
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2025-Q1,24048.09,121413.84,70836.47
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2025-Q2,24048.09,97928.55,57669.13
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2025-Q3,24048.09,103082.04,61094.76
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2025-Q4,24048.09,98506.96,58308.35
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2026-Q1,24048.09,98747.02,57883.57
+1,Biscayne Point,Southeast,4,Atlas S.A.,Retail,A,leasing@atlas.example.com,+352 267 223 913,2026-Q2,24048.09,102521.35,60070.35
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2024-Q1,64745.64,664174.99,389802.01
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2024-Q2,64745.64,692025.06,412109.1
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2024-Q3,64745.64,712846.89,422592.46
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2024-Q4,64745.64,696530.69,420366.64
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2025-Q1,64745.64,326887.36,190715.87
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2025-Q2,64745.64,263656.98,155264.92
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2025-Q3,64745.64,277531.93,164487.87
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2025-Q4,64745.64,265214.26,156985.92
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2026-Q1,64745.64,265860.58,155842.26
+1,Biscayne Point,Southeast,17,Nimbus Group,Logistics,AA,leasing@nimbus.example.com,+352 617 990 597,2026-Q2,64745.64,276022.36,161729.83
+1,Biscayne Point,Southeast,31,Brook Holdings,Healthcare,BBB,leasing@brook.example.com,+352 698 586 237,2025-Q1,103279.76,521438.17,304222.64
+1,Biscayne Point,Southeast,31,Brook Holdings,Healthcare,BBB,leasing@brook.example.com,+352 698 586 237,2025-Q2,154919.64,630863.23,371508.95
+1,Biscayne Point,Southeast,31,Brook Holdings,Healthcare,BBB,leasing@brook.example.com,+352 698 586 237,2025-Q3,154919.64,664062.43,393577.1
+1,Biscayne Point,Southeast,31,Brook Holdings,Healthcare,BBB,leasing@brook.example.com,+352 698 586 237,2025-Q4,154919.64,634589.4,375626.88
+1,Biscayne Point,Southeast,31,Brook Holdings,Healthcare,BBB,leasing@brook.example.com,+352 698 586 237,2026-Q1,154919.64,636135.88,372890.38
+1,Biscayne Point,Southeast,31,Brook Holdings,Healthcare,BBB,leasing@brook.example.com,+352 698 586 237,2026-Q2,154919.64,660450.42,386977.83
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2024-Q1,65095.86,170070.59,107995.23
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2024-Q2,65095.86,160048.92,99522.85
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2024-Q3,65095.86,156968.15,97795.69
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2024-Q4,65095.86,162808.67,101969.19
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2025-Q1,65095.86,163428.82,104354.32
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2025-Q2,65095.86,163281.31,104504.21
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2025-Q3,65095.86,159849.12,101120.13
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2025-Q4,65095.86,166506.63,105887.16
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2026-Q1,65095.86,165987.51,105311.88
+2,Peachtree Center,Southeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2026-Q2,65095.86,167997.86,105857.6
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2024-Q1,73183.23,191199.8,121412.33
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2024-Q2,73183.23,179933.05,111887.36
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2024-Q3,73183.23,176469.54,109945.62
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2024-Q4,73183.23,183035.67,114637.63
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2025-Q1,73183.23,183732.86,117319.07
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2025-Q2,73183.23,183567.03,117487.59
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2025-Q3,73183.23,179708.43,113683.08
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2025-Q4,73183.23,187193.06,119042.35
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2026-Q1,73183.23,186609.44,118395.61
+2,Peachtree Center,Southeast,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2026-Q2,73183.23,188869.55,119009.12
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2024-Q1,39582.63,103414.28,65668.31
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2024-Q2,39582.63,97320.43,60516.54
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2024-Q3,39582.63,95447.12,59466.31
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2024-Q4,39582.63,98998.54,62004.08
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2025-Q1,39582.63,99375.63,63454.39
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2025-Q2,39582.63,99285.94,63545.54
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2025-Q3,39582.63,97198.94,61487.79
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2025-Q4,39582.63,101247.15,64386.47
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2026-Q1,39582.63,100931.49,64036.66
+2,Peachtree Center,Southeast,27,Xylo Labs,Logistics,BBB,leasing@xylo.example.com,+352 448 293 566,2026-Q2,39582.63,102153.92,64368.49
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2024-Q1,115135.59,300805.27,191012.06
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2024-Q2,115135.59,283079.85,176026.9
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2024-Q3,115135.59,277630.87,172972.05
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2024-Q4,115135.59,287961.05,180353.76
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2025-Q1,115135.59,289057.91,184572.35
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2025-Q2,115135.59,288797.02,184837.46
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2025-Q3,115135.59,282726.47,178852.02
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2025-Q4,115135.59,294501.67,187283.5
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2026-Q1,115135.59,293583.49,186266.01
+2,Peachtree Center,Southeast,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2026-Q2,115135.59,297139.21,187231.21
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2024-Q1,161679.0,422405.4,268228.44
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2024-Q2,161679.0,397514.51,247185.54
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2024-Q3,161679.0,389862.79,242895.77
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2024-Q4,161679.0,404368.92,253261.53
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2025-Q1,161679.0,405909.19,259185.48
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2025-Q2,161679.0,405542.83,259557.76
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2025-Q3,161679.0,397018.27,251152.71
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2025-Q4,161679.0,413553.58,262992.61
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2026-Q1,161679.0,412264.23,261563.79
+2,Peachtree Center,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2026-Q2,161679.0,417257.35,262919.19
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2024-Q1,21158.22,55278.34,35101.88
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2024-Q2,63474.66,156062.93,97044.25
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2024-Q3,63474.66,153058.89,95360.11
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2024-Q4,63474.66,158753.95,99429.67
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2025-Q1,63474.66,159358.65,101755.39
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2025-Q2,63474.66,159214.82,101901.55
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2025-Q3,63474.66,155868.11,98601.75
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2025-Q4,63474.66,162359.82,103250.06
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2026-Q1,63474.66,161853.62,102689.11
+2,Peachtree Center,Southeast,40,Keel & Co,Public Sector,AAA,leasing@keel.example.com,+352 521 699 129,2026-Q2,63474.66,163813.91,103221.23
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2024-Q1,325637.01,695310.89,430980.89
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2024-Q2,325637.01,711451.38,452999.32
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2024-Q3,325637.01,659111.19,418913.39
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2024-Q4,325637.01,666386.41,421758.24
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2025-Q1,325637.01,672425.16,417268.24
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2025-Q2,325637.01,680289.96,433190.81
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2025-Q3,325637.01,674016.68,422090.58
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2025-Q4,325637.01,667947.62,420609.76
+3,Harbor Tower,Southeast,1,Meridian Health Partners,Healthcare,BBB,leasing@meridian.example.com,+352 632 134 429,2026-Q1,325637.01,655271.47,412191.42
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2024-Q1,129218.37,275911.33,171020.64
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2024-Q2,129218.37,282316.15,179757.93
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2024-Q3,129218.37,261546.66,166232.04
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2024-Q4,129218.37,264433.6,167360.93
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2025-Q1,129218.37,266829.88,165579.22
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2025-Q2,129218.37,269950.76,171897.57
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2025-Q3,129218.37,267461.42,167492.81
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2025-Q4,129218.37,265053.11,166905.19
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2026-Q1,129218.37,260023.0,163564.65
+3,Harbor Tower,Southeast,6,Cedar B.V.,Professional Services,BB,leasing@cedar.example.com,+352 335 820 515,2026-Q2,129218.37,333992.73,142621.14
+3,Harbor Tower,Southeast,9,Fjord Group,Education,A,leasing@fjord.example.com,+352 450 801 794,2024-Q3,62723.64,126956.86,80690.38
+3,Harbor Tower,Southeast,9,Fjord Group,Education,A,leasing@fjord.example.com,+352 450 801 794,2024-Q4,62723.64,128358.2,81238.35
+3,Harbor Tower,Southeast,9,Fjord Group,Education,A,leasing@fjord.example.com,+352 450 801 794,2025-Q1,62723.64,129521.38,80373.49
+3,Harbor Tower,Southeast,9,Fjord Group,Education,A,leasing@fjord.example.com,+352 450 801 794,2025-Q2,62723.64,131036.28,83440.47
+3,Harbor Tower,Southeast,9,Fjord Group,Education,A,leasing@fjord.example.com,+352 450 801 794,2025-Q3,62723.64,129827.93,81302.36
+3,Harbor Tower,Southeast,9,Fjord Group,Education,A,leasing@fjord.example.com,+352 450 801 794,2025-Q4,62723.64,128658.92,81017.13
+3,Harbor Tower,Southeast,9,Fjord Group,Education,A,leasing@fjord.example.com,+352 450 801 794,2026-Q1,62723.64,126217.26,79395.6
+3,Harbor Tower,Southeast,9,Fjord Group,Education,A,leasing@fjord.example.com,+352 450 801 794,2026-Q2,62723.64,162122.77,69229.45
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2024-Q1,88815.21,189641.17,117547.02
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2024-Q2,88815.21,194043.37,123552.39
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2024-Q3,88815.21,179767.95,114255.69
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2024-Q4,88815.21,181752.22,115031.6
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2025-Q1,88815.21,183399.25,113806.98
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2025-Q2,88815.21,185544.31,118149.76
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2025-Q3,88815.21,183833.32,115122.24
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2025-Q4,88815.21,182178.03,114718.36
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2026-Q1,88815.21,178720.7,112422.32
+3,Harbor Tower,Southeast,12,Iris S.A.,Financial Services,BBB,leasing@iris.example.com,+352 595 335 458,2026-Q2,88815.21,229562.05,98027.29
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2024-Q1,51217.59,109361.49,67786.53
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2024-Q2,51217.59,111900.13,71249.68
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2024-Q3,51217.59,103667.84,65888.5
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2024-Q4,51217.59,104812.12,66335.95
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2025-Q1,51217.59,105761.92,65629.74
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2025-Q2,51217.59,106998.93,68134.11
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2025-Q3,51217.59,106012.24,66388.22
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2025-Q4,51217.59,105057.68,66155.31
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2026-Q1,51217.59,103063.92,64831.24
+3,Harbor Tower,Southeast,14,Kestrel B.V.,Retail,AA,leasing@kestrel.example.com,+352 685 295 468,2026-Q2,51217.59,132382.9,56529.97
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2024-Q1,53754.18,114777.7,71143.71
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2024-Q2,53754.18,117442.07,74778.38
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2024-Q3,53754.18,108802.07,69151.68
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2024-Q4,53754.18,110003.02,69621.29
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2025-Q1,53754.18,110999.86,68880.11
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2025-Q2,53754.18,112298.13,71508.51
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2025-Q3,53754.18,111262.58,69676.15
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2025-Q4,53754.18,110260.74,69431.7
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2026-Q1,53754.18,108168.24,68042.06
+3,Harbor Tower,Southeast,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2026-Q2,53754.18,138939.26,59329.66
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2024-Q1,26326.05,56212.25,34842.55
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2024-Q2,26326.05,57517.13,36622.63
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2024-Q3,26326.05,53285.69,33866.96
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2024-Q4,26326.05,53873.86,34096.95
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2025-Q1,26326.05,54362.06,33733.96
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2025-Q2,26326.05,54997.89,35021.21
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2025-Q3,26326.05,54490.73,34123.82
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2025-Q4,26326.05,54000.07,34004.1
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2026-Q1,26326.05,52975.27,33323.52
+3,Harbor Tower,Southeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2026-Q2,26326.05,68045.35,29056.64
+3,Harbor Tower,Southeast,33,Dune Group,Technology,BBB,leasing@dune.example.com,+352 369 950 206,2025-Q4,43593.8,89419.73,56308.03
+3,Harbor Tower,Southeast,33,Dune Group,Technology,BBB,leasing@dune.example.com,+352 369 950 206,2026-Q1,65390.7,131584.12,82771.57
+3,Harbor Tower,Southeast,33,Dune Group,Technology,BBB,leasing@dune.example.com,+352 369 950 206,2026-Q2,65390.7,169016.36,72173.14
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2024-Q1,105640.53,225567.15,139815.34
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2024-Q2,105640.53,230803.31,146958.38
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2024-Q3,105640.53,213823.53,135900.5
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2024-Q4,105640.53,216183.7,136823.4
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2025-Q1,105640.53,218142.74,135366.79
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2025-Q2,105640.53,220694.18,140532.27
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2025-Q3,105640.53,218659.05,136931.22
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2025-Q4,105640.53,216690.18,136450.82
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2026-Q1,105640.53,212577.88,133719.81
+3,Harbor Tower,Southeast,39,Jade Holdings,Education,BBB,leasing@jade.example.com,+352 202 184 298,2026-Q2,105640.53,273050.72,116597.76
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2024-Q1,25510.65,145323.27,85367.96
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2024-Q2,25510.65,142588.86,84547.39
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2024-Q3,25510.65,121059.24,70874.93
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2024-Q4,25510.65,86699.47,50907.41
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2025-Q1,25510.65,86517.06,50976.01
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2025-Q2,25510.65,90512.84,53396.03
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2025-Q3,25510.65,93456.96,54941.26
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2025-Q4,25510.65,92958.87,55163.58
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2026-Q1,25510.65,91377.47,54059.91
+4,Chelsea Lofts,Northeast,7,Delta Holdings,Logistics,BBB,leasing@delta.example.com,+352 434 636 446,2026-Q2,25510.65,95617.1,56348.72
+4,Chelsea Lofts,Northeast,24,Umbra & Co,Retail,AAA,leasing@umbra.example.com,+352 504 943 482,2024-Q3,59650.1,283065.93,165722.8
+4,Chelsea Lofts,Northeast,24,Umbra & Co,Retail,AAA,leasing@umbra.example.com,+352 504 943 482,2024-Q4,178950.3,608173.32,357101.68
+4,Chelsea Lofts,Northeast,24,Umbra & Co,Retail,AAA,leasing@umbra.example.com,+352 504 943 482,2025-Q1,178950.3,606893.73,357582.92
+4,Chelsea Lofts,Northeast,24,Umbra & Co,Retail,AAA,leasing@umbra.example.com,+352 504 943 482,2025-Q2,178950.3,634923.03,374558.72
+4,Chelsea Lofts,Northeast,24,Umbra & Co,Retail,AAA,leasing@umbra.example.com,+352 504 943 482,2025-Q3,178950.3,655575.26,385398.05
+4,Chelsea Lofts,Northeast,24,Umbra & Co,Retail,AAA,leasing@umbra.example.com,+352 504 943 482,2025-Q4,178950.3,652081.28,386957.6
+4,Chelsea Lofts,Northeast,24,Umbra & Co,Retail,AAA,leasing@umbra.example.com,+352 504 943 482,2026-Q1,178950.3,640988.18,379215.65
+4,Chelsea Lofts,Northeast,24,Umbra & Co,Retail,AAA,leasing@umbra.example.com,+352 504 943 482,2026-Q2,178950.3,670728.09,395271.01
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2024-Q1,91631.01,521982.71,306630.86
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2024-Q2,91631.01,512161.05,303683.47
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2024-Q3,91631.01,434829.39,254573.72
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2024-Q4,91631.01,311413.48,182852.94
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2025-Q1,91631.01,310758.27,183099.35
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2025-Q2,91631.01,325110.6,191791.76
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2025-Q3,91631.01,335685.51,197342.01
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2025-Q4,91631.01,333896.43,198140.58
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2026-Q1,91631.01,328216.24,194176.33
+4,Chelsea Lofts,Northeast,26,Willow Partners,Professional Services,B,leasing@willow.example.com,+352 570 570 514,2026-Q2,91631.01,343444.48,202397.43
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2024-Q1,79808.94,454637.43,267069.89
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2024-Q2,79808.94,446082.94,264502.76
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2024-Q3,79808.94,378728.48,221729.07
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2024-Q4,79808.94,271235.47,159261.58
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2025-Q1,79808.94,270664.79,159476.2
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2025-Q2,79808.94,283165.4,167047.13
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2025-Q3,79808.94,292375.97,171881.3
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2025-Q4,79808.94,290817.7,172576.83
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2026-Q1,79808.94,285870.36,169124.05
+4,Chelsea Lofts,Northeast,28,Yarrow S.A.,Media,BBB,leasing@yarrow.example.com,+352 636 413 435,2026-Q2,79808.94,299133.88,176284.48
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2024-Q1,23613.26,134514.65,79018.6
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2024-Q2,35419.89,197975.42,117388.59
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2024-Q3,35419.89,168082.94,98405.26
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2024-Q4,35419.89,120376.62,70681.65
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2025-Q1,35419.89,120123.35,70776.9
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2025-Q2,35419.89,125671.23,74136.95
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2025-Q3,35419.89,129758.95,76282.39
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2025-Q4,35419.89,129067.38,76591.07
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2026-Q1,35419.89,126871.71,75058.7
+4,Chelsea Lofts,Northeast,29,Zenith LLC,Education,BB,leasing@zenith.example.com,+352 514 539 100,2026-Q2,35419.89,132758.17,78236.56
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2024-Q1,27584.25,157135.69,92306.99
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2024-Q2,27584.25,154179.01,91419.71
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2024-Q3,27584.25,130899.38,76635.9
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2024-Q4,27584.25,93746.73,55045.35
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2025-Q1,27584.25,93549.49,55119.53
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2025-Q2,27584.25,97870.05,57736.26
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2025-Q3,27584.25,101053.49,59407.09
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2025-Q4,27584.25,100514.91,59647.48
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2026-Q1,27584.25,98804.97,58454.1
+4,Chelsea Lofts,Northeast,30,Alder B.V.,Public Sector,A,leasing@alder.example.com,+352 623 648 308,2026-Q2,27584.25,103389.22,60928.95
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2024-Q1,177950.1,581579.55,390888.12
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2024-Q2,177950.1,609174.93,407626.54
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2024-Q3,177950.1,610814.17,401057.31
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2024-Q4,177950.1,676145.15,457766.56
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2025-Q1,177950.1,598661.62,399684.29
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2025-Q2,177950.1,633689.81,429687.28
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2025-Q3,177950.1,629091.27,421611.21
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2025-Q4,177950.1,698557.46,465794.78
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2026-Q1,177950.1,621679.8,417741.46
+5,Back Bay Commons,Northeast,10,Granite Partners,Public Sector,B,leasing@granite.example.com,+352 204 953 660,2026-Q2,177950.1,651846.64,435620.53
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2024-Q1,75752.58,247575.87,166399.37
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2024-Q2,75752.58,259323.11,173524.83
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2024-Q3,75752.58,260020.93,170728.35
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2024-Q4,75752.58,287832.04,194869.23
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2025-Q1,75752.58,254847.64,170143.86
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2025-Q2,75752.58,269758.99,182916.0
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2025-Q3,75752.58,267801.4,179478.05
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2025-Q4,75752.58,297372.86,198286.8
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2026-Q1,75752.58,264646.38,177830.71
+5,Back Bay Commons,Northeast,37,Harbor LLC,Logistics,BBB,leasing@harbor.example.com,+352 566 930 771,2026-Q2,75752.58,277488.26,185441.76
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2024-Q1,139500.0,303418.59,190510.39
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2024-Q2,139500.0,305926.24,193279.63
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2024-Q3,139500.0,304882.68,189456.82
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2024-Q4,139500.0,315275.14,198068.32
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2025-Q1,139500.0,300002.77,187084.73
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2025-Q2,139500.0,277934.39,174439.33
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2025-Q3,139500.0,277559.31,174967.81
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2025-Q4,139500.0,286415.77,181389.93
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2026-Q1,139500.0,287539.64,178769.71
+6,Kirchberg Plaza,Western Europe,2,Nordlicht Asset Advisory S.A.,Financial Services,A,leasing@nordlicht.example.com,+352 450 754 335,2026-Q2,139500.0,309795.47,195804.2
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2024-Q1,51498.93,112012.42,70330.33
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2024-Q2,51498.93,112938.17,71352.65
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2024-Q3,51498.93,112552.92,69941.39
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2024-Q4,51498.93,116389.48,73120.48
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2025-Q1,51498.93,110751.41,69065.69
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2025-Q2,51498.93,102604.47,64397.41
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2025-Q3,51498.93,102466.0,64592.51
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2025-Q4,51498.93,105735.52,66963.35
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2026-Q1,51498.93,106150.42,65996.05
+6,Kirchberg Plaza,Western Europe,8,Ember & Co,Media,AAA,leasing@ember.example.com,+352 690 712 761,2026-Q2,51498.93,114366.56,72284.64
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2024-Q1,91267.14,198510.02,124640.42
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2024-Q2,91267.14,200150.63,126452.18
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2024-Q3,91267.14,199467.89,123951.13
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2024-Q4,91267.14,206267.1,129585.15
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2025-Q1,91267.14,196275.23,122399.2
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2025-Q2,91267.14,181837.11,114126.01
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2025-Q3,91267.14,181591.72,114471.77
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2025-Q4,91267.14,187386.01,118673.41
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2026-Q1,91267.14,188121.29,116959.14
+6,Kirchberg Plaza,Western Europe,13,Juniper LLC,Technology,AA,leasing@juniper.example.com,+352 439 867 496,2026-Q2,91267.14,202682.06,128103.87
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2024-Q1,174124.2,378727.74,237795.47
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2024-Q2,174124.2,381857.79,241252.05
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2024-Q3,174124.2,380555.22,236480.41
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2024-Q4,174124.2,393527.11,247229.3
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2025-Q1,174124.2,374464.11,233519.56
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2025-Q2,174124.2,346918.31,217735.55
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2025-Q3,174124.2,346450.13,218395.2
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2025-Q4,174124.2,357504.78,226411.3
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2026-Q1,174124.2,358907.6,223140.74
+6,Kirchberg Plaza,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2026-Q2,174124.2,386687.38,244403.23
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2024-Q1,34876.83,75858.63,47630.1
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2024-Q2,34876.83,76485.57,48322.44
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2024-Q3,34876.83,76224.67,47366.69
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2024-Q4,34876.83,78822.92,49519.68
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2025-Q1,34876.83,75004.63,46773.64
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2025-Q2,34876.83,69487.24,43612.12
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2025-Q3,34876.83,69393.47,43744.25
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2025-Q4,34876.83,71607.7,45349.86
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2026-Q1,34876.83,71888.68,44694.77
+6,Kirchberg Plaza,Western Europe,19,Pinnacle Labs,Education,AA,leasing@pinnacle.example.com,+352 314 788 607,2026-Q2,34876.83,77452.93,48953.62
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2024-Q1,177834.78,386798.42,242862.89
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2024-Q2,177834.78,389995.17,246393.12
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2024-Q3,177834.78,388664.84,241519.8
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2024-Q4,177834.78,401913.16,252497.75
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2025-Q1,177834.78,382443.92,238495.86
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2025-Q2,177834.78,354311.12,222375.48
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2025-Q3,177834.78,353832.97,223049.19
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2025-Q4,177834.78,365123.19,231236.11
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2026-Q1,177834.78,366555.9,227895.86
+6,Kirchberg Plaza,Western Europe,20,Quarry S.A.,Public Sector,A,leasing@quarry.example.com,+352 256 902 397,2026-Q2,177834.78,394927.67,249611.45
+6,Kirchberg Plaza,Western Europe,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2025-Q1,36807.4,79156.43,49362.74
+6,Kirchberg Plaza,Western Europe,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2025-Q2,110422.2,220000.91,138078.67
+6,Kirchberg Plaza,Western Europe,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2025-Q3,110422.2,219704.01,138497.0
+6,Kirchberg Plaza,Western Europe,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2025-Q4,110422.2,226714.4,143580.47
+6,Kirchberg Plaza,Western Europe,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2026-Q1,110422.2,227604.01,141506.42
+6,Kirchberg Plaza,Western Europe,35,Flint Labs,Food & Beverage,AA,leasing@flint.example.com,+352 570 161 763,2026-Q2,110422.2,245220.77,154990.19
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2024-Q1,50425.71,109678.12,68864.67
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2024-Q2,50425.71,110584.57,69865.68
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2024-Q3,50425.71,110207.35,68483.83
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2024-Q4,50425.71,113963.96,71596.67
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2025-Q1,50425.71,108443.39,67626.38
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2025-Q2,50425.71,100466.23,63055.39
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2025-Q3,50425.71,100330.65,63246.42
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2025-Q4,50425.71,103532.03,65567.86
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2026-Q1,50425.71,103938.28,64620.72
+6,Kirchberg Plaza,Western Europe,38,Indigo B.V.,Media,AA,leasing@indigo.example.com,+352 591 360 376,2026-Q2,50425.71,111983.2,70778.25
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2024-Q1,28656.66,66342.57,44782.38
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2024-Q2,28656.66,70803.19,47301.12
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2024-Q3,28656.66,71174.18,47694.24
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2024-Q4,28656.66,77810.25,52116.41
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2025-Q1,28656.66,69129.94,46004.85
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2025-Q2,28656.66,72519.46,48359.16
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2025-Q3,28656.66,73936.41,49231.57
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2025-Q4,28656.66,80856.58,53742.26
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2026-Q1,28656.66,72226.5,48334.98
+7,Cloche d'Or Retail Park,Western Europe,11,Helix Labs,Healthcare,A,leasing@helix.example.com,+352 493 114 483,2026-Q2,28656.66,80597.36,53542.43
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2024-Q1,84025.89,194526.99,131309.07
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2024-Q2,84025.89,207606.22,138694.41
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2024-Q3,84025.89,208694.04,139847.11
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2024-Q4,84025.89,228152.04,152813.62
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2025-Q1,84025.89,202700.0,134893.54
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2025-Q2,84025.89,212638.6,141796.77
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2025-Q3,84025.89,216793.33,144354.8
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2025-Q4,84025.89,237084.38,157580.87
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2026-Q1,84025.89,211779.6,141725.85
+7,Cloche d'Or Retail Park,Western Europe,22,Summit B.V.,Financial Services,A,leasing@summit.example.com,+352 559 853 847,2026-Q2,84025.89,236324.29,156994.94
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2024-Q1,81399.0,188445.52,127203.97
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2024-Q1,79058.88,183027.95,123547.02
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2024-Q2,81399.0,201115.85,134358.43
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2024-Q2,79058.88,195334.02,130495.79
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2024-Q3,81399.0,202169.67,135475.09
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2024-Q3,79058.88,196357.54,131580.35
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2024-Q4,81399.0,221019.35,148036.23
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2024-Q4,79058.88,214665.32,143780.37
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2025-Q1,81399.0,196363.02,130676.38
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2025-Q1,79058.88,190717.83,126919.6
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2025-Q2,81399.0,205990.91,137363.8
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2025-Q2,79058.88,200068.93,133414.76
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2025-Q3,81399.0,210015.75,139841.86
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2025-Q3,79058.88,203978.06,135821.58
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2025-Q4,81399.0,229672.44,152654.44
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2025-Q4,79058.88,223069.64,148265.82
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2026-Q1,81399.0,205158.76,137295.09
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2026-Q1,79058.88,199260.7,133348.03
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2026-Q2,81399.0,228936.12,152086.83
+7,Cloche d'Or Retail Park,Western Europe,25,Vertex Group,Food & Beverage,AA,leasing@vertex.example.com,+352 304 547 913,2026-Q2,79058.88,222354.49,147714.52
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2024-Q1,66959.52,155016.91,104639.09
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2024-Q2,66959.52,165439.64,110524.4
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2024-Q3,66959.52,166306.51,111442.98
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2024-Q4,66959.52,181812.43,121775.88
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2025-Q1,66959.52,161529.91,107495.52
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2025-Q2,66959.52,169449.9,112996.64
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2025-Q3,66959.52,172760.77,115035.12
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2025-Q4,66959.52,188930.53,125574.86
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2026-Q1,66959.52,168765.37,112940.13
+7,Cloche d'Or Retail Park,Western Europe,32,Cobalt & Co,Financial Services,BBB,leasing@cobalt.example.com,+352 555 565 833,2026-Q2,66959.52,188324.83,125107.94
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2024-Q1,76049.16,176060.19,118843.66
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2024-Q2,76049.16,187897.79,125527.9
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2024-Q3,76049.16,188882.34,126571.17
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2024-Q4,76049.16,206493.15,138306.75
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2025-Q1,76049.16,183457.32,122087.85
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2025-Q2,76049.16,192452.44,128335.75
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2025-Q3,76049.16,196212.75,130650.94
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2025-Q4,76049.16,214577.53,142621.43
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2026-Q1,76049.16,191674.98,128271.55
+7,Cloche d'Or Retail Park,Western Europe,36,Grove S.A.,Professional Services,BBB,leasing@grove.example.com,+352 298 391 984,2026-Q2,76049.16,213889.6,142091.12
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2024-Q1,29400.0,51092.45,30234.34
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2024-Q2,29400.0,52756.88,31229.69
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2024-Q3,29400.0,55510.21,33062.96
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2024-Q4,29400.0,52898.88,31722.42
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2025-Q1,29400.0,53759.77,31819.9
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2025-Q2,29400.0,55611.97,32550.64
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2025-Q3,29400.0,57805.23,34773.92
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2025-Q4,29400.0,56936.66,33539.94
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2026-Q1,29400.0,56879.32,33306.74
+8,Zuidas Residences,Western Europe,3,Grachten Coffee B.V.,Food & Beverage,BB,leasing@grachten.example.com,+352 434 984 864,2026-Q2,29400.0,70462.83,41349.33
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2024-Q1,36399.15,63255.84,37432.12
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2024-Q2,36399.15,65316.52,38664.42
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2024-Q3,36399.15,68725.33,40934.13
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2024-Q4,36399.15,65492.32,39274.47
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2025-Q1,36399.15,66558.16,39395.14
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2025-Q2,36399.15,68851.3,40299.85
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2025-Q3,36399.15,71566.71,43052.41
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2025-Q4,36399.15,70491.36,41524.67
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2026-Q1,36399.15,70420.37,41235.95
+8,Zuidas Residences,Western Europe,5,Beacon LLC,Food & Beverage,AA,leasing@beacon.example.com,+352 368 541 227,2026-Q2,36399.15,87237.65,51193.21
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2024-Q1,165296.61,287258.78,169987.56
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2024-Q1,82365.99,143138.77,84703.45
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2024-Q2,165296.61,296616.78,175583.71
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2024-Q2,82365.99,147801.79,87491.97
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2024-Q3,165296.61,312096.95,185890.98
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2024-Q3,82365.99,155515.43,92628.0
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2024-Q4,165296.61,297415.14,178354.05
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2024-Q4,82365.99,148199.61,88872.41
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2025-Q1,165296.61,302255.35,178902.07
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2025-Q1,82365.99,150611.44,89145.48
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2025-Q2,165296.61,312669.03,183010.53
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2025-Q2,82365.99,155800.5,91192.7
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2025-Q3,165296.61,325000.28,195510.55
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2025-Q3,82365.99,161945.06,97421.36
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2025-Q4,165296.61,320116.91,188572.71
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2025-Q4,82365.99,159511.72,93964.29
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2026-Q1,165296.61,319794.49,187261.6
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2026-Q1,82365.99,159351.06,93310.97
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2026-Q2,55098.87,132055.18,77493.23
+8,Zuidas Residences,Western Europe,15,Lumen Holdings,Food & Beverage,AA,leasing@lumen.example.com,+352 391 134 129,2026-Q2,82365.99,197406.14,115842.79
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2024-Q1,120426.27,209281.38,123843.84
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2024-Q2,120426.27,216099.12,127920.9
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2024-Q3,120426.27,227377.14,135430.23
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2024-Q4,120426.27,216680.77,129939.23
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2025-Q1,120426.27,220207.08,130338.48
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2025-Q2,120426.27,227793.93,133331.69
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2025-Q3,120426.27,236777.83,142438.53
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2025-Q4,120426.27,233220.06,137383.99
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2026-Q1,120426.27,232985.16,136428.79
+8,Zuidas Residences,Western Europe,16,Mosaic & Co,Professional Services,AA,leasing@mosaic.example.com,+352 473 714 789,2026-Q2,120426.27,288625.02,169372.28
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2024-Q1,28432.38,49410.88,29239.26
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2024-Q2,28432.38,51020.53,30201.85
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2024-Q3,28432.38,53683.25,31974.78
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2024-Q4,28432.38,51157.86,30678.37
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2025-Q1,28432.38,51990.41,30772.63
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2025-Q2,28432.38,53781.65,31479.32
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2025-Q3,28432.38,55902.73,33629.43
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2025-Q4,28432.38,55062.75,32436.06
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2026-Q1,28432.38,55007.29,32210.54
+8,Zuidas Residences,Western Europe,18,Orchid Partners,Media,AAA,leasing@orchid.example.com,+352 404 606 304,2026-Q2,28432.38,68143.74,39988.43
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2024-Q1,27249.36,47354.98,28022.67
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2024-Q2,27249.36,48897.66,28945.2
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2024-Q3,27249.36,51449.59,30644.37
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2024-Q4,27249.36,49029.27,29401.9
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2025-Q1,27249.36,49827.19,29492.24
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2025-Q2,27249.36,51543.89,30169.52
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2025-Q3,27249.36,53576.72,32230.17
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2025-Q4,27249.36,52771.69,31086.46
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2026-Q1,27249.36,52718.54,30870.32
+8,Zuidas Residences,Western Europe,21,Rhine LLC,Healthcare,A,leasing@rhine.example.com,+352 506 282 599,2026-Q2,27249.36,65308.4,38324.58
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2024-Q1,93749.7,162921.82,96410.22
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2024-Q2,93749.7,168229.31,99584.14
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2024-Q3,93749.7,177009.05,105430.01
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2024-Q4,93749.7,168682.11,101155.37
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2025-Q1,93749.7,171427.28,101466.18
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2025-Q2,93749.7,177333.51,103796.34
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2025-Q3,93749.7,184327.31,110885.85
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2025-Q4,93749.7,181557.65,106950.99
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2026-Q1,93749.7,181374.79,106207.38
+8,Zuidas Residences,Western Europe,23,Tidal Holdings,Technology,A,leasing@tidal.example.com,+352 500 299 465,2026-Q2,93749.7,224689.42,131853.29
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2024-Q1,58290.21,101298.96,59944.43
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2024-Q2,58290.21,104598.96,61917.85
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2024-Q3,58290.21,110057.89,65552.61
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2024-Q4,58290.21,104880.5,62894.79
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2025-Q1,58290.21,106587.35,63088.04
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2025-Q2,58290.21,110259.63,64536.85
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2025-Q3,58290.21,114608.13,68944.86
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2025-Q4,58290.21,112886.05,66498.3
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2026-Q1,58290.21,112772.36,66035.95
+8,Zuidas Residences,Western Europe,34,Elm Partners,Retail,BBB,leasing@elm.example.com,+352 204 653 536,2026-Q2,58290.21,139703.85,81981.66

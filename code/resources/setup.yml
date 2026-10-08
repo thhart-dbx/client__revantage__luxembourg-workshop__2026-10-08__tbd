@@ -1,0 +1,30 @@
+# Starting state for every demo: raw CSVs + documents in volumes, then bronze/silver/gold tables.
+# Run before the workshop (and again the day before, if the date moves):
+#   databricks bundle run setup_starting_state
+resources:
+  jobs:
+    setup_starting_state:
+      name: "[Revantage workshop] Setup starting state"
+      description: Generates the shared dataset, copies documents to volumes, and builds bronze/silver/gold.
+      max_concurrent_runs: 1
+      tasks:
+        - task_key: build_starting_state
+          spark_python_task:
+            python_file: ../setup/setup_starting_state.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${resources.schemas.demo_schema.name}
+              - --as-of
+              - ${var.as_of}
+              - --bundle-root
+              - ${workspace.file_path}
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "4"
+            dependencies:
+              - pandas>=2.2
+              - numpy>=1.26
