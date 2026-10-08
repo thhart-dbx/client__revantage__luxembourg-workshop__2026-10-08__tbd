@@ -30,8 +30,16 @@ resources:
       name: ${var.approvals_app_name}
       description: Invoice Approvals on Lakebase (Demo 12), approve extracted invoices before they reach the GL
       source_code_path: ../app-approvals
+      config:
+        command: ["npm", "run", "start"]
       resources:
         - name: sql-warehouse
           sql_warehouse:
             id: ${var.warehouse_id}
             permission: CAN_USE
+        # Lakebase: injects PGHOST, PGPORT, PGDATABASE, PGUSER (the app service principal), PGSSLMODE.
+        - name: lakebase
+          database:
+            instance_name: ${resources.database_instances.lux_ops.name}
+            database_name: revantage_ops
+            permission: CAN_CONNECT_AND_CREATE

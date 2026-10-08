@@ -1,67 +1,122 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
+import { InvoiceList } from "@/components/invoice-list";
+import { InvoiceDetail } from "@/components/invoice-detail";
+
+interface Invoice {
+  invoice_id: string;
+  vendor_name: string;
+  property_name: string | null;
+  total_amount: number;
+  currency: string;
+  total_eur: number;
+  status: "Pending" | "Approved" | "Rejected";
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  notes: string | null;
+  requires_second_approval: boolean;
+  first_approver_email: string | null;
+  first_approved_at: string | null;
+}
 
 export default function Home() {
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
+
+  const fetchInvoices = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/invoices?status=Pending");
+      if (!response.ok) throw new Error("Failed to fetch invoices");
+      const data = await response.json();
+      setInvoices(data);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchInvoices();
+  }, []);
+
+  const handleApprove = async (invoiceId: string, notes: string) => {
+    try {
+      const response = await fetch("/api/invoices/approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoiceId, notes }),
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error || "Failed to approve invoice");
+      setError(null);
+      setNotice(body.message);
+      setSelectedInvoice(null);
+      await fetchInvoices();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to approve invoice");
+    }
+  };
+
+  const handleReject = async (invoiceId: string, notes: string) => {
+    try {
+      const response = await fetch("/api/invoices/reject", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ invoiceId, notes }),
+      });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error || "Failed to reject invoice");
+      setError(null);
+      setNotice(body.message);
+      setSelectedInvoice(null);
+      await fetchInvoices();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to reject invoice");
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <header className="bg-white border-b border-gray-200 px-6 py-4 shadow-sm">
+        <h1 className="text-2xl font-bold text-gray-900">Revantage Invoice Approvals</h1>
+        <p className="text-sm text-gray-600 mt-1">Review and approve pending invoices</p>
+      </header>
+
+      <main className="flex-1 p-6 max-w-7xl w-full mx-auto">
+        {notice && (
+          <div role="status" className="mb-4 rounded-md border border-blue-200 bg-blue-50 px-4 py-2 text-sm text-blue-900">
+            {notice}
+          </div>
+        )}
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md text-red-800">
+            {error}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <InvoiceList
+            invoices={invoices}
+            loading={loading}
+            selectedId={selectedInvoice?.invoice_id}
+            onSelect={(inv) => setSelectedInvoice(invoices.find((i) => i.invoice_id === inv.invoice_id) ?? null)}
+          />
+
+          {selectedInvoice && (
+            <InvoiceDetail
+              invoice={selectedInvoice}
+              onApprove={handleApprove}
+              onReject={handleReject}
+              onClose={() => setSelectedInvoice(null)}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          )}
         </div>
       </main>
     </div>

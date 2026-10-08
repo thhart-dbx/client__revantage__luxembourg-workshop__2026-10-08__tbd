@@ -1,0 +1,61 @@
+# Demo 12: Lakebase (Postgres) for transactional approval state, plus one synced table (reverse ETL).
+resources:
+  database_instances:
+    lux_ops:
+      name: revantage-lux-ops
+      capacity: CU_1
+      retention_window_in_days: 7
+      custom_tags:
+        - key: workshop
+          value: revantage-luxembourg
+
+  # Reverse ETL: governed gold -> Postgres for low-latency app reads (snapshot sync).
+  synced_database_tables:
+    gold_property_quarterly_synced:
+      name: ${var.catalog}.${resources.schemas.demo_schema.name}.ref_d12_gold_property_quarterly_synced
+      database_instance_name: ${resources.database_instances.lux_ops.name}
+      logical_database_name: revantage_ops
+      spec:
+        source_table_full_name: ${var.catalog}.${resources.schemas.demo_schema.name}.gold_property_quarterly
+        primary_key_columns: [property_id, fiscal_quarter]
+        scheduling_policy: SNAPSHOT
+        create_database_objects_if_missing: true
+        new_pipeline_spec:
+          storage_catalog: ${var.catalog}
+          storage_schema: ${resources.schemas.demo_schema.name}
+
+  jobs:
+    d12_approved_to_silver:
+      name: "[Revantage workshop] Approved invoices -> silver (Reference)"
+      description: Loads Approved invoices from Lakebase into Delta silver_invoices (Demo 12). Idempotent MERGE.
+      max_concurrent_runs: 1
+      email_notifications:
+        on_failure:
+          - ${workspace.current_user.userName}
+      trigger:
+        pause_status: PAUSED # run on demand in the workshop; unpause for a 15-minute cadence
+        periodic:
+          interval: 15
+          unit: MINUTES
+      tasks:
+        - task_key: load_approved
+          max_retries: 2
+          min_retry_interval_millis: 60000
+          spark_python_task:
+            python_file: ../jobs/d12_approved_to_silver.py
+            parameters:
+              - --catalog
+              - ${var.catalog}
+              - --schema
+              - ${resources.schemas.demo_schema.name}
+              - --instance
+              - ${resources.database_instances.lux_ops.name}
+              - --database
+              - revantage_ops
+          environment_key: default
+      environments:
+        - environment_key: default
+          spec:
+            environment_version: "4"
+            dependencies:
+              - psycopg[binary]>=3.2
