@@ -31,6 +31,8 @@ variables:
     default: "2026-10-13"
   approvals_app_name:
     description: Invoice Approvals app name, Demo 12 (lowercase letters, numbers, hyphens; max 30 chars)
+  workspace_id:
+    description: Numeric workspace ID (the ?o= value in the URL). System tables span the account, so Demo 13 filters on it.
   consumer_group:
     description: Account group of workshop business users (UC grants)
     default: revantage_consumers
@@ -51,6 +53,7 @@ targets:
       alerts_path: /Users/thomas.hart@databricks.com/alerts
       app_name: revantage-lease-tracker
       approvals_app_name: revantage-invoice-approvals
+      workspace_id: "7474657569423450"
 
   # Revantage dev workspace (where participants build live). Fill in the TODOs once access is
   # granted, run preflight/preflight.py, then: bundle deploy -t revantage && bundle run setup_starting_state -t revantage
@@ -68,3 +71,16 @@ targets:
       alerts_path: /Users/${workspace.current_user.userName}/alerts
       app_name: revantage-lease-tracker
       approvals_app_name: revantage-invoice-approvals
+      workspace_id: "TODO_WORKSPACE_ID"
+    # Demo 16 data profiling monitor. Only in this target: the FEVM metastore is at its 1,000-monitor
+    # limit ("Cannot create Monitor because it exceeds the number of limit 1000"), so dev can't create it.
+    resources:
+      quality_monitors:
+        gold_property_quarterly_monitor:
+          table_name: ${var.catalog}.${var.schema}.gold_property_quarterly
+          assets_dir: ${workspace.root_path}/dq-assets
+          output_schema_name: ${var.catalog}.${var.schema}
+          warehouse_id: ${var.warehouse_id}
+          snapshot: {}
+          slicing_exprs:
+            - region_name

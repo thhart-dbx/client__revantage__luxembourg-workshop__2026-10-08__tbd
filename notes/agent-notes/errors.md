@@ -9,3 +9,4 @@
 - 2026-10-08 · ai_forecast fails on serverless job compute (UNSUPPORTED_FEATURE.AI_FUNCTION_PREVIEW); run it on a SQL warehouse (run_sql.py --warehouse).
 - 2026-10-08 · CSV reader with schemaHints amount DECIMAL silently mis-parsed European decimals: "980,40" → 98040.00, "1.850,75" → 1.85 (no error, no _rescued_data). Fixed by keeping amount STRING in bronze + try_cast + FAIL UPDATE expectation in silver. Used as the D11 teaching story.
 - 2026-10-08 · Production-mode pipeline auto-retried a failed update ~5 times; bad rows remained in bronze streaming state until a full refresh after removing the file.
+- 2026-10-08 · FEVM metastore hit the 1,000 data-profiling monitor limit; D16 monitor lives only in the revantage target. The failed create made bundle deploy hang (stale lock 17:26).

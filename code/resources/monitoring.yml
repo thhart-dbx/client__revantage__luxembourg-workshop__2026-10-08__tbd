@@ -1,0 +1,55 @@
+# Demo 13 (AI Gateway) and Demo 16 (data quality) monitoring assets.
+resources:
+  alerts:
+    ai_tokens_daily:
+      display_name: "[Revantage workshop] Daily AI tokens > 1M (Reference)"
+      parent_path: ${var.alerts_path}
+      warehouse_id: ${var.warehouse_id}
+      query_text: >
+        SELECT COALESCE(SUM(total_tokens), 0) AS tokens_today
+        FROM system.ai_gateway.usage
+        WHERE workspace_id = '${var.workspace_id}' AND event_time >= current_date()
+      evaluation:
+        source:
+          name: tokens_today
+        comparison_operator: GREATER_THAN
+        threshold:
+          value:
+            double_value: 1000000
+        empty_result_state: OK
+        notification:
+          notify_on_ok: true
+          subscriptions:
+            - user_email: ${workspace.current_user.userName}
+      schedule:
+        quartz_cron_schedule: "0 0 * * * ?"
+        timezone_id: Europe/Luxembourg
+
+    revenue_outliers:
+      display_name: "[Revantage workshop] Revenue > 3 sigma from property mean (Reference)"
+      parent_path: ${var.alerts_path}
+      warehouse_id: ${var.warehouse_id}
+      query_text: >
+        WITH g AS (SELECT * FROM ${var.catalog}.${resources.schemas.demo_schema.name}.gold_property_quarterly),
+        stats AS (
+          SELECT a.property_id, a.fiscal_quarter, MAX(a.revenue) AS revenue,
+                 AVG(b.revenue) AS mean_others, STDDEV(b.revenue) AS sd_others
+          FROM g a JOIN g b ON a.property_id = b.property_id AND a.fiscal_quarter <> b.fiscal_quarter
+          GROUP BY ALL)
+        SELECT COUNT(*) AS outliers FROM stats
+        WHERE abs((revenue - mean_others) / sd_others) > 3 AND abs(revenue / mean_others - 1) > 0.5
+      evaluation:
+        source:
+          name: outliers
+        comparison_operator: GREATER_THAN
+        threshold:
+          value:
+            double_value: 0
+        empty_result_state: OK
+        notification:
+          notify_on_ok: true
+          subscriptions:
+            - user_email: ${workspace.current_user.userName}
+      schedule:
+        quartz_cron_schedule: "0 0 7 * * ?"
+        timezone_id: Europe/Luxembourg
