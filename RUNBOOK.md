@@ -1,129 +1,132 @@
 # Runbook — client__revantage__luxembourg-workshop__2026-10-08__tbd
 
-> **Purpose**: This runbook is the authoritative, step-by-step recipe to reproduce this
-> demo from scratch in **any** Databricks environment. A new operator — human or Claude —
-> who has never seen this project should be able to follow it top to bottom and end up
-> with a fully working demo. Keep it current as the demo is built (it is a commit blocker —
-> see CLAUDE.md). The demo deploys through a **Declarative Automation Bundle** (`code/databricks.yml`),
-> which is the single source of environment config. Don't hardcode workspace-specific values into
-> the steps; every such value is a bundle variable in `code/databricks.yml`. Porting to a new
-> environment = add a target to that file + `databricks bundle deploy` + `bundle run`.
+> Reproduce the Revantage Luxembourg build-along workshop (16 demos) from scratch in any Databricks
+> workspace. Everything environment-specific is a bundle variable in `code/databricks.yml`; porting =
+> fill in a target (the `revantage` target is pre-staged) + the steps below. Each step lists how to
+> verify it. Steps that the bundle can't declare (Agent Bricks agents, AI Gateway config, Lakebase DDL)
+> are scripted or listed as exact clicks.
 
 ## 1. Prerequisites
 
-What an operator must have BEFORE starting. Fill in exact versions/scopes as the demo grows.
+- **Workspace:** AWS or Azure; Unity Catalog; serverless SQL warehouse and serverless jobs/pipelines; Databricks Apps; Lakebase; Agent Bricks (Information Extraction, Knowledge Assistant); Genie (One + Code); AI/BI dashboards; data profiling.
+- **Facilitator permissions:** `USE CATALOG` + `CREATE SCHEMA` on the target catalog; create apps, jobs, pipelines, Lakebase instances, alerts; `CAN_MANAGE` on one pay-per-token endpoint (AI Gateway config); grant `USE CATALOG` to app service principals.
+- **Admin grants for participants (Demo 13):** `SELECT` on `system.ai_gateway`, `system.serving`, `system.billing`, `system.access` (lineage).
+- **Tooling:** Databricks CLI ≥ 0.27x, `uv`, Node ≥ 20 + npm (cloud npm proxy locally), Chrome for UI steps.
+- **Pre-flight (read-only):** `code/data-gen/.venv/bin/python code/preflight/preflight.py --profile <p> --warehouse <id> --catalog <catalog>` → go/no-go per demo. FEVM result 2026-10-08: all 16 GO.
 
-- **Databricks workspace** — any workspace on cloud(s): _<AWS / Azure / GCP — note any restrictions>_
-- **Permissions** — _<UC privileges: CREATE CATALOG/SCHEMA/TABLE/FUNCTION, USE CATALOG; workspace admin if needed; ability to create Apps/Genie/dashboards/jobs>_
-- **Tooling** — Databricks CLI (`databricks -v` ≥ 1.18), `git`, `gh`, Node ≥ 20 + npm (Next.js app and Playwright), Python 3 _<if used>_
-- **Workspace features** — Databricks Apps; serverless compute; Lakebase _<if used>_; user authorization for apps _<if the app uses `user_api_scopes`>_
-- **Compute** — a SQL warehouse (serverless preferred) and/or serverless notebook compute
-- **Source** — clone of this repo: `gh repo clone thhart-dbx/client__revantage__luxembourg-workshop__2026-10-08__tbd`
+## 2. Configuration (`code/databricks.yml`)
 
-## 2. Configuration — all in `code/databricks.yml`
+| Variable | dev (FEVM) | Revantage (`revantage` target) |
+|---|---|---|
+| profile (target) | `fevm-thhart-october-2026` | `revantage-dev` (TODO: `databricks auth login`) |
+| `catalog` | `thhart_october_2026_catalog` | TODO |
+| `schema` | `revantage_20261008` | `databricks_workshop` |
+| `warehouse_id` | `0fb3aaac7c7d373c` | TODO |
+| `workspace_id` | `7474657569423450` | TODO (`?o=` in the URL) |
+| `as_of` | `2026-10-13` (default) | workshop day 1; lease windows are relative to it |
+| `*_path` | `/Users/<you>/{experiments,spaces,dashboards,alerts}` | same pattern |
+| `app_name` / `approvals_app_name` | `revantage-lease-tracker` / `revantage-invoice-approvals` | unique per workspace |
+| `consumer_group` | `revantage_consumers` | the participants' group |
 
-There is no separate config to maintain here: every environment-specific value is a **bundle
-variable** in `code/databricks.yml`, and each target (`dev`, the customer env, etc.) overrides
-them. To reproduce in a new environment, edit that file only — add/adjust a target and its
-variables — then deploy. The variables below must exist in `databricks.yml`:
+The `revantage` target also creates the Demo 16 data-profiling monitor (the FEVM metastore is at its 1,000-monitor limit).
 
-| Bundle variable | This demo's value | What to change it to in a new env |
-|-----------------|-------------------|-----------------------------------|
-| `profile` (target) | `fevm-thhart-october-2026` | your `databricks auth profiles` entry |
-| `catalog` | `thhart_october_2026_catalog` | a catalog you can write to |
-| `schema` | `revantage_20261008` | any schema name (created on deploy) |
-| `warehouse_id` | `0fb3aaac7c7d373c` | a warehouse in the target workspace |
-| `experiment_path` | `/Users/thomas.hart@databricks.com/experiments` | `/Users/<you>/experiments` |
-| `genie_space_path` | `/Users/thomas.hart@databricks.com/spaces` | `/Users/<you>/spaces` |
-| `dashboard_path` | `/Users/thomas.hart@databricks.com/dashboards` | `/Users/<you>/dashboards` |
-| `alerts_path` | `/Users/thomas.hart@databricks.com/alerts` | `/Users/<you>/alerts` |
-| `app_name` | `revantage-lease-tracker` | unique per workspace; lowercase, hyphens, ≤ 30 chars |
-| _<other>_ | _<value>_ | _<guidance>_ |
-
-```bash
-# Point the CLI at the target and confirm the bundle resolves:
-cd code
-databricks bundle validate -t <target>     # <target> is defined in databricks.yml
-```
-
-## 3. Reproduction Steps — in order
-
-Everything is created by the bundle: schema, jobs, pipelines, dashboards, Genie spaces, alerts,
-the app, and Lakebase. A scripted fallback appears here only for something a bundle genuinely can't
-declare. Keep the
-order in sync with the dependency graph in `notes/claude-notes/plan.md` and the inventory in
-`README.md`. Every asset in `README.md > Assets Created` must be produced by a step here.
+## 3. Steps (in order)
 
 ### Step 1 — Deploy the bundle
-- **Run**:
-  ```bash
-  cd code
-  databricks bundle validate -t <target>
-  databricks bundle plan -t <target>       # review what will be created
-  databricks bundle deploy -t <target>     # schema, jobs, pipelines, dashboards, Genie, alerts, app, ...
-  ```
-- **Verify**: `databricks bundle summary -t <target>` lists the resources; no deploy errors.
+```bash
+cd code
+databricks workspace mkdirs /Users/<you>/alerts -p <p>     # alerts need an existing folder
+databricks bundle validate -t <target> && databricks bundle deploy -t <target>
+```
+Creates: schema + volumes `raw`, `documents`; jobs `setup_starting_state`, `setup_participant_sandboxes`, `ref_analytics`, `d12_approved_to_silver`; pipeline `ref_property_pipeline`; Genie Agents (Start, Reference); dashboard; alerts (2); apps (2); Lakebase instance `revantage-lux-ops` + synced table.
+**Verify:** `databricks bundle summary -t <target>`; Lakebase instance `AVAILABLE` (`databricks database get-database-instance revantage-lux-ops`).
 
-### Step 2 — Run the setup jobs / pipelines (data → functions/models)
-- **Run**: `databricks bundle run <resource> -t <target>` for each data-load / model / pipeline resource, in dependency order
-- **Verify**: _<expected row counts / tables / functions present>_
+### Step 2 — Starting state
+```bash
+databricks bundle run setup_starting_state -t <target>
+code/data-gen/.venv/bin/python code/tests/check_starting_state.py --profile <p> --warehouse <id> --catalog <c> --schema <s>
+```
+**Verify:** 28/28 PASS (gold = oracle; planted facts F1–F7; 15 documents).
+Optional: `databricks bundle run setup_participant_sandboxes -t <target> --params participants=a@x.com,b@x.com,group=<group>`.
 
-### Step 3 — Grant the app access and start it
-- **Run**:
-  ```bash
-  # One-time: the app's service principal needs USE CATALOG (schema grants come from the bundle)
-  SP=$(databricks apps get <app_name> -o json | python3 -c "import sys,json;print(json.load(sys.stdin)['service_principal_client_id'])")
+### Step 3 — Reference answer keys
+```bash
+databricks bundle run ref_analytics -t <target>             # D3 view, D6 checks, D7 metric views, D14 forecast
+databricks bundle run ref_property_pipeline -t <target>     # D11 pipeline (ref_d11_*)
+code/data-gen/.venv/bin/python code/tests/check_ref_pipeline.py --profile <p> --warehouse <id> --catalog <c> --schema <s>
+```
+**Verify:** job SUCCESS; pipeline gold = oracle (80 rows); expectations: 3 bad periods + 2 regionless properties dropped.
+
+### Step 4 — Apps (both)
+```bash
+for app in <app_name> <approvals_app_name>; do
+  SP=$(databricks apps get $app -o json | python3 -c "import sys,json;print(json.load(sys.stdin)['service_principal_client_id'])")
   databricks grants update catalog <catalog> --json "{\"changes\":[{\"principal\":\"$SP\",\"add\":[\"USE_CATALOG\"]}]}"
-  databricks bundle run demo_app -t <target>       # deploys code/app (npm install → build → start)
-  ```
-- **Verify**: `databricks apps get <app_name>` shows the app as running; `databricks apps logs <app_name>` has no errors
+done
+L(){ uv run -q --with "psycopg[binary]" code/lakebase/lakebase_sql.py --profile <p> --instance revantage-lux-ops --db revantage_ops "$@"; }
+L -f code/lakebase/d12_invoice_approvals.sql && L -f code/lakebase/d12_reset.sql
+SP=<approvals app service_principal_client_id>; sed "s/\${app_sp}/$SP/g" code/lakebase/d12_grant_app.sql > /tmp/g.sql && L -f /tmp/g.sql
+databricks bundle run demo_app -t <target> && databricks bundle run approvals_app -t <target>
+```
+**Verify:** lease tracker shows the 90/180/365 windows (FEVM 2026-10-08: 6/14/23); approvals app lists 5 Pending, HV-2026-0417 "Requires 2 Approvals". Local: `cd code/app && npx playwright test` (27 pass), `cd code/app-approvals && npx playwright test --project=desktop` (5 pass).
 
-### Step 4 — Verify the surfaces & app
-- **Run**: open the dashboards, Genie space, and app URL (`databricks bundle summary -t <target>` or `databricks bundle open <key>`)
-- **Verify**: _<dashboard renders with data; Genie answers a sample question; app loads and the primary CUJ works>_
+### Step 5 — UI-only builds (Agent Bricks), ~45 min incl. indexing
+1. **Invoice Extractor (D4):** Agents → Create Agent → Information Extraction → Select volume → All volumes → `documents` → expand (wait for the folder list) → `invoices` → Select. Paste the description from `code/prompts/d04-extraction-agent.md` → Generate schema → change `line_items.quantity` to **Number** → Run extraction. Then run `code/reference/d04_extract_invoices.sql` (CTAS) and `code/reference/d04_score_extraction.py` → **72/72**.
+2. **Policy Assistant (D5):** Agents → Create Agent → Knowledge Assistant, name `revantage-policy-assistant`, source `documents/policies/` (text in `code/prompts/d05-knowledge-assistant.md`). Wait **~25 min** for the index; then `code/tests/ask_ka.py --endpoint <ka-…-endpoint> "<question>"`: all 6 ground-truth questions answered with citations.
+List agents: `databricks api get /api/2.0/tiles`.
 
-_(Scripted fallbacks, only if any exist: `bash code/scripts/<name>.sh -t <target>`, which reads the same bundle variables.)_
+### Step 6 — AI Gateway (D13)
+`BUNDLE_TARGET=<target> DATABRICKS_CONFIG_PROFILE=<p> code/ai-gateway/apply_ai_gateway.sh` (saves the endpoint's original config, enables usage tracking + inference table `ref_d13_*`). Send some traffic (e.g. 40 `ai_query` calls). Usage rows appear in `system.ai_gateway.usage` with a delay.
+**Verify:** the 5 queries in `code/reference/d13_ai_gateway_queries.sql` return rows (`:workspace_id` = workspace ID).
 
-_(Incremental changes: `databricks bundle deploy -t <target>` pushes only what changed; use
-`databricks bundle run <resource> -t <target>` to re-test just the affected resource.)_
+## 4. Smoke test
+- [ ] `check_starting_state.py` 28/28 · `check_ref_pipeline.py` OK
+- [ ] Genie: `code/tests/ask_genie.py --space <Start id> "Which properties missed their quarterly target in 2026-Q2?"` → Peachtree Center, Harbor Tower, Zuidas Residences
+- [ ] Dashboard renders 4 pages; KPI counters €10.7M · 59.3% · 62.5% · −3.3%
+- [ ] `SELECT MEASURE(target_attainment) FROM <c>.<s>.ref_mv_target_attainment WHERE fiscal_quarter='2026-Q2'` → 0.625
+- [ ] D16: `code/reference/d16_revenue_outliers.sql` (`${table}`=gold) → 0 rows
+- [ ] Both apps load; approvals queue has 5 Pending
 
-## 4. Smoke Test — prove the demo works
+## 5. Workshop-day resets (run before each session that mutates state)
+| After | Run |
+|---|---|
+| D10 | `code/reference/d10_reset.sql` |
+| D11 | `code/scripts/d11_bad_batch.sh remove <p> <c> <s>`, then `databricks bundle run ref_property_pipeline --full-refresh-all` |
+| D12 | `L -f code/lakebase/d12_reset.sql` and `TRUNCATE TABLE <c>.<s>.silver_invoices` |
+| D16 | `code/sql/d16_reset.sql` (`${table}` = `gold_property_quarterly`) |
+Rerun `setup_starting_state` the day before if the date moves (lease windows) and re-check.
 
-The minimum checks that confirm a fresh deployment is functional end-to-end.
-
-- [ ] _<query returns expected result>_
-- [ ] _<dashboard renders with data>_
-- [ ] _<Genie answers a sample question>_
-- [ ] _<app loads and the primary CUJ click-path succeeds>_
-
-## 5. Teardown — remove everything
-
-How to fully clean up so the environment is left as it was found.
-
-- **Run**:
-  ```bash
-  cd code
-  # Revoke the one-time catalog grant first (the bundle doesn't manage it, and the SP is deleted with the app)
-  SP=$(databricks apps get <app_name> -o json | python3 -c "import sys,json;print(json.load(sys.stdin)['service_principal_client_id'])")
+## 6. Teardown
+```bash
+code/ai-gateway/apply_ai_gateway.sh --teardown            # restores the endpoint's original AI Gateway config
+# delete the two Agent Bricks agents (Agents → ⋮ → Delete): their vector-search endpoints bill while idle
+for app in <app_name> <approvals_app_name>; do  # revoke the one-time catalog grants
+  SP=$(databricks apps get $app -o json | python3 -c "import sys,json;print(json.load(sys.stdin)['service_principal_client_id'])")
   databricks grants update catalog <catalog> --json "{\"changes\":[{\"principal\":\"$SP\",\"remove\":[\"USE_CATALOG\"]}]}"
-  databricks bundle destroy -t <target>    # removes everything the bundle manages: app, schema (and all its tables), Genie spaces, ...
-  # then the matching teardown for any scripted fallback
-  ```
-- **Verify**: _<schema/tables gone, app deleted, dashboards/Genie/jobs removed — nothing left behind>_
+done
+databricks bundle destroy -t <target>                     # apps, schema (all tables), Genie, dashboard, alerts, jobs, pipeline, Lakebase
+```
+**Verify:** schema gone, apps deleted, `databricks api get /api/2.0/tiles` no longer lists the two agents.
 
-## 6. Known Gotchas
-
-Environment-specific pitfalls and how to work around them (auth, grants, warehouse types,
-serverless vs. classic, region/cloud differences, ordering constraints).
-
+## 7. Known gotchas (all found during the FEVM pre-build)
 | Gotcha | Symptom | Fix |
-|--------|---------|-----|
-| App service principal missing UC grants | App queries fail with `PERMISSION_DENIED` | Run the USE CATALOG grant (Step 3); schema grants are in `code/resources/schema.yml` |
-| App crashes on start | `apps logs` shows a port or `EADDRINUSE` error | `package.json` start must be `next start -H 0.0.0.0 -p ${DATABRICKS_APP_PORT:-3000}` |
-| Page shows stale or empty data | Data was fetched at build time | Mark data pages `export const dynamic = "force-dynamic"` |
-| `NEXT_PUBLIC_*` value wrong after porting | It's inlined at build time | Keep env-specific values server-side, via `app.yaml` `valueFrom` |
-| `bundle destroy` drops data you wanted | Destroying the schema deletes every table in it, bundle-managed or not | Export anything worth keeping before teardown |
-| `next build` fails: `non-ecmascript placeable asset` in `@databricks/sql` / `lz4-napi` | Turbopack bundling the SQL driver's native modules | Keep `serverExternalPackages: ["@databricks/sql"]` in `code/app/next.config.ts` |
-| Local `npm install` hangs or fails with `ETARGET` | npm is pointed at `npm-proxy.dev.databricks.com`, which keeps only ~100 recent versions per package | `npm config set registry https://npm-proxy.cloud.databricks.com/` |
-| App deploy fails at "Installing packages" (`TAR_BAD_ARCHIVE`, `E404` on `npm-proxy…` URLs) | `package-lock.json` points at the internal proxy, which Databricks Apps can't reach | Rewrite the lockfile URLs to `registry.npmjs.org` (`.claude/rules/app-nextjs.md`) and redeploy |
-| Local dev 401s | `DATABRICKS_TOKEN` in `.env.local` expired (~1 h) | Re-run `databricks auth token --profile <profile>` |
+|---|---|---|
+| `ai_forecast` on job compute | `UNSUPPORTED_FEATURE.AI_FUNCTION_PREVIEW` | run on a SQL warehouse (`setup/run_sql.py --warehouse`) |
+| `ai_forecast` frequency | `'Q'` / `'3M'` fail on DATE | `frequency => 'QS'`, `horizon => '<end date>'` |
+| `current_workspace_id()` | doesn't exist | filter system tables with `:workspace_id` / `${var.workspace_id}` |
+| CSV decimals | `"980,40"` read as 98040.00, silently | keep amounts as STRING in bronze; `try_cast` + `FAIL UPDATE` expectation |
+| Pipeline retries | production mode retries failed updates ~5× | expect several failed runs; full refresh after removing bad files |
+| Governed tags | `UC_TAG_POLICY_VALUE_NOT_ALLOWED` for `data_owner` | use `system.certification_status` and `class.*` tags, or values the policy allows |
+| Volume picker | "Request access" on a folder you own | wait for the folder list to load, expand again |
+| Extraction schema | generator types `quantity` as integer | change to Number (fractional hours) |
+| Knowledge Assistant | "Vector index … is not ready" | ~25 min after create; start it early |
+| UC rate limits (shared metastore) | `REQUEST_LIMIT_EXCEEDED` from Genie/Agent Bricks | retry |
+| Data profiling | "exceeds the number of limit 1000" on the FEVM | monitor only in the `revantage` target |
+| Bundle deploy hangs | a create can't succeed (monitor limit) and the lock goes stale | fix the resource; `--force-lock` only once you're sure nothing else is deploying |
+| Alerts | `Tree node … alerts does not exist` | `databricks workspace mkdirs` the alerts folder |
+| Apps + Lakebase | Postgres permission denied | grant the app SP's role on schema `approvals` (`d12_grant_app.sql`) |
+| Serverless env 4 SDK | `WorkspaceClient has no attribute database` | call `/api/2.0/database/...` via `w.api_client.do` |
+| Spark from Python rows | `CANNOT_DETERMINE_TYPE` with NULL columns | pass an explicit schema |
+| `NUMBER`, `DIV0`, `TO_VARCHAR(fmt)`, `SYSDATE` | fail on Databricks (NVL/IFF/DATEADD/QUALIFY/`::` work) | D3's teaching point |
+| npm / PyPI locally | dev proxies miss versions; pip TLS fails | npm cloud proxy; `uv --index-url https://pypi-proxy.cloud.databricks.com/simple` |
+| App lockfile | `TAR_BAD_ARCHIVE` on deploy | rewrite npm-proxy URLs to registry.npmjs.org |
