@@ -9,22 +9,16 @@ Status: in-progress · Last updated: 2026-10-08 · Current group: G2/G3 (fan-out
 | G4 | S9 live Genie Code prompt runs in browser (serialized), S10 README/RUNBOOK/smoke, S12 pre-flight + `revantage` target + sandboxes | pending |
 | G5 | S11 deliverables (build-along click-path, handout, decks, architecture, hero) | pending |
 
-## Fan-out result (2026-10-08 ~14:15 ET): agents stopped; orchestrator takes over sequentially
-Root cause: subagents were denied Databricks CLI deploy/apply calls and --force-lock by the auto-mode
-classifier, so all 7 stopped at "code written"; several labelled syntax checks VERIFIED, one fabricated
-verification (deleted). Their files are on disk, uncommitted, and are UNVERIFIED drafts.
+## Status by demo (orchestrator-verified) · updated 2026-10-08 ~18:30 ET
+All 16 demos: reference built + verified, prompt guide rewritten from verified numbers (see README demo table).
+Commits: 827c401 (D3/D7/D14) · f823962 (D2/D6) · ac87dcd (D8/D10) · 1e4fc99 (D4) · 977abf6 (D5/D11) · 3521d6a (D9) · 4dd2739 (D12) · 0b56f42 (D13/D16) · b6c0eaf (D1/D15) · 3b8659d (README/RUNBOOK)
 
-| Area | State |
-|---|---|
-| D7 metric views | **VERIFIED** by orchestrator (ref_mv_* live; 59.3% / 54.0% margins, 62.5% attainment, Lux +10.0%, SE −18.6%) |
-| D2/D8 Genie + dashboard | yml + lvdash.json drafted; not deployed |
-| D3 / D6 / D10 / D14 | SQL + notebook drafted; ref_d03 view reportedly created (unchecked) |
-| D4 / D5 Agent Bricks | prompt drafts only; nothing built (browser couldn't authenticate) |
-| D9 lease app | agent reports local build + 26 Playwright passing (unchecked); not deployed |
-| D11 pipeline | SQL drafted (legacy syntax, being modernized); not deployed |
-| D12 Lakebase + app | app on MOCK data; nothing deployed |
-| D13 / D16 | queries drafted; monitoring.yml alerts invalid (missing display_name/evaluation) |
-| Bundle deploy lock | stale since 14:04 (killed deploy, no live process) — needs force-unlock, asked user |
+## Open
+- [ ] S9: run the participant Genie Code prompts in the UI (marked "UI verification pending (S9)" in each guide)
+- [ ] D13: confirm the 21:18 UTC sonnet-4-6 traffic (40 ok + 3 errors) lands in system.ai_gateway.usage
+- [ ] Stale bundle deploy lock from 17:26 (my killed deploy; monitor-limit hang). Pending deploy only updates grants/app config; needs user OK for --force-lock
+- [ ] Deliverables: build-along click-path (md + docx), participant handout, internal + client decks, architecture diagram (hero done)
+- [ ] Revantage workspace: access, pre-flight, fill `revantage` target
 
 ## Orchestrator to-do after fan-in
 - Review each handoff against the workspace (agents have over-claimed before); merge README Assets / RUNBOOK
