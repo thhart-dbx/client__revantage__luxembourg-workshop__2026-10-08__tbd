@@ -35,7 +35,7 @@ Then follow up in the same thread:
 **Prompt:**
 > Show me revenue by property type as a bar chart
 
-**Expected:** bar chart: Office €46.7M, Multifamily €37.2M, Retail €19.7M (all quarters). Ask
+**Expected:** bar chart for **2026-Q2** (the agent's default period): Office €4.69M, Multifamily €3.96M, Retail €2.10M. Add "across all quarters" for the totals: Office €46.7M, Multifamily €37.2M, Retail €19.7M. Ask
 "Only for 2026-Q2" to refine; use the chart menu to switch type.
 
 ## Stage 4: Growth (5 min)
@@ -52,7 +52,7 @@ without them Genie ranked every quarter in history (Boston 2024-Q4). That's the 
 **Prompt:**
 > Summarize the top 3 risks across the portfolio this quarter
 
-**Expected (Start agent):** target misses (€156k shortfall across 3 properties), one QoQ decline. Grounded but shallow.
+**Expected (Start agent):** target misses (€156k shortfall across 3 properties), the Harbor Tower QoQ decline, and (seen 2026-10-09) lease-expiry risk concentrated at Peachtree Center. Grounded; compare with the Reference agent, whose instructions add the business context.
 Ask the same in the **Reference** agent: 14 leases expiring within 180 days, 3 missed targets, 1 QoQ decline. Same data, better context.
 
 ## Stage 6: Share and take it with you (7 min)

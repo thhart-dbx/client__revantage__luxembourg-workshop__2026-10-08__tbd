@@ -94,6 +94,7 @@ UI-only Genie Code responses (participants' prompts typed in the product) are ma
 | `participant-handout.md` / `.docx` | Participant version: prompts, checkpoints, fallbacks; Snowflake view appendix | same script |
 | `…-internal.pptx` | Internal enablement deck (23 slides): build-live model, per-demo problem / build / value / why Databricks / watch-out | `code/deliverables/build_decks.py` (Databricks template, `slide_kit/`) |
 | `…-client.pptx` | Client deck (24 slides): build-along steps with the prompt you type, checkpoint, fallback; outcomes; proposed next steps | same script |
+| `…-modules.pptx` (149 slides) | Module-by-module build-along deck: per demo a "What we'll build" overview, "How we'll get there" steps, then one slide per step/prompt with the prompt (or click-path / SQL), the expected result, the fallback and a live screenshot of the expected output | `code/deliverables/build_modules_deck.py` (text from the guides; screenshots per `module_manifest.py`, SQL checkpoints via `capture_queries.py`) |
 | `architecture.png` / `.drawio` | Every asset in the inventory above | `code/deliverables/architecture.py` (drawio-diagram skill) |
 | `hero.png` | Portfolio Review dashboard | browser capture |
 
