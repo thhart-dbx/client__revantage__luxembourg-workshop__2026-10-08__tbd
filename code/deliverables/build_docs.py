@@ -27,10 +27,12 @@ SCREENSHOTS = {
     7: (f"{SHOTS}/d07-metric-view.png", "The approved net profit margin as a Unity Catalog metric view, with its measures documented."),
     8: (f"{SHOTS}/d08-p1-executive.png", "The Executive Summary page: €10.7M revenue, 59.3% margin, 62.5% target attainment."),
     9: (f"{SHOTS}/d09-app.png", "The lease expiry tracker: windows, risk, rent at risk, CSV export."),
+    10: (f"{SHOTS}/d10-masked-pii.png", "With the masks applied, a non-steward sees l***@domain and only the last 3 phone digits."),
     11: (f"{SHOTS}/d11-pipeline-graph.png", "The reference pipeline graph: 7 Auto Loader sources → bronze → silver → gold."),
     12: (f"{SHOTS}/d12-approvals-app.png", "Invoice approvals on Lakebase: the €312k chiller waits for a second approver."),
     13: (f"{SHOTS}/d13-ai-gateway.png", "AI Gateway on the Claude endpoint: usage tracking and the inference table."),
     14: (f"{SHOTS}/d08-p4-forecast.png", "Forecast page: actuals, ai_forecast with its interval, and the target."),
+    16: (f"{SHOTS}/d16-outlier-flagged.png", "After the bad load the leave-one-out rule flags exactly Harbor Tower 2026-Q3 (z = 171.9)."),
 }
 
 # Lines a participant shouldn't see (facilitator-only).

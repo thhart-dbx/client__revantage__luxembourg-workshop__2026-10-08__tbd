@@ -676,6 +676,10 @@ Show where the app is listed for business users: the app list and Genie One's **
 **Starting state:** `gold_property_quarterly` ships with **no table description** and **no comments** on `net_profit`, `met_target`, `qoq_change_pct`; `customer_performance` has unmasked tenant emails and phones
 **Where:** Catalog Explorer, SQL editor with Genie Code
 
+![With the masks applied, a non-steward sees l***@domain and only the last 3 phone digits.](../notes/agent-notes/screenshots/d10-masked-pii.png)
+
+*With the masks applied, a non-steward sees l***@domain and only the last 3 phone digits.*
+
 ### Stage 1: Look before you touch (5 min)
 
 Catalog → `<catalog>` → `<schema>` → `gold_property_quarterly`: **Overview** (owner, no description), **Details**, **Permissions**, **Lineage** (upstream silver tables, downstream metric views, the Portfolio Review dashboard, the Genie Agents).
@@ -1027,6 +1031,10 @@ Each person shows one thing they built. Collect follow-ups for the 4:15 "Next st
 **Session:** Day 2, 3:45–4:15 (30 min) · **You build:** quality monitoring on the gold table, a bad-load detector, and the blast radius · **Reference:** data profiling monitor on `gold_property_quarterly` (bundle target `revantage`), alert "[Revantage workshop] Revenue > 3 sigma from property mean (Reference)", `code/reference/d16_revenue_outliers.sql`, `d16_blast_radius.sql`
 **Starting state:** clean `gold_property_quarterly` (80 rows, 2024-Q1..2026-Q2); seed/reset scripts `code/sql/d16_seed_bad_row.sql` / `d16_reset.sql` (`${table}` = `gold_property_quarterly`)
 **Where:** Catalog Explorer → table → **Quality** tab; SQL editor with Genie Code; Alerts
+
+![After the bad load the leave-one-out rule flags exactly Harbor Tower 2026-Q3 (z = 171.9).](../notes/agent-notes/screenshots/d16-outlier-flagged.png)
+
+*After the bad load the leave-one-out rule flags exactly Harbor Tower 2026-Q3 (z = 171.9).*
 
 ### Stage 1: Turn on monitoring (5 min)
 
