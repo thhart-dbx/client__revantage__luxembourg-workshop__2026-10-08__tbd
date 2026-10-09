@@ -38,8 +38,9 @@
 | D4 S5 | Genie Code chat | exactly HV-2026-0417 USD 339,600 ↔ €312,390.76 R&M OpEx | ✅ |
 | D5 S4 | Genie Code chat + KA via ai_query | approval pause, 8 answers; **6/8 correct** (KA named Asset Manager for two €25–50k invoices) → guide turns it into a verify-against-a-rule lesson | ⚠️ (+ guide teach) |
 | D6 S6 | Genie Code chat | 5-check view 2,2,2,1,3 = reference | ✅ |
+| D9 S1–4 | Genie Code on app source (Streamlit template) | wrong app.yaml valueFrom → "No SQL warehouse configured" → prompt now names `sql-warehouse`; then 6 / 14 rows, risk, cards €103,046.05 / €1,236,552.60 / BBB+, CSV | ✅ (+ prompt fix) |
 
-Not yet run in the UI: D9 (apps editor).
+**All participant Genie Code prompts have now been run in the UI** (except D16 S2, blocked on FEVM by the monitor limit → Revantage pre-flight).
 
 Pattern worth teaching: Genie Code sometimes reports success without checking (D8 S1, S5). Every build-along prompt that creates something now ends with "run it" / "verify".
-Scratch objects created during the runs (s9_* views, two "S9 Portfolio Review – test" dashboards) were dropped/trashed.
+Scratch objects created during the runs (s9_* views/tables, two scratch dashboards, scratch pipeline + its internal tables, approvals_s9 Postgres schema, scratch Streamlit app + source folder + grants) were all removed; starting-state check ALL PASS afterwards.

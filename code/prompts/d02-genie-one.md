@@ -66,4 +66,4 @@ Ask the same in the **Reference** agent: 14 leases expiring within 180 days, 3 m
 ## Wrap-up
 - **So what:** a portfolio manager got five board-ready answers in minutes, each with the SQL to prove it.
 - **Snowflake equivalent:** Cortex Analyst answers over a semantic model; Genie One adds threads, charts, sharing, and the agent context you'll govern in Demo 7.
-- **Verified:** 2026-10-08 via the Genie Conversation API on both agents; transcript in `verification/raw/d02-genie-start-2026-10-08.txt`, summary in `verification/d02-d06-d07-genie.md`. Desktop/mobile, connectors, attachments, schedules: UI verification pending (S9).
+- **Verified:** 2026-10-08 via the Genie Conversation API on both agents; transcript in `verification/raw/d02-genie-start-2026-10-08.txt`, summary in `verification/d02-d06-d07-genie.md`. Desktop/mobile, connectors, attachments, schedules are facilitator show-items: check them in the Revantage workspace pre-flight (availability varies by workspace).
