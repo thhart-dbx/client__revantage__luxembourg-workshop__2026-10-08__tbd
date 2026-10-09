@@ -27,7 +27,7 @@ SELECT ai_query('databricks-claude-sonnet-4-6', 'In one sentence: why did Harbor
 ## Stage 4: What it costs (10 min)
 > Estimate list-price cost by product and endpoint for the last 30 days by joining system.billing.usage to system.billing.list_prices on sku_name, cloud, usage_unit and the price validity window, for billing_origin_product in MODEL_SERVING, AI_GATEWAY, AI_FUNCTIONS, AGENT_BRICKS, VECTOR_SEARCH.
 
-**Expected:** Q4 in the reference file. On the FEVM the biggest AI line was **VECTOR_SEARCH** for a Knowledge Assistant's index (~180 DBU in 30 days), more than all LLM calls. Lesson: KA indexes cost money while idle; delete the ones you don't use.
+**Expected:** Q4 in the reference file. On the FEVM the biggest AI line was **VECTOR_SEARCH** for a Knowledge Assistant's index (~200 DBU, ~$14 of ~$19 in 30 days), more than all LLM calls. Lesson: KA indexes cost money while idle; delete the ones you don't use.
 
 ## Stage 5: Alert before the bill does (10 min)
 > Write a query returning today's total tokens for workspace :workspace_id from system.ai_gateway.usage as a single column tokens_today.
@@ -41,4 +41,4 @@ Usage and inference tables are Unity Catalog tables: grant, lineage, and retenti
 ## Wrap-up
 - **So what:** one place to see every AI call, by person, model, and cost, with an alert before budget surprises.
 - **Snowflake equivalent:** Cortex usage views (ACCOUNT_USAGE). The AI Gateway adds runtime controls (rate limits, guardrails, fallbacks, inference logging) across external and hosted models and MCP.
-- **Verified:** 2026-10-08 on the FEVM workspace: all 5 reference queries run with real results (above); the alert deployed and ACTIVE, query returns `tokens_today`. 40 ai_query requests + 3 deliberate 400 errors were sent to sonnet-4-6 at 21:18 UTC; their arrival in `system.ai_gateway.usage` is pending (system-table delay; recheck). Stage 2 run in the Genie Code UI (S9): Genie Code read the table schema, wrote and ran the query; 8 rows identical to reference Q1 (7 MCP services + gpt-5-6-sol 1,577,845 tokens). Stages 3–5: UI pending.
+- **Verified:** 2026-10-08 on the FEVM workspace: all 5 reference queries run with real results (above); the alert deployed and ACTIVE, query returns `tokens_today`. 40 ai_query requests + 3 deliberate 400 errors were sent to sonnet-4-6 at 21:18 UTC: they appear in `system.billing.usage` (~$0.26) but still not in `system.ai_gateway.usage` at 22:25 UTC (pay-per-token `ai_query` traffic may not reach the gateway usage table, or lands later; don't promise it live). **Stages 2–5 run in the Genie Code UI (S9):** S2 8 rows identical to reference Q1 (7 MCP services + gpt-5-6-sol 1,577,845 tokens); S3 one masked user `t***@databricks.com`, gpt-5-6-sol error rate 2.17%, all MCP 0%; S4 Genie Code read both billing schemas and wrote the validity-window join: 19 rows, ~$19 total, VECTOR_SEARCH `ka-…-vs-endpoint` $14.02 the top line; S5 `tokens_today` = 0 (single column, ready for the alert).

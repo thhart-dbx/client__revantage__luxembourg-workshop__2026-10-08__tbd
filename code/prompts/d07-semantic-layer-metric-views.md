@@ -22,14 +22,14 @@ FROM <my_schema>.mv_net_profit_margin WHERE fiscal_quarter = '2026-Q2'
 **Teach:** ratios belong in measures (`SUM/SUM`), never as a stored column: the margin re-aggregates correctly at any grouping.
 
 ## Stage 2: Target attainment (8 min)
-> Add a metric view mv_target_attainment with measures properties = COUNT(DISTINCT property_id), properties_met_target = COUNT(DISTINCT property_id) FILTER (WHERE met_target), target_attainment = their ratio, and net_profit_vs_target = SUM(net_profit) - SUM(net_profit_target).
+> Add a metric view mv_target_attainment with measures properties = COUNT(DISTINCT property_id), properties_met_target = COUNT(DISTINCT property_id) FILTER (WHERE met_target), target_attainment = their ratio, and net_profit_vs_target = SUM(net_profit) - SUM(net_profit_target). Format amounts as EUR.
 
-**Checkpoint (2026-Q2):** properties **8**, met **5**, attainment **0.625**; `GROUP BY property_name HAVING MEASURE(net_profit_vs_target) < 0` → Peachtree Center −71,293; Harbor Tower −43,235; Zuidas Residences −41,701.
+**Checkpoint (2026-Q2):** properties **8**, met **5**, attainment **0.625**; (Without "Format amounts as EUR" Genie Code tends to add a USD format.) `GROUP BY property_name HAVING MEASURE(net_profit_vs_target) < 0` → Peachtree Center −71,293; Harbor Tower −43,235; Zuidas Residences −41,701.
 
 ## Stage 3: QoQ growth (10 min)
 > Add mv_qoq_revenue_growth whose source is a query adding prior_quarter_revenue = LAG(revenue) per property, with measures qoq_revenue_growth = SUM(revenue) / SUM(prior_quarter_revenue) - 1 and qoq_net_profit_growth using prior_quarter_net_profit.
 
-**Checkpoint (2026-Q2, by market):** Luxembourg City **+10.0%** (highest), Miami Beach **−44.1%**; by region Southeast **−18.6%**.
+**Checkpoint (2026-Q2, by market):** `qoq_net_profit_growth`: Luxembourg City **+10.0%** (highest), Miami Beach **−44.1%**; by region Southeast **−18.6%** (the Demo 2 Genie numbers). `qoq_revenue_growth` is smaller: Luxembourg City +9.2%, Miami Beach −17.6%, Southeast −6.4%. Make sure participants compare the right measure.
 **Teach:** compute "prior" in the source; then growth is correct for any grouping (property, market, region, portfolio).
 
 ## Stage 4: Govern it (5 min)
@@ -47,4 +47,4 @@ In Genie One open **Revantage Portfolio Q&A (Reference)** (it includes the `ref_
 ## Wrap-up
 - **So what:** the KPI argument happens once, in the catalog, and every dashboard, Genie answer, and query uses that answer.
 - **Snowflake equivalent:** semantic views in Snowflake. UC metric views are queried with plain SQL (`MEASURE()`), used natively by AI/BI dashboards and Genie, and governed like any table.
-- **Verified:** 2026-10-08 on the FEVM workspace: reference views created and every checkpoint number above returned by SQL; the Genie Stage 5 answers via the Conversation API (`verification/d02-d06-d07-genie.md`). **Stage 1 run in the Genie Code UI (S9):** Genie Code loaded its metric-view skill, wrote valid YAML 1.1 DDL (4 measures, no join), ran it and the query, and reported 59.33% / 53.95% with the capex explanation; the view it created returned 0.5933 / 0.5395. Stages 2–3: UI pending.
+- **Verified:** 2026-10-08 on the FEVM workspace: reference views created and every checkpoint number above returned by SQL; the Genie Stage 5 answers via the Conversation API (`verification/d02-d06-d07-genie.md`). **Stage 1 run in the Genie Code UI (S9):** Genie Code loaded its metric-view skill, wrote valid YAML 1.1 DDL (4 measures, no join), ran it and the query, and reported 59.33% / 53.95% with the capex explanation; the view it created returned 0.5933 / 0.5395. **Stages 2–3 run in the Genie Code UI (S9):** S2 view returned 8 / 5 / 0.625 and the 3 shortfalls (−71,293.16 / −43,234.95 / −41,701.20), formatted as USD; S3 Genie Code put `LAG` in the source and its view matched `ref_mv_qoq_revenue_growth` on every market for both measures.
