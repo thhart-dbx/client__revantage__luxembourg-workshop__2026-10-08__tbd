@@ -18,10 +18,9 @@ Commits: 827c401 (D3/D7/D14) · f823962 (D2/D6) · ac87dcd (D8/D10) · 1e4fc99 (
 - [x] Deliverables DONE (2026-10-09): click-path + handout (md/docx, generated from guides), internal (23) + client (24) decks (vendored databricks-slides kit + screenshot/demo/build-step slide types, visually checked via PowerPoint PDF export), architecture.png/.drawio, hero. Also found D13 FM traffic lands in system.serving.endpoint_usage (Q6 + new prompt, UI-verified).
 - [x] Module deck DONE (2026-10-09): assets/…-modules.pptx, 149 slides, 97 steps each with an expected-output screenshot (24 SQL checkpoints verified on the warehouse first, 12 Genie answers, 4 KA answers, page captures). Also D10/D16 screenshots added to the other decks; D2 guide expectations updated from the captures (default-period bar chart, richer risks answer). Lakebase SQL tab can't switch DB on FEVM → D12 S2/S5 use app + UC synced-table frames.
 - [ ] **>>> NEXT: Revantage workspace <<<**: access, preflight.py, fill `revantage` target, deploy, setup + sandboxes, starting-state check, D16 S2 + D2/D9 show-items, D13 usage-table check (Unity Gateway migration).
-- [ ] D13: confirm the 21:18 UTC sonnet-4-6 traffic (40 ok + 3 errors) lands in system.ai_gateway.usage
+- [x] D13: pay-per-token FM traffic lands in system.serving.endpoint_usage (not system.ai_gateway.usage); guide Stage 2 + Q6 use it
 - [x] Stale lock cleared with user-approved --force-lock (2026-10-08 ~21:30 ET); dev deployed clean
-- [ ] Deliverables: build-along click-path (md + docx), participant handout, internal + client decks, architecture diagram (hero done)
-- [ ] Revantage workspace: access, pre-flight, fill `revantage` target
+- [x] Deliverables: click-path, handout, internal/client/modules decks, architecture diagram
 
 ## Orchestrator to-do after fan-in
 - Review each handoff against the workspace (agents have over-claimed before); merge README Assets / RUNBOOK
