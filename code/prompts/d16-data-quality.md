@@ -23,7 +23,10 @@ Run `code/sql/d16_seed_bad_row.sql` with `${table}` = `gold_property_quarterly`:
   **Expected:** exactly one row: Harbor Tower 2026-Q3, **z ≈ 172** vs its other quarters (mean €1.72M).
   **Teach:** a plain "> 3σ" rule on smooth financial series also flags real business moves. Before the seed it flagged Harbor Tower's vacancy and a new Kirchberg suite. The rule therefore uses leave-one-out σ **and** a > 50% materiality guard: **0 rows on clean data, 1 after the seed**.
 **Prompt** (Genie Code):
-> Write a query that flags property-quarters whose revenue is more than 3 standard deviations from that property's other quarters and more than 50% away from their mean.
+> Write a query on <catalog>.<schema>.gold_property_quarterly that flags property-quarters whose revenue is more than 3 standard deviations from the mean of that property's OTHER quarters (leave-one-out: exclude the quarter being tested from the mean and standard deviation) and more than 50% away from that mean. Run it.
+
+**Expected:** 0 rows before the seed (Genie Code also shows that Harbor Tower 2026-Q2 at z 4.5 and Kirchberg 2026-Q2 at z 3.9 pass 3σ but fail the 50% guard: real business moves); after the seed exactly Harbor Tower 2026-Q3, z ≈ 172.
+**Watch for (seen in pre-build):** without the explicit leave-one-out sentence Genie Code computed mean and σ over *all* quarters including the one tested. With 11 quarters a single spike can then never exceed z ≈ 3.02, however large: the 10× seed scored 3.01 and only just passed. Good teaching moment: ask "does the σ include the quarter being tested?"
 
 ## Stage 5: Blast radius (5 min)
 Catalog Explorer → **Lineage** on the table, or run `code/reference/d16_blast_radius.sql`.
@@ -38,4 +41,4 @@ Run `code/sql/d16_reset.sql` (deletes the 2026-Q3 row). Re-check: outlier query 
 ## Wrap-up
 - **So what:** quality issues are caught by the platform (profiling, expectations, alerts) before a business user finds them, and lineage shows exactly what they would have broken.
 - **Snowflake equivalent:** Data Metric Functions + ACCESS_HISTORY. Here profiling, anomaly detection, pipeline expectations, alerts, and lineage come together in Unity Catalog.
-- **Verified:** 2026-10-08 on the FEVM workspace, rehearsed on a deep clone (`ref_d16_gold_sandbox`, since dropped): seed inserted €17.2M / NULL; outlier query 0 rows on clean gold, 1 row (z 171.9) after the seed; the reference alert is deployed. Lineage query returns the downstream list above. **Not verified on the FEVM:** creating the profiling monitor (metastore limit); Genie Code prompts (S9).
+- **Verified:** 2026-10-08 on the FEVM workspace, rehearsed on a deep clone (`ref_d16_gold_sandbox`, since dropped): seed inserted €17.2M / NULL; outlier query 0 rows on clean gold, 1 row (z 171.9) after the seed; the reference alert is deployed. Lineage query returns the downstream list above. **Stage 4 run in the Genie Code UI (S9):** the original prompt produced inclusive stats (seed z 3.01, fragile); the leave-one-out prompt above gave 0 rows on clean gold and, on a seeded clone (`s9_d16_gold_clone`, since dropped), exactly Harbor Tower 2026-Q3 z 171.89. **Not verified on the FEVM:** creating the profiling monitor (metastore limit) and therefore Stage 2's prompt, which needs the `_profile_metrics` table; run it in the Revantage workspace pre-flight.

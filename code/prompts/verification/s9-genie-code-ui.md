@@ -25,8 +25,15 @@
 | D11 S1 | pipeline editor | sampled CSVs, wrote 3 files, self-fixed dry-run error; gold = oracle on 80 rows; but exact-filename globs + amount DOUBLE → both now in the S1 prompt | ✅ (+ prompt fix) |
 | D11 S3 | pipeline editor | STRING→try_cast, 4 expectations; full refresh; 3 / 2 / 80 exactly | ✅ |
 | D11 S5 | CLI start-update | FAILED `EXPECTATION_VIOLATION 'amount_not_null' "1.850,75"` | ✅ |
+| D11 S6 | pipeline editor | diagnosed from events, 3 offending rows, European-decimal fix applied + run; silver 1850.75 / 2410.00 / 980.40 | ✅ |
+| D10 S2 | Genie Code chat | description + 3 comments correct; applied after a retry (long tab) | ✅ |
+| D10 S4 | Genie Code chat | masks correct; tagged with governed `pii` key → rejected → tried to extend the account tag policy; stopped (policy unchanged); prompt now names class.* tags | ✅ masks / ⚠️ tags (+ prompt fix) |
+| D12 S2 | SQL editor on Lakebase Postgres | DDL with both CHECKs + generated column; 37.7k false / 312k true | ✅ |
+| D12 S4 | Genie Code on job file | correct explanation (REST credential, Approved filter, idempotent MERGE) | ✅ |
+| D16 S4 | Genie Code chat | original prompt: inclusive σ (seed z 3.01, near-miss by construction) → prompt now says leave-one-out; revised: 0 rows clean, Harbor Tower 2026-Q3 z 171.89 on seeded clone | ✅ (+ prompt fix) |
+| D16 S2 | — | needs `_profile_metrics`; FEVM can't create the monitor (1,000 limit) → Revantage pre-flight | ⏭ blocked on FEVM |
 
-Not yet run in the UI: D1 S4–5, D4 S4–5, D5 S4, D6 S6, D9 (apps editor), D10 S2/S4, D11 S6 (Genie Code diagnosis; scratch pipeline `s9-property-pipeline-test` and its `s9_*` tables kept for it, delete after), D12 S2/S4, D16 S2/S4.
+Not yet run in the UI: D1 S4–5, D4 S4–5, D5 S4, D6 S6, D9 (apps editor).
 
 Pattern worth teaching: Genie Code sometimes reports success without checking (D8 S1, S5). Every build-along prompt that creates something now ends with "run it" / "verify".
 Scratch objects created during the runs (s9_* views, two "S9 Portfolio Review – test" dashboards) were dropped/trashed.
