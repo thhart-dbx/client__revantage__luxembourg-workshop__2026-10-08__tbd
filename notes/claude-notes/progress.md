@@ -14,7 +14,7 @@ All 16 demos: reference built + verified, prompt guide rewritten from verified n
 Commits: 827c401 (D3/D7/D14) · f823962 (D2/D6) · ac87dcd (D8/D10) · 1e4fc99 (D4) · 977abf6 (D5/D11) · 3521d6a (D9) · 4dd2739 (D12) · 0b56f42 (D13/D16) · b6c0eaf (D1/D15) · 3b8659d (README/RUNBOOK)
 
 ## Open
-- [~] S9: SQL-editor surface DONE (D3 all stages, D7 S1, D13 S2, D14 S1; 7919b36; code/prompts/verification/s9-genie-code-ui.md). Remaining surfaces: D8 dashboard editor, D9 apps editor, D11 pipeline editor (Agent mode), D10/D12/D16 and remaining stages. Browser: Chrome DevTools MCP is logged in; type into Monaco with type_text (single line), synthetic paste doesn't work.
+- [~] **>>> S9 IN PROGRESS <<<**: DONE: D3 all, D7 S1–3, D8 S1–5+8 (dashboard editor), D11 S1/S3/S5 (pipeline editor), D13 S2–5, D14 S1–3 (7919b36, 0d2572c + next commit). Prompt fixes baked into D7/D8/D11 guides. Remaining: D11 S6 (scratch pipeline `s9-property-pipeline-test` id 6eb4514d… + `s9_*` tables kept for it; re-inject bad batch, run, ask Genie Code; then delete pipeline + s9 tables), D9 apps editor, D1 S4–5, D4 S4–5, D5 S4, D6 S6, D10 S2/S4, D12 S2/S4, D16 S2/S4. Chrome DevTools MCP disconnected at 23:12; needs reconnect. Type with type_text (single line); read Genie Code output via evaluate_script on panel innerText.
 - [ ] D13: confirm the 21:18 UTC sonnet-4-6 traffic (40 ok + 3 errors) lands in system.ai_gateway.usage
 - [x] Stale lock cleared with user-approved --force-lock (2026-10-08 ~21:30 ET); dev deployed clean
 - [ ] Deliverables: build-along click-path (md + docx), participant handout, internal + client decks, architecture diagram (hero done)

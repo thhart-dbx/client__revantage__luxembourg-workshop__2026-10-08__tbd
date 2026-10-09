@@ -22,8 +22,11 @@
 | D8 S4 | dashboard editor | 8 rows, Sharp decline flag; qoq % double-scaled → prompt states units | ✅ (+ prompt fix) |
 | D8 S5 | dashboard editor | filters bound to one dataset while claiming all pages → prompt asks to bind + verify | ✅ (+ prompt fix) |
 | D8 S8 | dashboard editor | Forecast page with 5 series for Harbor Tower | ✅ |
+| D11 S1 | pipeline editor | sampled CSVs, wrote 3 files, self-fixed dry-run error; gold = oracle on 80 rows; but exact-filename globs + amount DOUBLE → both now in the S1 prompt | ✅ (+ prompt fix) |
+| D11 S3 | pipeline editor | STRING→try_cast, 4 expectations; full refresh; 3 / 2 / 80 exactly | ✅ |
+| D11 S5 | CLI start-update | FAILED `EXPECTATION_VIOLATION 'amount_not_null' "1.850,75"` | ✅ |
 
-Not yet run in the UI: D1 S4–5, D4 S4–5, D5 S4, D6 S6, D9 (apps editor), D10 S2/S4, D11 (pipeline editor Agent mode), D12 S2/S4, D16 S2/S4.
+Not yet run in the UI: D1 S4–5, D4 S4–5, D5 S4, D6 S6, D9 (apps editor), D10 S2/S4, D11 S6 (Genie Code diagnosis; scratch pipeline `s9-property-pipeline-test` and its `s9_*` tables kept for it, delete after), D12 S2/S4, D16 S2/S4.
 
 Pattern worth teaching: Genie Code sometimes reports success without checking (D8 S1, S5). Every build-along prompt that creates something now ends with "run it" / "verify".
 Scratch objects created during the runs (s9_* views, two "S9 Portfolio Review – test" dashboards) were dropped/trashed.
