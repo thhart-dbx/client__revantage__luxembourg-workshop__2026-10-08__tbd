@@ -1,5 +1,5 @@
 # Progress — Revantage Luxembourg workshop (request 2)
-Status: in-progress · Last updated: 2026-10-08 · Current group: G2/G3 (fan-out)
+Status: in-progress · Last updated: 2026-10-08 22:00 ET · Current group: G2/G3 (fan-out)
 
 | Group | Steps | Status |
 |-------|-------|--------|
@@ -14,9 +14,9 @@ All 16 demos: reference built + verified, prompt guide rewritten from verified n
 Commits: 827c401 (D3/D7/D14) · f823962 (D2/D6) · ac87dcd (D8/D10) · 1e4fc99 (D4) · 977abf6 (D5/D11) · 3521d6a (D9) · 4dd2739 (D12) · 0b56f42 (D13/D16) · b6c0eaf (D1/D15) · 3b8659d (README/RUNBOOK)
 
 ## Open
-- [ ] S9: run the participant Genie Code prompts in the UI (marked "UI verification pending (S9)" in each guide)
+- [~] S9: SQL-editor surface DONE (D3 all stages, D7 S1, D13 S2, D14 S1; 7919b36; code/prompts/verification/s9-genie-code-ui.md). Remaining surfaces: D8 dashboard editor, D9 apps editor, D11 pipeline editor (Agent mode), D10/D12/D16 and remaining stages. Browser: Chrome DevTools MCP is logged in; type into Monaco with type_text (single line), synthetic paste doesn't work.
 - [ ] D13: confirm the 21:18 UTC sonnet-4-6 traffic (40 ok + 3 errors) lands in system.ai_gateway.usage
-- [ ] Stale bundle deploy lock from 17:26 (my killed deploy; monitor-limit hang). Pending deploy only updates grants/app config; needs user OK for --force-lock
+- [x] Stale lock cleared with user-approved --force-lock (2026-10-08 ~21:30 ET); dev deployed clean
 - [ ] Deliverables: build-along click-path (md + docx), participant handout, internal + client decks, architecture diagram (hero done)
 - [ ] Revantage workspace: access, pre-flight, fill `revantage` target
 
