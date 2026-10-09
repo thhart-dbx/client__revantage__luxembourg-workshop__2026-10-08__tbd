@@ -15,7 +15,8 @@ Commits: 827c401 (D3/D7/D14) · f823962 (D2/D6) · ac87dcd (D8/D10) · 1e4fc99 (
 
 ## Open
 - [x] S9 DONE (2026-10-09): every participant Genie Code prompt run in the UI across SQL editor, dashboard editor, pipeline editor, Lakebase SQL, job file and app source (7919b36, 0d2572c, 3d56ca6, 565a93d, 45525fd + final). Log: code/prompts/verification/s9-genie-code-ui.md. Prompt fixes baked into D7/D8/D10/D11/D12/D16/D9 guides; D5 KA 6/8 turned into a verification lesson. Only D16 S2 blocked on FEVM (monitor limit) → Revantage pre-flight. All scratch objects removed; starting state ALL PASS.
-- [ ] **>>> NEXT: deliverables <<<**: assets/click-path.md (+docx), participant handout, internal deck, client deck (build-along), architecture diagram. Then Revantage pre-flight (incl. D16 S2, D2/D9 show-items).
+- [x] Deliverables DONE (2026-10-09): click-path + handout (md/docx, generated from guides), internal (23) + client (24) decks (vendored databricks-slides kit + screenshot/demo/build-step slide types, visually checked via PowerPoint PDF export), architecture.png/.drawio, hero. Also found D13 FM traffic lands in system.serving.endpoint_usage (Q6 + new prompt, UI-verified).
+- [ ] **>>> NEXT: Revantage workspace <<<**: access, preflight.py, fill `revantage` target, deploy, setup + sandboxes, starting-state check, D16 S2 + D2/D9 show-items, D13 usage-table check (Unity Gateway migration).
 - [ ] D13: confirm the 21:18 UTC sonnet-4-6 traffic (40 ok + 3 errors) lands in system.ai_gateway.usage
 - [x] Stale lock cleared with user-approved --force-lock (2026-10-08 ~21:30 ET); dev deployed clean
 - [ ] Deliverables: build-along click-path (md + docx), participant handout, internal + client decks, architecture diagram (hero done)

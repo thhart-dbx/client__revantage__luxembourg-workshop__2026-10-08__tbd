@@ -1,0 +1,138 @@
+{
+  "name": "databricks",
+  "version": "1.0.0",
+  "modes": {
+    "light": {
+      "background": "#F5F3F0",
+      "text_primary": "#1B3139",
+      "text_secondary": "#6B7280",
+      "accent": "#FF3621",
+      "accent_secondary": "#1B3139",
+      "top_bar": "#1B3139",
+      "top_bar_height": 8
+    },
+    "dark": {
+      "background": "#1B3139",
+      "text_primary": "#FFFFFF",
+      "text_secondary": "#E5E7EB",
+      "accent": "#FF3621",
+      "accent_secondary": "#F5A623"
+    }
+  },
+  "typography": {
+    "font_family": "DM Sans",
+    "title": {
+      "size": 36,
+      "bold": true
+    },
+    "title_slide_title": {
+      "size": 48,
+      "bold": true
+    },
+    "closing_slide_title": {
+      "size": 54,
+      "bold": true
+    },
+    "subtitle": {
+      "size": 24,
+      "bold": false
+    },
+    "agenda_title": {
+      "size": 40,
+      "bold": true
+    },
+    "body": {
+      "size": 22,
+      "bold": false
+    },
+    "body_small": {
+      "size": 20,
+      "bold": false
+    },
+    "body_large": {
+      "size": 28,
+      "bold": false
+    },
+    "caption": {
+      "size": 18,
+      "bold": true
+    },
+    "footer": {
+      "size": 12,
+      "bold": false
+    },
+    "stat_row_value": {
+      "size": 64,
+      "bold": true
+    },
+    "big_number_value": {
+      "size": 120,
+      "bold": true
+    },
+    "date": {
+      "size": 14,
+      "bold": false
+    },
+    "vs_label": {
+      "size": 16,
+      "bold": true
+    },
+    "callout_text": {
+      "size": 44,
+      "bold": true
+    },
+    "callout_attribution": {
+      "size": 16,
+      "bold": false
+    },
+    "timeline_description": {
+      "size": 14,
+      "bold": false
+    },
+    "icon_grid_title": {
+      "size": 16,
+      "bold": true
+    },
+    "three_column_bullet": {
+      "size": 16,
+      "bold": false
+    },
+    "logo_placeholder": {
+      "size": 14,
+      "bold": true
+    },
+    "quote_mark": {
+      "size": 120,
+      "bold": false
+    },
+    "checkbox": {
+      "size": 16,
+      "bold": true
+    }
+  },
+  "elements": {
+    "bullet_char": "•",
+    "stat_row_divider": "#E5E7EB",
+    "text_on_dark": "#FFFFFF",
+    "pros_header_color": "#10B981",
+    "cons_header_color": "#EF4444",
+    "logo_box_border": 1,
+    "checkbox_border": 2,
+    "icon_circle_border": 3
+  },
+  "footer": {
+    "text": "Databricks Inc. — All rights reserved",
+    "show_copyright": true,
+    "show_page_number": true,
+    "show_logo": true,
+    "logo_width": 1.2,
+    "y_position": 7.0,
+    "logo_x": 11.5,
+    "logo_y": 6.85,
+    "number_x": 12.5
+  },
+  "assets": {
+    "logo_light": "assets/databricks/logo-light.png",
+    "logo_dark": "assets/databricks/logo-dark.png"
+  }
+}

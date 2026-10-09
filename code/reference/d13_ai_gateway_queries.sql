@@ -42,3 +42,14 @@ SELECT date(event_time) AS day, SUM(total_tokens) AS tokens, SUM(total_tokens) >
 FROM system.ai_gateway.usage
 WHERE workspace_id = :workspace_id AND event_time >= current_date() - INTERVAL 30 DAYS
 GROUP BY ALL ORDER BY day DESC;
+
+-- Q6: Pay-per-token Foundation Model endpoints (e.g. databricks-claude-sonnet-4-6, ai_query traffic) report
+-- usage to system.serving.endpoint_usage, not system.ai_gateway.usage (which covers the system.ai.* gateway:
+-- Genie One, MCP connectors). Verified 2026-10-09: the 21:18 UTC test batch = 14 requests, 1,110 tokens, 3 errors.
+SELECT e.endpoint_name, date_trunc('HOUR', u.request_time) AS hour, COUNT(*) AS requests,
+       SUM(u.input_token_count + u.output_token_count) AS tokens,
+       SUM(CASE WHEN u.status_code >= 400 THEN 1 ELSE 0 END) AS errors
+FROM system.serving.endpoint_usage u
+JOIN system.serving.served_entities e USING (served_entity_id)
+WHERE u.workspace_id = :workspace_id AND u.request_time >= current_date() - INTERVAL 30 DAYS
+GROUP BY ALL ORDER BY hour DESC;

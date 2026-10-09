@@ -19,6 +19,11 @@ SELECT ai_query('databricks-claude-sonnet-4-6', 'In one sentence: why did Harbor
 
 **Expected:** like Q1 in the reference file. On the FEVM: `system.ai.gpt-5-6-sol` ~1.58M tokens (46 requests), plus ~135–145 calls each to **MCP services** (Gmail, Slack, Google Drive, Atlassian, Microsoft 365, GitHub). Those are Genie One connectors, governed through the same gateway.
 
+**Then (pay-per-token models such as the one `ai_query` calls):**
+> Show total requests, total tokens and errors (status_code >= 400) by endpoint for Foundation Model endpoints in workspace :workspace_id over the last 30 days using system.serving.endpoint_usage joined to system.serving.served_entities on served_entity_id.
+
+**Expected:** like Q6: `databricks-claude-sonnet-4-6` with the workshop's `ai_query` traffic. Run in the Genie Code UI 2026-10-09: 4 FM endpoints; sonnet-4-6 37 requests, 10,387 tokens, the 3 deliberate errors.
+
 ## Stage 3: Who, and what fails (8 min)
 > Show the top 5 users by tokens with their email masked like t***@domain, then the error rate (status_code >= 400) by endpoint.
 
@@ -41,4 +46,4 @@ Usage and inference tables are Unity Catalog tables: grant, lineage, and retenti
 ## Wrap-up
 - **So what:** one place to see every AI call, by person, model, and cost, with an alert before budget surprises.
 - **Snowflake equivalent:** Cortex usage views (ACCOUNT_USAGE). The AI Gateway adds runtime controls (rate limits, guardrails, fallbacks, inference logging) across external and hosted models and MCP.
-- **Verified:** 2026-10-08 on the FEVM workspace: all 5 reference queries run with real results (above); the alert deployed and ACTIVE, query returns `tokens_today`. 40 ai_query requests + 3 deliberate 400 errors were sent to sonnet-4-6 at 21:18 UTC: they appear in `system.billing.usage` (~$0.26) but still not in `system.ai_gateway.usage` at 22:25 UTC (pay-per-token `ai_query` traffic may not reach the gateway usage table, or lands later; don't promise it live). **Stages 2–5 run in the Genie Code UI (S9):** S2 8 rows identical to reference Q1 (7 MCP services + gpt-5-6-sol 1,577,845 tokens); S3 one masked user `t***@databricks.com`, gpt-5-6-sol error rate 2.17%, all MCP 0%; S4 Genie Code read both billing schemas and wrote the validity-window join: 19 rows, ~$19 total, VECTOR_SEARCH `ka-…-vs-endpoint` $14.02 the top line; S5 `tokens_today` = 0 (single column, ready for the alert).
+- **Verified:** 2026-10-08 on the FEVM workspace: all 5 reference queries run with real results (above); the alert deployed and ACTIVE, query returns `tokens_today`. 40 ai_query rows + 3 deliberate 400 errors were sent to sonnet-4-6 at 21:18 UTC; they landed in **`system.serving.endpoint_usage`** (14 batched requests, 1,110 tokens, 3 errors; reference Q6), and never in `system.ai_gateway.usage`, which covers the `system.ai.*` gateway (Genie One, MCP). The endpoint page also shows a banner that Foundation Model serving is moving to *Unity Gateway*: re-check which table the Revantage workspace uses in pre-flight. **Stages 2–5 run in the Genie Code UI (S9):** S2 8 rows identical to reference Q1 (7 MCP services + gpt-5-6-sol 1,577,845 tokens); S3 one masked user `t***@databricks.com`, gpt-5-6-sol error rate 2.17%, all MCP 0%; S4 Genie Code read both billing schemas and wrote the validity-window join: 19 rows, ~$19 total, VECTOR_SEARCH `ka-…-vs-endpoint` $14.02 the top line; S5 `tokens_today` = 0 (single column, ready for the alert).

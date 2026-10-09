@@ -87,7 +87,17 @@ UI-only Genie Code responses (participants' prompts typed in the product) are ma
 | Daily AI tokens > 1M (Reference) · Revenue > 3 sigma from property mean (Reference) | SQL alerts | `466768273185035` · `466768273185039` |
 | AI Gateway on `databricks-claude-sonnet-4-6` | usage tracking + inference table (script) | original config saved in `code/ai-gateway/` |
 
+## Deliverables (`assets/`)
+| File | What | Source |
+|---|---|---|
+| `click-path.md` / `.docx` | Facilitator build-along walkthrough: 16 demos, every stage, prompt, checkpoint, watch-out, live screenshot | `code/deliverables/build_docs.py` (compiled from `code/prompts/`) |
+| `participant-handout.md` / `.docx` | Participant version: prompts, checkpoints, fallbacks; Snowflake view appendix | same script |
+| `…-internal.pptx` | Internal enablement deck (23 slides): build-live model, per-demo problem / build / value / why Databricks / watch-out | `code/deliverables/build_decks.py` (Databricks template, `slide_kit/`) |
+| `…-client.pptx` | Client deck (24 slides): build-along steps with the prompt you type, checkpoint, fallback; outcomes; proposed next steps | same script |
+| `architecture.png` / `.drawio` | Every asset in the inventory above | `code/deliverables/architecture.py` (drawio-diagram skill) |
+| `hero.png` | Portfolio Review dashboard | browser capture |
+
 ## Status
-- All 16 demos have a verified reference and a prompt guide. Open items: UI runs of the participant Genie Code prompts (S9);
-  D13 usage rows for the fresh traffic (system-table delay); deliverables (click-path, decks, architecture).
+- All 16 demos have a verified reference, and every participant Genie Code prompt has been run in the UI (`code/prompts/verification/s9-genie-code-ui.md`); only D16 Stage 2 needs the Revantage workspace (FEVM monitor limit).
+- Deliverables built 2026-10-09 (above).
 - Revantage workspace access pending → run `code/preflight/preflight.py`, fill the `revantage` target, follow `RUNBOOK.md`.

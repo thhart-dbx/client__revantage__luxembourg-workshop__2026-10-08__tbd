@@ -12,6 +12,7 @@
 | D3 S6 | Genie Code chat | full-outer-join diff with per-column mismatch list; 0 rows vs reference | ✅ |
 | D7 S2 | Genie Code chat | 8 / 5 / 0.625; 3 shortfalls; formatted as USD → prompt now says EUR | ✅ (+ prompt fix) |
 | D7 S3 | Genie Code chat | LAG in source; matches ref on every market; guide checkpoint relabelled (+10.0% / −44.1% / −18.6% are *net-profit* growth; revenue growth is +9.2% / −17.6% / −6.4%) | ✅ (+ guide fix) |
+| D13 S2b | Genie Code chat | new prompt on system.serving.endpoint_usage: sonnet-4-6 37 req / 10,387 tok / 3 errors (the ai_query test traffic that never reached system.ai_gateway.usage) | ✅ |
 | D13 S3 | Genie Code chat | 1 masked user; gpt-5-6-sol 2.17% errors | ✅ |
 | D13 S4 | Genie Code chat | billing × list_prices validity join; 19 rows ~$19; VECTOR_SEARCH $14.02 top | ✅ |
 | D13 S5 | Genie Code chat | `tokens_today` single column = 0 | ✅ |
