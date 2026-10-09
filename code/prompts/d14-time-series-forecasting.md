@@ -14,7 +14,8 @@ SELECT * FROM AI_FORECAST(
   TABLE(SELECT fiscal_quarter_date, revenue FROM <catalog>.<schema>.gold_property_quarterly WHERE property_id = 3),
   horizon => '2026-12-31', time_col => 'fiscal_quarter_date', value_col => 'revenue', frequency => 'QS')
 ```
-**Expected:** 2026-07-01 **€1.72M** (95% interval 1.54–1.87M), 2026-10-01 €1.79M.
+**Expected:** 2026-07-01 **≈ €1.71–1.72M** (95% interval ≈ 1.54–1.89M), 2026-10-01 ≈ €1.78–1.79M (values vary slightly run to run).
+**Watch for (seen in pre-build):** Genie Code may *probe* `ai_forecast` on its own serverless compute, get `AI_FUNCTION_PREVIEW`, and tell you the function is disabled and an admin must enable a preview. That's misleading: click **Run** in the SQL editor (SQL warehouse) and the query it wrote works.
 
 ## Stage 2: Every property at once (3 min)
 > Do the same for all properties at once using group_col.
@@ -34,4 +35,4 @@ Show the dashboard's **Forecast** page (Demo 8 reference): actual, forecast, 95%
 
 ## Wrap-up
 - **Snowflake equivalent:** `SNOWFLAKE.ML.FORECAST` (create a model object, then call it). `ai_forecast` is a single table-valued function call, no model object to manage.
-- **Verified:** 2026-10-08 on the FEVM warehouse: single-property numbers above; grouped forecast + target join returns exactly Harbor Tower and Zuidas for 2026-Q3; `ref_d14_revenue_forecast` = 80 actual + 16 forecast rows; dashboard page checked in the browser. Genie Code prompt responses: UI verification pending (S9).
+- **Verified:** 2026-10-08 on the FEVM warehouse: single-property numbers above; grouped forecast + target join returns exactly Harbor Tower and Zuidas for 2026-Q3; `ref_d14_revenue_forecast` = 80 actual + 16 forecast rows; dashboard page checked in the browser. Stage 1 run in the Genie Code UI (S9): correct query (`QS`, `fiscal_quarter_date`, through 2026-12-31) returning €1,709,781 for 2026-Q3 on the warehouse, after the misleading 'disabled' probe noted above. Stages 2–3: UI pending.

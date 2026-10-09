@@ -16,6 +16,7 @@ and the view name with `<my_schema>.property_performance_v`. Run it.
 **Expected:** `[UNSUPPORTED_DATATYPE] Unsupported data type "NUMBER(18,2)"`.
 **Checkpoint:** the error appears in the results panel.
 **If stuck:** check the three-part names. The error must be about `NUMBER`, not "table not found".
+**Watch for:** the editor's automatic **Genie Code Quick Fix** pops up an inline "Accept & Run" that only rewrites `::NUMBER` as `CAST(… AS NUMBER(18,2))`, which still fails. Click **Reject** and use the Genie Code chat (Stage 2). A good lesson: one-click fixes are shallow; a conversation migrates.
 
 ## Stage 2: Explain and find the issues (5 min)
 
@@ -29,6 +30,7 @@ It may also note that `NVL`, `IFF`, `DATEADD`, and `QUALIFY` work as-is.
 **If stuck:** ask the follow-up "Which functions in this query don't exist in Databricks SQL?"
 
 ## Stage 3: Fix the syntax (5 min)
+(In the pre-build run Genie Code already applied all fixes after Stage 2's prompt, plus `IFF` → `IF`, and then **paused for approval** because `CREATE OR REPLACE VIEW` is destructive. Click **Accept all**, then **Run**.)
 
 **Prompt:**
 > Fix the syntax errors and adapt this for Databricks SQL. Keep the logic the same.
@@ -74,4 +76,4 @@ WHERE fiscal_quarter = '2026-Q2' ORDER BY yoy_net_profit_change LIMIT 1
 ## Wrap-up
 - **So what:** the migration is a conversation. Genie Code found the 4 incompatible functions and a join bug that was already wrong in Snowflake.
 - **Snowflake equivalent:** Snowflake Copilot explains and drafts SQL. Genie Code also fixes, runs, and checks against governed tables in the same editor.
-- **Verified:** 2026-10-08 on the FEVM workspace: broken view fails on `NUMBER`; syntax-fixed/join-unfixed = 176 rows; reference = 64 rows; Harbor Tower 2026-Q2 YoY −478,309.66. Genie Code prompt responses: UI verification pending (S9).
+- **Verified:** 2026-10-08 on the FEVM workspace, **all stages in the Genie Code UI** (S9): Stage 1 error `UNSUPPORTED_DATATYPE NUMBER(18,2)`; Stage 2 Genie Code listed NUMBER→DECIMAL ×3, TO_VARCHAR→DATE_FORMAT 'yyyy-MM', DIV0→COALESCE(TRY_DIVIDE), IFF→IF, SYSDATE→CURRENT_TIMESTAMP and said NVL/DATEADD/QUALIFY need no change; Stage 3 view = **176** rows; Stage 4 it explained the region fan-out (72 + 72 + 32 = 176) and proposed `property_id`; Stage 5 it reasoned to `LAG(…, 4)` and the view returned **64** rows, Harbor Tower 2026-Q2 YoY **−478,309.66** (identical to the reference). Screenshots `notes/agent-notes/screenshots/s9-d03-*.png`.
