@@ -32,8 +32,14 @@
 | D12 S4 | Genie Code on job file | correct explanation (REST credential, Approved filter, idempotent MERGE) | ✅ |
 | D16 S4 | Genie Code chat | original prompt: inclusive σ (seed z 3.01, near-miss by construction) → prompt now says leave-one-out; revised: 0 rows clean, Harbor Tower 2026-Q3 z 171.89 on seeded clone | ✅ (+ prompt fix) |
 | D16 S2 | — | needs `_profile_metrics`; FEVM can't create the monitor (1,000 limit) → Revantage pre-flight | ⏭ blocked on FEVM |
+| D1 S4 | Genie Code chat | layer explanation (sees ref_* objects too); €2.69M / €2.09M / €1.59M | ✅ |
+| D1 S5 | Genie Code chat | 3 lease PDFs, 21/20/21 elements, Harbor Tower first element "EXPIRED" | ✅ |
+| D4 S4 | Genie Code in agent's Run-in-SQL tab | step-by-step explanation + CTAS; 8 rows, HV 339,600 (mislabelled €; it's USD) | ✅ |
+| D4 S5 | Genie Code chat | exactly HV-2026-0417 USD 339,600 ↔ €312,390.76 R&M OpEx | ✅ |
+| D5 S4 | Genie Code chat + KA via ai_query | approval pause, 8 answers; **6/8 correct** (KA named Asset Manager for two €25–50k invoices) → guide turns it into a verify-against-a-rule lesson | ⚠️ (+ guide teach) |
+| D6 S6 | Genie Code chat | 5-check view 2,2,2,1,3 = reference | ✅ |
 
-Not yet run in the UI: D1 S4–5, D4 S4–5, D5 S4, D6 S6, D9 (apps editor).
+Not yet run in the UI: D9 (apps editor).
 
 Pattern worth teaching: Genie Code sometimes reports success without checking (D8 S1, S5). Every build-along prompt that creates something now ends with "run it" / "verify".
 Scratch objects created during the runs (s9_* views, two "S9 Portfolio Review – test" dashboards) were dropped/trashed.

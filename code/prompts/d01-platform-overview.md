@@ -42,4 +42,4 @@ FROM read_files('/Volumes/<catalog>/<schema>/documents/leases/', format => 'bina
 
 ## Wrap-up
 - **So what:** everyone can find the data, run a query, and ask Genie Code before the real work starts.
-- **Verified:** 2026-10-08 on the FEVM workspace: counts (80 / 8 / 2024-Q1–2026-Q2), Q2 by region from gold, and the lease parse (3 files, first element "EXPIRED", ~20 elements each) run in SQL. Genie Code responses: UI verification pending (S9).
+- **Verified:** 2026-10-08 on the FEVM workspace: counts (80 / 8 / 2024-Q1–2026-Q2), Q2 by region from gold, and the lease parse (3 files, first element "EXPIRED", ~20 elements each) run in SQL. **Stages 4–5 run in the Genie Code UI (S9):** S4 Genie Code listed bronze/silver/gold, named `gold_property_quarterly` as the quarterly P&L fact table (it also sees the `ref_*` answer-key objects and pipeline internals: say so up front), and returned €2.69M / €2.09M / €1.59M; S5 it parsed the 3 lease PDFs (21 / 20 / 21 elements) with Harbor Tower's first element "EXPIRED".

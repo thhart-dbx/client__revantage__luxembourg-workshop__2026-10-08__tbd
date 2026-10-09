@@ -47,7 +47,20 @@ SELECT ai_query('<your KA endpoint name>',
 ```
 **Expected:** "Yes … exceeds the €50,000 threshold that requires co-signature of the CFO and Asset Management Director."
 **Prompt** (Genie Code, SQL editor):
-> Use ai_query with my Knowledge Assistant endpoint to add a column policy_check to <catalog>.<schema>.ref_invoices_extracted that says, for each invoice, which approvers it needs under the Expense Approval Policy.
+> Use ai_query with my Knowledge Assistant endpoint to add a column policy_check to a copy of <catalog>.<schema>.ref_invoices_extracted in <my_schema> that says, for each invoice, which approvers it needs under the Expense Approval Policy.
+
+**Expected (seen in pre-build):** Genie Code pauses for approval of the `CREATE OR REPLACE`, then 8 answers grounded in the policy, and it handles the USD/GBP conversion caveat. But only **6 of 8 are right**: for VSB-2026-0612 (€30,782.40) and PE-2026-06-0088 (USD 41,000 ≈ €37.7k) the Knowledge Assistant quoted the correct €25,000.01–€50,000 row and then named the *Asset Manager* instead of the **Head of Asset Management**.
+**Teach (the point of this stage):** check agent output against a deterministic rule before trusting it at scale. For the EUR invoices:
+```sql
+SELECT response:response.invoice_number::string AS invoice, response:response.total::double AS total,
+       CASE WHEN response:response.total::double > 50000 THEN 'CFO + AM Director'
+            WHEN response:response.total::double > 25000 THEN 'Head of Asset Management'
+            WHEN response:response.total::double > 5000  THEN 'Asset Manager' ELSE 'Property Manager' END AS rule_approver,
+       policy_check
+FROM <my_schema>.invoices_policy WHERE response:response.currency::string = 'EUR'
+```
+(USD/GBP need the ECB rate first; Demo 12's `approvals.invoice_approvals.total_eur` has them converted.) Thresholds belong in code (Demo 12 puts `requires_two_approvers` in a generated column); use the agent for the questions code can't answer (CapEx vs OpEx, exceptions, renewals).
+**Note:** write the new column into `<my_schema>` (e.g. `CREATE TABLE <my_schema>.invoices_policy AS SELECT …`), not into the shared `ref_` table.
 
 ## Stage 5: Tour of other agent types (5 min, show)
 In **Create Agent** point out: **Information Extraction** (Demo 4), **Document Parsing**, **Text Classification**,
@@ -57,4 +70,4 @@ In **Create Agent** point out: **Information Extraction** (Demo 4), **Document P
 ## Wrap-up
 - **So what:** policies answer themselves, with citations, and the same agent works from chat, SQL, and other agents.
 - **Snowflake equivalent:** Cortex Search + Cortex Agents. On Databricks the Knowledge Assistant is built from a volume in minutes, governed in Unity Catalog, and callable from SQL with ai_query.
-- **Verified:** 2026-10-08 on the FEVM workspace. Agent built in the browser at 15:54 (first create hit a rate limit); index ready in ~25 min. All 6 ground-truth questions answered correctly with the right PDF cited (`verification/raw/d05-ka-2026-10-08.txt`); `ai_query` from SQL verified. Stage 4's Genie Code prompt: UI verification pending (S9).
+- **Verified:** 2026-10-08 on the FEVM workspace. Agent built in the browser at 15:54 (first create hit a rate limit); index ready in ~25 min. All 6 ground-truth questions answered correctly with the right PDF cited (`verification/raw/d05-ka-2026-10-08.txt`); `ai_query` from SQL verified. **Stage 4 run in the Genie Code UI (S9)** against a scratch copy of the extracted invoices (since dropped): 8 `ai_query` answers via `ka-234e391f-endpoint`, 6/8 correct as described above (the two errors come from the KA text itself, not from Genie Code's summary).

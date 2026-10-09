@@ -50,4 +50,4 @@ Teaser for Demo 16: schedule this view as an alert so the next bad load is caugh
 
 ## Wrap-up
 - **So what:** a 15-minute conversation found every planted issue and produced a reusable check, without writing SQL by hand.
-- **Verified:** 2026-10-08. Stages 1–5 via the Genie Conversation API (`verification/d02-d06-d07-genie.md`, raw transcript `verification/raw/d06-genie-start-2026-10-08.txt`); reference view returns 2, 2, 2, 1, 3. Stage 6 Genie Code response: UI verification pending (S9).
+- **Verified:** 2026-10-08. Stages 1–5 via the Genie Conversation API (`verification/d02-d06-d07-genie.md`, raw transcript `verification/raw/d06-genie-start-2026-10-08.txt`); reference view returns 2, 2, 2, 1, 3. **Stage 6 run in the Genie Code UI (S9)** with the five checks described in words (scratch view, since dropped): Genie Code read the three schemas, wrote a 5-branch UNION ALL view and returned issue counts **2, 2, 2, 1, 3**, identical to the reference. If participants paste their Stage 1–5 SQL instead, the result should be the same.
