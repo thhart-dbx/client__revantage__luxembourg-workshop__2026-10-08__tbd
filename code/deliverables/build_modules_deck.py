@@ -6,7 +6,7 @@ steps without one), the expected result, the fallback, and a screenshot of the e
 
 Text comes from the verified guides in code/prompts/ (facilitator-only notes are dropped); the
 screenshots come from code/deliverables/module_manifest.py. Usage (from the project root):
-    uv run --with python-pptx --with pillow python code/deliverables/build_modules_deck.py
+    uv run --with python-pptx --with pillow --with pygments python code/deliverables/build_modules_deck.py
 """
 import re
 import sys
@@ -23,8 +23,17 @@ g = bd.g
 from pptx.util import Inches, Pt  # noqa: E402
 from pptx.enum.shapes import MSO_SHAPE  # noqa: E402
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR  # noqa: E402
+from pygments.lexers import get_lexer_by_name  # noqa: E402
+from pygments.token import Comment, Keyword, Name, Number, Operator, String  # noqa: E402
 
 SHOTS = ROOT / "notes" / "agent-notes" / "screenshots"
+MONO = "Courier New"
+CODE_INK = "#0B4F6C"  # inline `code` in running text
+# SQL syntax colours (token type → colour, bold, italic)
+HL = [(Comment, "#7A869A", False, True), (String, "#2E7D32", False, False), (Number, "#B5651D", False, False),
+      (Keyword, "#0B5CAD", True, False), (Name.Builtin, "#8E3BA8", False, False),
+      (Operator, "#5A6B73", False, False)]
+CODE_FILE = re.compile(r"`?(code/[\w./-]+\.(?:sql|py|sh))`?")
 for t in ("module-step", "module-overview", "module-steps"):
     g.VALID_SLIDE_TYPES.add(t)
     g.LAYOUT_MAPPINGS[t] = ["CUSTOM"]
@@ -37,11 +46,12 @@ def find_image(name):
     raise FileNotFoundError(name)
 
 
-def clean(s):
+def clean(s, code=False):
+    """Strip markdown. code=True keeps `inline code` spans (rendered monospaced by rich())."""
     s = re.sub(r"\s*\([^)]*FEVM[^)]*\)", "", s)
     s = re.split(r"\*?\*?FEVM note|On the FEVM", s)[0]  # workspace-specific numbers stay out of the participant deck
-    s = re.sub(r"\*\*(.+?)\*\*", r"\1", s)
-    s = s.replace("`", "").replace("\\", "")
+    s = re.sub(r"\*\*(.+?)\*\*", r"\1", s).replace("**", "")
+    s = s.replace("\\", "") if code else s.replace("`", "").replace("\\", "")
     s = re.sub(r"\[(.+?)\]\([^)]*\)", r"\1", s)
     return re.sub(r"\s+", " ", s).strip()
 
@@ -60,19 +70,24 @@ def short(title):
     return re.sub(r"\s*\((\d+ min[^)]*|facilitator[^)]*|optional[^)]*)\)\s*$", "", t).strip()
 
 
-def steps_of(stage):
-    """Split a stage into steps: one per prompt, or one 'do' step if there is no prompt."""
+def steps_of(stage, guide):
+    """Split a stage into steps: one per prompt, or one 'do' step if there is no prompt.
+
+    Code blocks keep their line breaks (rendered highlighted); `source` is the file that holds the
+    full code: a code/… file named in the stage, else the guide itself."""
     lines = [l for l in stage["lines"] if not FACILITATOR.search(l)]
     prompts, cur, intro, stuck, code, in_code, want_code = [], None, [], [], [], False, None
+    named = CODE_FILE.search("\n".join(lines))
+    source = named.group(1) if named else f"code/prompts/{guide.name}"
     for l in lines:
         if l.startswith("```"):
             in_code = not in_code
             if not in_code and want_code is not None:
-                want_code.append(" ".join(c.strip() for c in code[:3]))
+                want_code.append("`" + " ".join(c.strip() for c in code[:3]) + "`")
                 want_code, code = None, []
             elif not in_code:
                 if cur is None:
-                    intro.append(("CODE", " ".join(c.strip() for c in code[:4])))
+                    intro.append(("CODE", "\n".join(code).strip("\n")))
                 code = []
             continue
         if in_code:
@@ -85,7 +100,7 @@ def steps_of(stage):
             else:
                 cur["prompt"] += " " + clean(l.lstrip("> "))
         elif re.match(r"\*\*(Expected|Checkpoint)", l):
-            body = clean(re.sub(r"^\*\*[^*]+\*\*:?\s*", "", l))
+            body = clean(re.sub(r"^\*\*[^*]+\*\*:?\s*", "", l), code=True)
             if cur is None:
                 intro.append(("EXP", body))
             elif body:
@@ -93,19 +108,60 @@ def steps_of(stage):
             if not body or body.endswith(":"):
                 want_code = cur["expected"] if cur else None
         elif l.startswith("**If stuck"):
-            stuck.append(clean(re.sub(r"^\*\*[^*]+\*\*:?\s*", "", l)))
+            stuck.append(clean(re.sub(r"^\*\*[^*]+\*\*:?\s*", "", l), code=True))
         elif l.startswith("**Prompt"):
             continue
         elif l.strip() and not l.startswith("|") and cur is None:
-            intro.append(("TXT", clean(l.lstrip("-* "))))
+            intro.append(("TXT", clean(re.sub(r"^\s*(?:[-*]|\d+\.)\s+", "", l), code=True)))
     if not prompts:
         txt = [t for k, t in intro if k == "TXT" and t]
         sql = [t for k, t in intro if k == "CODE" and t]
         exp = [t for k, t in intro if k == "EXP" and t]
-        return [{"prompt": None, "do": clip(" ".join(txt[:3]), 420), "sql": clip(sql[0], 420) if sql else None,
-                 "expected": " ".join(exp), "stuck": " ".join(stuck)}]
+        return [{"prompt": None, "do": clip(" ".join(txt[:3]), 420), "sql": sql[0] if sql else None,
+                 "source": source, "expected": " ".join(exp), "stuck": " ".join(stuck)}]
     return [{"prompt": p["prompt"], "expected": " ".join(p["expected"]), "stuck": " ".join(stuck),
-             "do": None, "sql": None} for p in prompts]
+             "do": None, "sql": None, "source": source} for p in prompts]
+
+
+def rich(p, text, size, color=None):
+    """Fill a paragraph: plain text as is, `inline code` monospaced in CODE_INK."""
+    if text.count("`") % 2:  # a clipped span: drop the dangling backtick
+        text = "".join(text.rsplit("`", 1))
+    p.alignment = PP_ALIGN.LEFT
+    for i, part in enumerate(re.split(r"`([^`]*)`", text)):
+        if not part:
+            continue
+        r = p.add_run()
+        r.text = part
+        r.font.size = Pt(size)
+        r.font.name = MONO if i % 2 else g.FONT_FAMILY
+        r.font.color.rgb = g.hex_to_rgb(CODE_INK if i % 2 else (color or bd.DARK))
+
+
+def highlight(p, line, size):
+    """One line of SQL as coloured runs; <placeholders> stay one plain token."""
+    p.alignment = PP_ALIGN.LEFT
+    for k, seg in enumerate(re.split(r"(<\w+>|\$\{\w+\}|(?<![:\w]):\w+)", line)):
+        if k % 2:
+            r = p.add_run()
+            r.text = seg
+            r.font.size, r.font.name, r.font.italic = Pt(size), MONO, True
+            r.font.color.rgb = g.hex_to_rgb(bd.ACCENT)
+        elif seg:
+            _tokens(p, seg, size)
+
+
+def _tokens(p, line, size):
+    for ttype, val in get_lexer_by_name("sql").get_tokens(line):
+        val = val.rstrip("\n")
+        if not val:
+            continue
+        r = p.add_run()
+        r.text = val
+        r.font.size, r.font.name = Pt(size), MONO
+        colour, bold, italic = next(((c, b, i) for t, c, b, i in HL if ttype in t), (bd.DARK, False, False))
+        r.font.color.rgb = g.hex_to_rgb(colour)
+        r.font.bold, r.font.italic = bold, italic
 
 
 class ModuleDeck(bd.Deck):
@@ -139,37 +195,96 @@ class ModuleDeck(bd.Deck):
             self.add_textbox(s, name, x + 0.75, y + 0.02, 5.2, 0.4, font_size=16, bold=True, color=bd.DARK)
             self.add_textbox(s, kind, x + 0.75, y + 0.4, 5.2, 0.35, font_size=11, color=bd.MUTED)
 
+    def _box(self, s, x, y, w, h, fill="#EEF2F3"):
+        box = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(y), Inches(w), Inches(h))
+        box.fill.solid()
+        box.fill.fore_color.rgb = g.hex_to_rgb(fill)
+        box.line.color.rgb = g.hex_to_rgb("#C9D2D6")
+        box.adjustments[0] = 0.06
+        tf = box.text_frame
+        tf.word_wrap = True
+        tf.vertical_anchor = MSO_ANCHOR.TOP
+        tf.margin_left = tf.margin_right = Inches(0.15)
+        tf.margin_top = tf.margin_bottom = Inches(0.08)
+        return tf
+
+    def _rblock(self, s, label, text, x, y, w, size, label_color=None):
+        """Label + text with `inline code`; returns the height used."""
+        h = 0.3 + 0.2 * (size / 12) * (1 + len(text) // int((w - 0.2) * 140 / size))
+        tb = s.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
+        tf = tb.text_frame
+        tf.word_wrap = True
+        p = tf.paragraphs[0]
+        p.text = label.upper()
+        p.font.size, p.font.bold, p.font.name = Pt(10), True, g.FONT_FAMILY
+        p.font.color.rgb = g.hex_to_rgb(label_color or bd.ACCENT)
+        q = tf.add_paragraph()
+        q.space_before = Pt(3)
+        rich(q, text, size)
+        return h
+
+    def _code(self, s, code, source, x, y, w, max_h, size=10):
+        """Highlighted code box, line breaks kept; if it doesn't fit: '…' and the file that holds it all."""
+        per_line = int((w - 0.3) * 120 / size * 0.85)  # monospaced characters per line, with word-wrap slack
+        line_h = size * 1.2 / 72
+        budget = max(3, int((max_h - 0.2) / line_h))
+        lines, rows = [], 0
+        all_lines = code.splitlines()
+        for i, line in enumerate(all_lines):
+            need = 1 + len(line) // per_line
+            if rows + need > budget - (1 if i < len(all_lines) - 1 else 0):
+                break
+            lines.append(line)
+            rows += need
+        cut = len(lines) < len(all_lines)
+        h = 0.2 + line_h * (rows + cut)
+        tf = self._box(s, x, y, w, h, fill="#F6F8FA")
+        for i, line in enumerate(lines + (["…"] if cut else [])):
+            p = tf.paragraphs[0] if i == 0 else tf.add_paragraph()
+            p.alignment = PP_ALIGN.LEFT
+            highlight(p, line or " ", size) if line != "…" else rich(p, "…", size, bd.MUTED)
+        if cut:
+            note = s.shapes.add_textbox(Inches(x), Inches(y + h), Inches(w), Inches(0.3)).text_frame
+            note.word_wrap = True
+            rich(note.paragraphs[0], f"{len(all_lines) - len(lines)} more lines · full code: `{source}`", 9, bd.MUTED)
+            h += 0.3
+        return h
+
     def add_module_step_slide(self, d):
         s = self._create_slide("module-step", d)
         self._title(s, d["title"], d.get("subtitle"))
         img = d.get("image")
         w = 4.75 if img else 12.1
-        text = d.get("prompt") or d.get("sql") or d.get("do") or ""
-        label = ("YOU TYPE (Genie Code / Genie)" if d.get("prompt") else "YOU RUN (SQL editor)" if d.get("sql")
-                 else "TALK TRACK" if d.get("talk") else "YOU DO")
-        size = 13 if len(text) < 180 else 11 if len(text) < 330 else 10
-        box_h = min(3.1, 0.55 + len(text) / (52 if img else 120) * 0.24 * (13 / size))
-        self.add_textbox(s, label, 0.6, 1.45, w, 0.3, font_size=10, bold=True, color=bd.ACCENT)
-        box = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.6), Inches(1.8), Inches(w), Inches(box_h))
-        box.fill.solid()
-        box.fill.fore_color.rgb = g.hex_to_rgb("#EEF2F3")
-        box.line.color.rgb = g.hex_to_rgb("#C9D2D6")
-        tf = box.text_frame
-        tf.word_wrap = True
-        tf.vertical_anchor = MSO_ANCHOR.TOP
-        tf.margin_left = tf.margin_right = Inches(0.15)
-        p = tf.paragraphs[0]
-        p.text, p.alignment = text, PP_ALIGN.LEFT
-        p.font.size = Pt(size)
-        p.font.name = "Courier New" if (d.get("prompt") or d.get("sql")) else g.FONT_FAMILY
-        p.font.color.rgb = g.hex_to_rgb(bd.DARK)
-        y = 1.95 + box_h
+        y = 1.45
+        if d.get("prompt"):  # the exact text to type: shown in full, never clipped
+            text = d["prompt"]
+            size = 13 if len(text) < 180 else 11 if len(text) < 330 else 10 if len(text) < 600 else 9
+            rows = -(-len(text) // int((w - 0.3) * 120 / size * 0.85))  # monospaced, with word-wrap slack
+            box_h = 0.25 + rows * size * 1.2 / 72
+            self.add_textbox(s, "YOU TYPE (Genie Code / Genie)", 0.6, y, w, 0.3, font_size=10, bold=True,
+                             color=bd.ACCENT)
+            tf = self._box(s, 0.6, y + 0.35, w, box_h)
+            p = tf.paragraphs[0]
+            p.text, p.alignment = text, PP_ALIGN.LEFT
+            p.font.size, p.font.name = Pt(size), MONO
+            p.font.color.rgb = g.hex_to_rgb(bd.DARK)
+            y += 0.5 + box_h
+        if d.get("do"):
+            label = "TALK TRACK" if d.get("talk") else "YOU DO"
+            text = d["do"]
+            size = 13 if len(text) < 180 else 11 if len(text) < 330 else 10
+            box_h = 0.25 + len(text) / ((w - 0.3) * 140 / size) * size * 1.3 / 72
+            self.add_textbox(s, label, 0.6, y, w, 0.3, font_size=10, bold=True, color=bd.ACCENT)
+            rich(self._box(s, 0.6, y + 0.35, w, box_h).paragraphs[0], text, size)
+            y += 0.5 + box_h
+        if d.get("sql"):
+            self.add_textbox(s, "YOU RUN (SQL editor)", 0.6, y, w, 0.3, font_size=10, bold=True, color=bd.ACCENT)
+            room = 6.9 - (y + 0.35) - (1.0 if d.get("expected") else 0.2)
+            y += 0.5 + self._code(s, d["sql"], d["source"], 0.6, y + 0.35, w, room)
         if d.get("expected"):
-            n = 1 + len(d["expected"]) // (60 if img else 140)
-            self._block(s, "Expected result", d["expected"], 0.6, y, w, 0.45 + 0.21 * n, size=12)
-            y += 0.6 + 0.21 * n
+            y += 0.1 + self._rblock(s, "Expected result", d["expected"], 0.6, y, w, 12 if y < 5.2 else 10)
         if d.get("stuck"):
-            self._block(s, "If you're stuck", d["stuck"], 0.6, min(y, 6.3), w, 0.8, size=10, label_color=bd.MUTED)
+            self._rblock(s, "If you're stuck", d["stuck"], 0.6, min(y, 6.3), w, 10, label_color=bd.MUTED)
         if img:
             self._image(s, find_image(img), 5.55, 1.45, 7.25, 5.6)
         self.add_textbox(s, d.get("footer", ""), 0.6, 7.0, 12.0, 0.3, font_size=9, color=bd.MUTED)
@@ -194,7 +309,8 @@ def header_field(header, name):
 
 
 def build():
-    guides = sorted((parse(p) for p in (ROOT / "code" / "prompts").glob("d[0-9][0-9]-*.md")), key=lambda x: x[0])
+    paths = {parse(p)[0]: p for p in (ROOT / "code" / "prompts").glob("d[0-9][0-9]-*.md")}
+    guides = sorted((parse(p) for p in paths.values()), key=lambda x: x[0])
     slides = [
         {"type": "title", "title": "Build it yourself: module by module",
          "subtitle": "Revantage workshop · every step, the prompt, the expected result", "date": "October 2026"},
@@ -219,7 +335,7 @@ def build():
         plan = []
         for st in real:
             key = stage_key(st["title"])
-            for i, step in enumerate(steps_of(st), 1):
+            for i, step in enumerate(steps_of(st, paths[num]), 1):
                 pidx = i if step["prompt"] else 0
                 mkey = next((k for k in ((num, key, pidx), (num, key, 0), (num, key, 1)) if k in STEPS), None)
                 if mkey is None:
@@ -252,9 +368,9 @@ def build():
             slides.append({"type": "module-step",
                            "title": f"Step {idx}{('.' + sub) if sub else ''} · {short(st['title'])}",
                            "subtitle": f"Module {num}: {name.split(' — ')[0]}",
-                           "prompt": clip(step["prompt"], 520) if step["prompt"] else None,
+                           "prompt": step["prompt"],
                            "do": None if step["prompt"] else step["do"],
-                           "sql": step.get("sql") if not step["prompt"] else None,
+                           "sql": step.get("sql") if not step["prompt"] else None, "source": step["source"],
                            "talk": bool(media and media[0] == "talk") and not step["prompt"],
                            "expected": clip(step["expected"] or ("Runs once the profiling monitor exists (created by the bundle in the Revantage workspace)." if media and media[0] == "talk" and step["prompt"] else ""), 380), "stuck": clip(step["stuck"], 200),
                            "image": img})
