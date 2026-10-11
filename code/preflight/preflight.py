@@ -126,7 +126,9 @@ for key, label, fn in checks:
 # Agent Bricks (Information Extraction, Knowledge Assistant) and Genie Code have no stable public
 # API to probe; confirm them in the UI (left nav > Agents; Genie Code side panel in the SQL editor).
 manual = {"agent_bricks": "Agents > Information Extraction + Knowledge Assistant tiles visible",
-          "genie_code": "Genie Code panel opens in SQL editor, notebook, pipeline editor, dashboard"}
+          "genie_code": "Genie Code panel opens in SQL editor, notebook, pipeline editor, dashboard",
+          "genie_benchmarks": "Genie Agent > Benchmark tab with Mode: Chat (D17)",
+          "domains_pages": "Discover > Create > Create domain + Create page; governed-tag quota left (D18)"}
 print("\n  MANUAL  " + "\n  MANUAL  ".join(f"{k}: {v}" for k, v in manual.items()))
 
 DEMOS = {
@@ -146,8 +148,10 @@ DEMOS = {
     "D14 Forecasting": ["ai_forecast"],
     "D15 Lab": ["genie", "dashboards", "pipelines"],
     "D16 Data quality": ["uc", "sys_lineage"],
+    "D17 Genie accuracy ladder": ["genie", "warehouse", "uc"],
+    "D18 Domains, Pages & Metrics": ["genie", "uc"],
 }
-print("\nDemo readiness (manual checks above still apply to D2-D6, D8, D11):")
+print("\nDemo readiness (manual checks above still apply to D2-D6, D8, D11, D17, D18):")
 for demo, need in DEMOS.items():
     missing = [n for n in need if not results.get(n)]
     print(f"  {'GO   ' if not missing else 'NO-GO'}  {demo}" + (f"  (missing: {', '.join(missing)})" if missing else ""))

@@ -47,6 +47,9 @@ This demo shares a workspace with other work, so everything it does stays inside
   **Exception:** Demo 13 (AI Gateway & Monitoring) reads `system.ai_gateway.*` and `system.billing.*`
   by design. Read-only, and only those schemas.
 - **Workspace objects**: only under the paths in the table above.
+- **Account objects (Demo 18, approved 2026-10-09)**: one governed tag `Revantage Workshop` and its
+  Domain "Revantage Workshop" (Discover), plus the Pages inside that domain. Nothing else at account
+  level: don't edit other tag policies or domains. Remove them in `RUNBOOK.md > Teardown`.
 
 `.claude/hooks/guard_scope.py` blocks `databricks` CLI calls that use another profile, touch
 workspace paths outside the table, or name another catalog. `.claude/settings.json` asks before

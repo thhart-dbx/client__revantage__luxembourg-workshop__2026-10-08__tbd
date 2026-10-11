@@ -34,7 +34,7 @@ def column(x, y, w, label, layer, items):
 
 
 b.add_text(30, 8, 1500, 30,
-           "Revantage Luxembourg workshop: one dataset, 16 build-along demos  ·  "
+           "Revantage Luxembourg workshop: one dataset, 18 build-along demos  ·  "
            "schema: {catalog}.revantage_20261008 (dev: thhart_october_2026_catalog)", font_size=16, font_color="#1B3139")
 
 # 1. Sources (Unity Catalog volumes)
@@ -54,6 +54,7 @@ med = column(330, 300, 300, "Medallion (Delta)", "medallion", [
     ("silver_* (7 tables)\ncleaned, standardized", "silver", "delta_table"),
     ("gold_property_quarterly (80)\ncertified quarterly P&L", "gold", "delta_table"),
     ("customer_performance (470)\ntenant level, PII columns", "gold", "delta_table"),
+    ("legacy_* (6) + data dictionary\n+ d17_benchmark (10 questions)", "bronze", "delta_table"),
 ])
 
 # 3. Reference answer keys (built by bundle jobs / pipeline)
@@ -63,6 +64,7 @@ ref = column(670, 50, 320, "Reference answer keys (ref_*)", "compute", [
     ("ref_d03_property_performance_v\nref_d06_property_quality_checks", "silver", "delta_table"),
     ("Metric views: ref_mv_net_profit_margin,\nref_mv_target_attainment, ref_mv_qoq_revenue_growth", "gold", "unity_catalog"),
     ("ref_d14_revenue_forecast\n(ai_forecast on a SQL warehouse)", "gold", "delta_table"),
+    ("ref_d17_* business layer: names, comments,\ndescriptions, PK/FK · benchmark results", "silver", "delta_table"),
 ])
 
 # 4. AI
@@ -87,6 +89,7 @@ silver_inv = ops[2]
 cons = column(1400, 50, 330, "Consumption", "consumption", [
     ("Genie Agent: Portfolio Q&A (Start)\nparticipants teach it", "orange", "databricks"),
     ("Genie Agent: Portfolio Q&A (Reference)\nincl. metric views", "orange", "databricks"),
+    ("Genie Agents: Accuracy Lab (Start / Ref)\n10-question benchmark (D17)", "orange", "databricks"),
     ("AI/BI dashboard: Portfolio Review (Ref)\n4 pages + Ask Genie", "orange", "databricks_workspace"),
     ("App: revantage-lease-tracker\n(Next.js, SQL warehouse)", "pink", "apps_services"),
     ("App: revantage-invoice-approvals\n(Next.js, Lakebase, two approvers)", "pink", "apps_services"),
@@ -104,8 +107,9 @@ for i, (lbl, icon) in enumerate([
         ("Governed tags: system.certification_status,\nclass.email_address / phone_number", "unity_catalog"),
         ("Column masks (is_account_group_member)\non customer_performance", "unity_catalog"),
         ("Lineage + comments\n(gold → metric views → dashboard / Genie)", "unity_catalog"),
-        ("Data quality: Lakeflow expectations,\nquality monitor (revantage target)", "unity_catalog")]):
-    b.add_node(15 + i * 395, 42, 375, H, lbl, "gov", icon_name=icon, parent=gov)
+        ("Data quality: Lakeflow expectations,\nquality monitor (revantage target)", "unity_catalog"),
+        ("Domain + Pages (D18): Revantage Workshop,\nbusiness definitions for Genie One", "unity_catalog")]):
+    b.add_node(12 + i * 329, 42, 318, H, lbl, "gov", icon_name=icon, parent=gov)
 
 
 def e(s, t, label=None, **kw):

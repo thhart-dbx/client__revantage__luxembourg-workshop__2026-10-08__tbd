@@ -9,5 +9,9 @@
     "/Users/thomas.hart@databricks.com/spaces",
     "/Users/thomas.hart@databricks.com/dashboards",
     "/Users/thomas.hart@databricks.com/alerts"
-  ]
+  ],
+  "account_objects": {
+    "governed_tag": "Revantage Workshop",
+    "domain": "Revantage Workshop"
+  }
 }

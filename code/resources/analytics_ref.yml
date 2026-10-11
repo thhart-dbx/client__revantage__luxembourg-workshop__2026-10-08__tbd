@@ -3,8 +3,8 @@
 resources:
   jobs:
     ref_analytics:
-      name: "[Revantage workshop] Reference: D3 view, D6 checks, D7 metric views, D14 forecast"
-      description: Answer keys for Demos 3, 7, 14. Safe to re-run; replaces only ref_* objects.
+      name: "[Revantage workshop] Reference: D3 view, D6 checks, D7 metric views, D14 forecast, D17 business layer"
+      description: Answer keys for Demos 3, 6, 7, 14, 17. Safe to re-run; replaces only ref_* objects.
       max_concurrent_runs: 1
       tasks:
         - task_key: build_refs
@@ -20,6 +20,7 @@ resources:
               - reference/d03_property_performance_v.sql
               - reference/d07_metric_views.sql
               - reference/d06_quality_checks.sql
+              - reference/d17_business_layer.sql
           environment_key: default
         - task_key: build_forecast # ai_forecast runs only on a SQL warehouse
           depends_on:

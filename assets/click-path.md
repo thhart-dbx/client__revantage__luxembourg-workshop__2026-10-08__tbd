@@ -24,6 +24,8 @@ Placeholders: `<catalog>` and `<schema>` are the shared workshop catalog and sch
 - [Demo 14: Time Series Forecasting — "Where is revenue heading?"](#demo-14)
 - [Demo 15: Hands-On Lab — Build Your Own](#demo-15)
 - [Demo 16: Data Quality & Observability — "Trust scorecard"](#demo-16)
+- [Demo 17: Genie Accuracy Ladder — "From 0 to 10 out of 10, one layer at a time"](#demo-17)
+- [Demo 18: Domains, Pages & Metrics — "Teach Genie One what your words mean"](#demo-18)
 
 <a id="demo-1"></a>
 ## Demo 1: Welcome & Platform Overview — "Where does my data live?"
@@ -1082,3 +1084,150 @@ Run `code/sql/d16_reset.sql` (deletes the 2026-Q3 row). Re-check: outlier query 
 - **So what:** quality issues are caught by the platform (profiling, expectations, alerts) before a business user finds them, and lineage shows exactly what they would have broken.
 - **Snowflake equivalent:** Data Metric Functions + ACCESS_HISTORY. Here profiling, anomaly detection, pipeline expectations, alerts, and lineage come together in Unity Catalog.
 - **Verified:** 2026-10-08 on the FEVM workspace, rehearsed on a deep clone (`ref_d16_gold_sandbox`, since dropped): seed inserted €17.2M / NULL; outlier query 0 rows on clean gold, 1 row (z 171.9) after the seed; the reference alert is deployed. Lineage query returns the downstream list above. **Stage 4 run in the Genie Code UI (S9):** the original prompt produced inclusive stats (seed z 3.01, fragile); the leave-one-out prompt above gave 0 rows on clean gold and, on a seeded clone (`s9_d16_gold_clone`, since dropped), exactly Harbor Tower 2026-Q3 z 171.89. **Not verified on the FEVM:** creating the profiling monitor (metastore limit) and therefore Stage 2's prompt, which needs the `_profile_metrics` table; run it in the Revantage workspace pre-flight.
+
+<a id="demo-17"></a>
+## Demo 17: Genie Accuracy Ladder — "From 0 to 10 out of 10, one layer at a time"
+
+**Session:** Day 2, 2:45–3:20 (35 min) · **You build:** a Genie Agent on the legacy warehouse, made accurate step by step (business names → column comments → table descriptions and keys → metric views → instructions), with a benchmark score after every step · **Reference:** Genie Agent "Revantage Accuracy Lab (Reference)", tables `<catalog>.<schema>.ref_d17_*` (source `code/reference/d17_business_layer.sql`), scorecard `ref_d17_benchmark_results` (`code/genie/d17_ladder.py`)
+**Starting state:** the "legacy Snowflake warehouse" `legacy_prp_mstr`, `legacy_gl_txn`, `legacy_gl_acct`, `legacy_lse`, `legacy_tnt`, `legacy_qtr_tgt` (abbreviated names, coded values, no comments, no keys, lease history with old versions), its documentation `legacy_data_dictionary`, the benchmark `d17_benchmark` (10 questions + ground-truth SQL), and the Genie Agent "Revantage Accuracy Lab (Start)" (the legacy tables + the same 10 benchmark questions)
+**Where:** Genie Agents (Configure, Benchmarks); SQL editor with Genie Code
+
+The story: the data is the same at every step; only the metadata changes. Genie's accuracy on the same 10
+questions goes **20% → 10% → 30% → 50% → 100%** (Genie's own benchmark judge). Each layer fixes a different kind of mistake, so the
+order matters: names and comments say what a column *is*, descriptions and keys say what a row *is*,
+metric views say how a KPI is *calculated*, instructions say what the business *means*.
+
+![Benchmark history of one agent: 20% → 10% → 30% → 50% → 100% → 100% as each metadata layer is added.](../notes/agent-notes/screenshots/d17-evaluations-history.png)
+
+*Benchmark history of one agent: 20% → 10% → 30% → 50% → 100% → 100% as each metadata layer is added.*
+
+### Stage 1: Clone and take the baseline (5 min)
+
+Genie Agents → **Revantage Accuracy Lab (Start)** → ⋮ → **Clone** → name it `Accuracy Lab – <your_name>`, **Clone to** your home folder → **Clone**. Open the **Benchmark** tab: the 10 questions came with the clone (**Questions (10)**). Set **Mode: Chat** (single-turn SQL, about 3 minutes for 10 questions; Agent mode takes about 8; the mode resets to Agent whenever the page reloads, so check it before every run) → **Run all benchmarks**.
+
+**Expected:** **≈ 2 of 10** (20%). Click a question: Genie's judge shows the assessment (**Bad** · *Extra Rows*, *Filter Issue*), a **Failure analysis** comparing its SQL with the ground truth, and **Attempt fix**. Open one failure, e.g. "How many active leases do we have?": Genie guessed `LSE_STS_CD = 'Active'` and got 0 (the code is `A`). "What was total net profit in 2026-Q2?" sums the wrong thing (no idea which `ACCT_CLS_CD` is revenue).
+**Tip:** use a new query tab in the SQL editor for every stage below, so Genie Code doesn't re-run the previous stage's statements.
+**Teach:** a benchmark is a set of real questions with an agreed answer (ground-truth SQL). Write it *before* you tune, so every change is measured, not felt.
+
+### Stage 2: Business column names (7 min)
+
+**Prompt** (Genie Code, SQL editor):
+> Using <catalog>.<schema>.legacy_data_dictionary, create one table in <my_schema> for each legacy_* table in <catalog>.<schema>: name it after the dictionary's business_name for the table (the row where column_name is NULL) and rename every column to its business_name. Keep the values unchanged and don't add comments yet. Run it and show me the row counts.
+
+**Expected:** 6 tables `properties` 8, `gl_accounts` 15, `gl_transactions` 2,681, `leases` 52, `tenants` 40, `quarterly_targets` 96; values untouched (`account_class` is still `R`/`O`/`M`/`C`/`I`).
+Then in your agent: **Configure → Data** → remove the six `legacy_*` tables, add your six → **Benchmarks → Run all**.
+**Checkpoint:** **≈ 1 of 10** (10%). Readable names alone don't help: Genie now writes `account_class = 'Revenue'` and `lease_status = 'Active'`, and every filter returns 0.
+**If stuck:** run the `@rung R2` section of `code/reference/d17_business_layer.sql` with `ref_d17_` replaced by `<my_schema>.`.
+
+### Stage 3: Column comments (5 min)
+
+**Prompt** (Genie Code, SQL editor):
+> Add a column comment to every column of my six tables in <my_schema>, taken from the description in <catalog>.<schema>.legacy_data_dictionary (match on business_name). Run it and confirm with DESCRIBE TABLE on gl_accounts and leases.
+
+**Expected:** `ALTER TABLE … ALTER COLUMN … COMMENT …` for every column; `account_class` reads "R = Revenue, O = Operating expense, M = Management fee, C = CapEx, I = Intercompany recharge".
+**Run all benchmarks** again (no need to touch the agent: it reads the comments live).
+**Checkpoint:** **≈ 3 of 10** (30%). Genie decodes the codes now (CapEx and office revenue are right), but it still guesses the business rules: net profit subtracts CapEx and intercompany too (€5.59M instead of **€6.38M**), and "active leases" counts old lease versions.
+
+### Stage 4: Table descriptions and keys (6 min)
+
+**Prompt** (Genie Code, SQL editor):
+> For each of my six tables in <my_schema>, set the table comment from the legacy_data_dictionary row where column_name is NULL (use my table and column names instead of the legacy ones). Then add the primary keys and foreign keys those descriptions name; make the key columns NOT NULL first. Run it and show me the constraints.
+
+**Expected:** `COMMENT ON TABLE …`; `leases` says "one row per lease VERSION … the current one has the latest updated_at"; PKs on all six, FKs from `gl_transactions`, `leases`, `quarterly_targets`.
+**Checkpoint:** **≈ 5 of 10** (50%). The lease questions pass (39 active leases, €1,083,458.87 monthly rent): the grain was the missing fact. Net profit is still wrong: no table can tell Genie the *Finance* definition.
+**Watch for:** recreating a table with `CREATE OR REPLACE TABLE … AS SELECT` keeps its old comments. Drop it first if you want a clean slate.
+
+### Stage 5: Metric views and instructions (6 min)
+
+**Configure → Data → Add** the governed metric views `<catalog>.<schema>.ref_mv_net_profit_margin`, `ref_mv_target_attainment`, `ref_mv_qoq_revenue_growth` (or your own from Demo 7) → **Run all**.
+**Checkpoint:** **9–10 of 10**. Net profit, margin, target misses and attainment now come from the approved definitions (€6.38M, 59.3%, Peachtree Center / Harbor Tower / Zuidas Residences, 62.5%).
+Then **Configure → Instructions** → paste:
+> Amounts are EUR. The latest complete fiscal quarter is 2026-Q2: "this quarter" means 2026-Q2 and "last quarter" means 2026-Q1; never use the calendar date to pick a quarter. Net profit = revenue (account_class R) - operating expense (O) - management fee (M); CapEx (C) and intercompany (I) are not deducted; prefer the metric views for net profit, margin and target attainment. The leases table keeps every version of a lease: always use only the latest version per lease_id before counting or summing; active means lease_status = 'A'. Property type codes: OFF = Office, MFH = Multifamily, RTL = Retail. Credit ratings best to worst: AAA, AA, A, BBB, BB, B; below investment grade means BB or B.
+
+**Checkpoint:** **10 of 10**, and it stays there when the question is phrased differently (the instructions carry the conventions the data can't).
+**Teach:** instructions are for business conventions that live nowhere in the data ("this quarter", "below investment grade"). Keep them short; everything a column or table can say belongs in the catalog, where every tool (dashboards, Genie One, Genie Code) gets it too.
+
+### Stage 6: Keep it accurate (6 min)
+
+- **Benchmark → Evaluations:** every run is kept with its accuracy; open a run to see each question's SQL next to the ground truth, the failure analysis, and **Attempt fix** (Genie proposes the instruction or example that would fix it). **Analyze with Genie** summarizes the context gaps across a run. Re-run after every schema or instruction change.
+- **Monitoring** tab: the questions people actually ask, thumbs up/down, and the answers to review. Turn a good answer into an **SQL example**; turn a recurring question into a new **benchmark** question.
+- **SQL examples, synonyms, join relationships** (the Reference agent has 3 examples, synonyms on 7 columns, 5 joins): they make answers stable across phrasings; the score stays at 10/10, the variance drops.
+- The facilitator's scorecard, measured with the same 10 questions twice per rung:
+```sql
+SELECT rung, ROUND(100 * AVG(CAST(correct AS INT))) AS pct_correct
+FROM <catalog>.<schema>.ref_d17_benchmark_results
+GROUP BY rung ORDER BY rung
+```
+→ R1 **5** · R2 **10** · R3 **20** · R4 **50** · R5 **90** · R6 **100** · R7 **100**.
+
+### 7. Reset (facilitator, after the session)
+
+Participants' tables live in their own `<my_schema>`; their cloned agents in their own folders. Nothing shared changes. To rebuild the reference: `databricks bundle run ref_analytics`; to re-measure the ladder: `code/genie/d17_ladder.py`.
+
+### Wrap-up
+
+- **So what:** Genie accuracy is engineered, not prompted. Most of the gain comes from metadata in Unity Catalog (comments, descriptions, keys, metric views), which every other tool reuses; the agent's own instructions are the last few points.
+- **Snowflake equivalent:** column comments and semantic views exist in Snowflake too; here they feed Genie, Genie One, Genie Code and AI/BI from one catalog, and the benchmark makes the improvement measurable.
+- **Verified in the UI:** 2026-10-10 on the FEVM workspace, the live path end to end on a clone of the Start agent: Clone (with **Clone to** folder) kept the 10 questions; Stage 1 benchmark 20% (Agent mode); Stage 2 Genie Code prompt built the six tables (15 · 2,681 · 52 · 8 · 96 · 40 rows) → 10% (Chat); Stage 3 prompt commented all 33 columns → 30%; Stage 4 prompt set 6 descriptions, 6 PKs, 5 FKs → 50%; metric views → 100%; instructions → 100% (screenshots `d17-*.png`).
+- **Verified by script:** 2026-10-10 on the FEVM workspace with `code/genie/d17_ladder.py` (a fresh agent per rung, 10 questions × 2 runs, results in `ref_d17_benchmark_results`): R1 1/20, R2 2/20, R3 4/20, R4 10/20, R5 18/20, R6 20/20, R7 20/20. In-place check: one agent on business names scored 1/20, then 10/20 after comments, descriptions and keys were added to its tables (no re-config needed). Deployed agents: Start 0/10, Reference 10/10.
+
+<a id="demo-18"></a>
+## Demo 18: Domains, Pages & Metrics — "Teach Genie One what your words mean"
+
+**Session:** Day 2, 3:20–3:45 (25 min) · **You build:** a Page (business definition) in the Revantage domain, linked to its governed metric view, and check that Genie One uses it · **Reference:** the four Pages in `code/reference/d18_pages.md` (Net profit, Latest quarter, Active lease, Below investment grade), published by the facilitator in the domain "Revantage Workshop"
+**Starting state:** domain **Revantage Workshop** (governed tag `Revantage Workshop`, created by `code/scripts/d18_domain.sh`), participants with MANAGE on the domain; the Demo 7 metric views `ref_mv_*` (the domain's *Metrics*); the Demo 17 tables
+**Where:** Discover (Domains, Pages); Genie One (Switch apps → Genie One, or the home page **Ask** box)
+
+The story: Demo 17 made one Genie Agent accurate. Genie One answers across *everything* you can see,
+so it needs the business meaning to live where all tools find it. **Domains** organize assets by business
+area, **Pages** explain a term (definition, synonyms, related assets), **metric views** calculate it, and
+**certification** says which asset to trust. Genie One searches them together (the *Genie Ontology*)
+and prefers a Page's human-written definition, but only when the trust signals agree.
+
+![Genie One reads the Net profit Page ("Read info for: knowledge_page…") before choosing a source.](../notes/agent-notes/screenshots/d18-genie-one-reads-page.png)
+
+*Genie One reads the Net profit Page ("Read info for: knowledge_page…") before choosing a source.*
+
+### Stage 1: Tour the domain (4 min)
+
+**Discover** → **Browse by domain** → **Revantage Workshop**: the domain's assets, **Featured Metric views** (the `ref_mv_*` views: the domain's *Metrics*), **Pages**, and **Ask Genie** (a Genie scoped to the domain).
+**Teach:** a domain is backed by a governed tag; tagging a table, metric view, dashboard or Genie Agent with it (or **Add to domain**) puts it in the domain. Pages inherit the domain's permissions.
+
+### Stage 2: Ask before you define (4 min)
+
+**Prompt** (Genie One, new chat):
+> What is our NOI this quarter?
+
+**Expected:** open **Thought process**: Genie One searches the ontology ("Found … ontology results"), picks a metric view and a quarter, and shows its sources. Check *which* definition and *which* quarter it used. Without a Page it has to guess that NOI means net profit and that "this quarter" means the latest complete quarter (2026-Q2), not the calendar quarter.
+
+### Stage 3: Write the Page with Genie Code (8 min)
+
+**Discover → Create → Create page** → in the Genie Code panel click **Help me create a new page** (or type):
+> Help me create a page "Net profit (<your_name>)" in the Revantage Workshop domain. Description: Revantage's approved Finance net profit: revenue minus operating expense minus management fee; CapEx and intercompany recharges are not deducted. Definition: per property and fiscal quarter in EUR; in the general ledger account_class R - O - M. "This quarter" means the latest complete fiscal quarter in the workshop data, 2026-Q2. The authoritative source is the metric view <catalog>.<schema>.ref_mv_net_profit_margin over gold_property_quarterly. Synonyms: NOI, net operating income, bottom line. Related assets: <catalog>.<schema>.ref_mv_net_profit_margin and <catalog>.<schema>.gold_property_quarterly. Fill in the page fields but don't publish.
+
+**Expected:** Genie Code finds the domain and fills the form: name, domain, 3 synonyms, description, a body with *Definition*, *Authoritative source* and *Business use*, and both **Related assets** (the metric view and the table). Review it → **Save as draft** (a draft is used for you only; the facilitator's published Pages are used for everyone).
+**If stuck:** copy the "Net profit" entry of `code/reference/d18_pages.md` into the form by hand.
+**Watch for:** Page content is stored in plain text and replicated globally: never put PII or confidential figures in a Page.
+
+### Stage 4: Ask again (4 min)
+
+**Prompt** (Genie One, **new** chat, so it doesn't reuse the previous one):
+> What is our NOI this quarter?
+
+**Expected:** **Thought process** shows **Read info for: knowledge_page…** and the answer says NOI is net profit "per the glossary page". With the Page and a single certified metric view, the expected answer is **€6,375,345.36 for 2026-Q2** from `ref_mv_net_profit_margin` (to confirm in the Revantage workspace pre-flight).
+**Teach:** if Genie One still prefers another asset, it tells you why in the thought process ("two competing sources of truth"): another *certified* view with a different definition or later data. The fix is trust hygiene, not a better prompt: certify the right metric view (`system.certification_status`, Demo 10), deprecate the other, and list the right one as the Page's related asset.
+
+### Stage 5: Metrics in the domain, and what Pages don't do (5 min)
+
+- **Domain → Add to domain** (or `ALTER VIEW … SET TAGS ('Revantage Workshop')`): add your Demo 7 metric views; they appear under the domain's metric views. Then try the domain's **Ask Genie**: it answers from the domain's assets only.
+- **Pages feed Genie One and Genie Code, not Genie Agents.** A Genie Agent answers from its own data and configuration: the same Demo 17 agent without metric views or instructions scored **50% with and without** the Net profit Page. For an agent, the definition goes into comments, metric views and instructions (Demo 17); for everyone else, into a Page.
+
+### 6. Reset (facilitator, after the session)
+
+Delete participants' draft Pages (Discover → Pages → Owned by … → ⋮ → Delete) or leave them: drafts are private to their owner. The reference Pages and the domain stay until teardown (`code/scripts/d18_domain.sh --teardown`).
+
+### Wrap-up
+
+- **So what:** one place for what your words mean. Write the definition once (Page), compute it once (metric view), trust it once (certification), organize it by business area (domain); every Genie surface then answers the same way.
+- **Snowflake equivalent:** Horizon catalog tags and semantic views; here the business glossary, the metric layer and the AI assistant share one ontology in Unity Catalog.
+- **Verified:** 2026-10-10 on the FEVM workspace (the account is at its governed-tag limit, so no new domain there; the Page was created as a draft in an existing domain): Genie Code filled the Page form from the Stage 3 prompt (domain, 3 synonyms, description, body, 2 related assets) and the draft saved. Genie One then read it ("Read info for: knowledge_page.68801114…", NOI "synonymous with net profit per the glossary page"), but on FEVM kept another project's *certified* `net_profit_metrics` view with later data (2026-Q3, €54.5M) and said so: the conflicting-trust case of Stage 4. Genie Agent check: 10/20 with the Page, 10/20 without (`code/tests/score_genie.py`). **Pending (Revantage workspace):** domain creation by script, Add to domain, the domain's Ask Genie, and Stage 4's clean answer without a competing certified view.

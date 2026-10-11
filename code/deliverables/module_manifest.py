@@ -130,6 +130,19 @@ STEPS = {
     (16, "Stage 4", 1): ("file", "d16-outlier-flagged.png"),
     (16, "Stage 5", 0): ("url", "/explore/data/thhart_october_2026_catalog/revantage_20261008/gold_property_quarterly/lineage?o=" + WS),
     (16, "Stage 6", 0): ("url", "alert-outliers"),
+    # D17 Genie accuracy ladder (UI run on a scratch clone, 2026-10-10)
+    (17, "Stage 1", 0): ("file", "d17-benchmark-failure-analysis.png"),
+    (17, "Stage 2", 1): ("file", "d17-s2-business-names.png"),
+    (17, "Stage 3", 1): ("file", "d17-s3-benchmark.png"),
+    (17, "Stage 4", 1): ("file", "d17-s4-descriptions-keys.png"),
+    (17, "Stage 5", 1): ("file", "d17-s5-benchmark-metric-views.png"),
+    (17, "Stage 6", 0): ("file", "d17-evaluations-history.png"),
+    # D18 Domains, Pages & Metrics (draft Page in an existing domain on FEVM)
+    (18, "Stage 1", 0): ("file", "d18-domain-discover.png"),
+    (18, "Stage 2", 1): ("file", "d18-genie-one-before-pages.png"),
+    (18, "Stage 3", 1): ("file", "d18-page-genie-code.png"),
+    (18, "Stage 4", 1): ("file", "d18-genie-one-reads-page.png"),
+    (18, "Stage 5", 0): ("file", "d18-page-draft.png"),
 }
 
 # Overview image per demo: the finished asset participants will have built.
@@ -138,7 +151,7 @@ OVERVIEW = {1: "architecture.png", 2: "d02-genie-southeast.png", 3: "s9-d03-geni
             7: "d07-metric-view.png", 8: "d08-p1-executive.png", 9: "d09-app.png",
             10: "d10-pii-columns.png", 11: "d11-pipeline-graph.png", 12: "d12-approvals-app.png",
             13: "d13-ai-gateway.png", 14: "d08-p4-forecast.png", 15: "architecture.png",
-            16: "d16-outlier-flagged.png"}
+            16: "d16-outlier-flagged.png", 17: "d17-evaluations-history.png", 18: "d18-page-draft.png"}
 
 
 def fname(key):

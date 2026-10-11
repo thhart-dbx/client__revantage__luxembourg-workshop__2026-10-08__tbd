@@ -11,3 +11,10 @@
 - 2026-10-08 · D5 reference KA `revantage-policy-assistant` (tile 234e391f-…, endpoint ka-234e391f-endpoint) built in the UI; first create attempts hit REQUEST_LIMIT_EXCEEDED on the shared FEVM metastore.
 - 2026-10-08 · App service principals need a one-time USE CATALOG grant (catalog isn't bundle-managed): granted to revantage-lease-tracker (a50cf5ce…) and revantage-invoice-approvals (30e19b12…). App runtime config moved from app.yaml into resources/app.yml `config` so catalog/schema come from bundle variables.
 - 2026-10-08 · databricks-claude-sonnet-4-6 original ai_gateway config = usage tracking only (saved in code/ai-gateway/original_ai_gateway_databricks-claude-sonnet-4-6.json); the monitoring subagent added the inference table (ref_d13). Teardown: restore the original config.
+
+## 2026-10-10 · Demos 17 and 18
+- D17 follows the Spectrix metadata ladder on Revantage data; one schema, so rungs are measured by a script (fresh agent per rung) and participants edit metadata in place (verified: an agent picks up new comments without re-config).
+- Benchmark truth SQL runs on legacy_* tables so it is valid for every rung; Genie's native judge is quoted in the guides, the harness (score_genie.py) for the scripted ladder.
+- Business rules live in the layer they belong to (codes in comments, grain in descriptions, KPI formulas in metric views, conventions in instructions); the first ladder put rules into comments and plateaued at R3.
+- D18 on FEVM: governed-tag limit → draft Page in the existing "Real Estate" domain (user choice), deleted afterwards. Tagging workshop assets into that shared domain was blocked by the auto-mode classifier; domain-scoped Ask Genie deferred to the Revantage workspace.
+- Finding: Genie One reads Pages (incl. drafts, synonyms) but weighs them against certified metric views and past conversations; Genie Agents don't use Pages.

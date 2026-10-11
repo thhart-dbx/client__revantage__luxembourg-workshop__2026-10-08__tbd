@@ -1,4 +1,4 @@
-# Revantage Luxembourg Onsite — Build-Along Workshop (16 demos)
+# Revantage Luxembourg Onsite — Build-Along Workshop (18 demos)
 
 Two-day, hands-on workshop for the Revantage Luxembourg data team (day 1 = 2026-10-13): Genie One and Genie Code,
 Agent Bricks (extraction + Knowledge Assistant), UC metric views, AI/BI dashboards, Databricks Apps, Unity Catalog
@@ -46,6 +46,8 @@ CapEx and needs two signatures. Every demo finds a piece of it. Facts and number
 | 14 | Forecasting | `ai_forecast` vs target | `ref_d14_revenue_forecast`, dashboard *Forecast* page | SQL |
 | 15 | Lab | own Genie/dashboard/pipeline | tracks reuse the references | — |
 | 16 | Data quality | monitoring, bad load, blast radius | outlier rule + alert, lineage query | rehearsed on a clone |
+| 17 | Genie accuracy ladder | a Genie Agent made accurate one metadata layer at a time, benchmarked after each | *Revantage Accuracy Lab (Reference)*, `ref_d17_*`, `ref_d17_benchmark_results` | UI: 20 → 10 → 30 → 50 → 100 → 100 %; script ladder 5 → 100 % |
+| 18 | Domains, Pages & Metrics | a Page (definition, synonyms, related metric view) Genie One reads | `code/reference/d18_pages.md`, domain via `code/scripts/d18_domain.sh` | Page via Genie Code + Genie One read it (draft, FEVM); domain pending (Revantage) |
 
 UI-only Genie Code responses (participants' prompts typed in the product) are marked "UI verification pending (S9)" in each guide.
 
@@ -67,12 +69,18 @@ UI-only Genie Code responses (participants' prompts typed in the product) are ma
 | `silver_invoices` | Table | 0 (reset) | D12 job target |
 | `ref_d12_gold_property_quarterly_synced` | Synced table → Lakebase | 80 | D12 reverse ETL |
 | `ref_d13_payload` | AI Gateway inference table | — | D13, on `databricks-claude-sonnet-4-6` |
+| `legacy_prp_mstr`, `legacy_gl_acct`, `legacy_gl_txn`, `legacy_lse`, `legacy_tnt`, `legacy_qtr_tgt` | Tables | 8 · 15 · 2,681 · 52 · 40 · 96 | D17 starting state: legacy names, coded values, lease history |
+| `legacy_data_dictionary`, `d17_benchmark` | Tables | 39 · 10 | D17 documentation + benchmark (ground-truth SQL) |
+| `ref_d17_properties`, `ref_d17_gl_accounts`, `ref_d17_gl_transactions`, `ref_d17_leases`, `ref_d17_tenants`, `ref_d17_quarterly_targets` | Tables | as legacy | D17 reference business layer (comments, descriptions, PK/FK) |
+| `ref_d17_benchmark_results` | Table | 140 | D17 ladder scores per rung (`code/genie/d17_ladder.py`) |
 
 ### Workspace Assets
 | Asset | Type | ID / URL |
 |---|---|---|
 | Revantage Portfolio Q&A (Start) | Genie Agent | `01f1c34be4d710108435324ff679d6d0` |
 | Revantage Portfolio Q&A (Reference) | Genie Agent | `01f1c34be4d01738b7f2b3edb0d6519e` |
+| Revantage Accuracy Lab (Start) | Genie Agent (D17, rung R1 + benchmark) | `01f1c499511a1c41bbc1080a108afb8d` |
+| Revantage Accuracy Lab (Reference) | Genie Agent (D17, rung R7 + benchmark) | `01f1c499511d1b439428205a6f20876a` |
 | Revantage Portfolio Review (Reference) | AI/BI dashboard | `01f1c34dfe2512409da1088ec1fd786c` |
 | revantage-lease-tracker | App | https://revantage-lease-tracker-7474657569423450.aws.databricksapps.com |
 | revantage-invoice-approvals | App (Lakebase) | https://revantage-invoice-approvals-7474657569423450.aws.databricksapps.com |
@@ -81,20 +89,21 @@ UI-only Genie Code responses (participants' prompts typed in the product) are ma
 | revantage-policy-assistant | Agent Bricks Knowledge Assistant (UI) | tile `234e391f-…`, endpoint `ka-234e391f-endpoint` |
 | [Revantage workshop] Setup starting state | Job | `7631543165762` |
 | [Revantage workshop] Participant sandboxes | Job | `631298516624925` |
-| [Revantage workshop] Reference: D3 view, D6 checks, D7 metric views, D14 forecast | Job | `233222683471774` |
+| [Revantage workshop] Reference: D3 view, D6 checks, D7 metric views, D14 forecast, D17 business layer | Job | `233222683471774` |
 | [Revantage workshop] Approved invoices -> silver (Reference) | Job (paused schedule) | `645664061467007` |
 | [Revantage workshop] Property Pipeline (Reference) | Lakeflow pipeline | `20bb119a-4c33-49f7-9d9e-b0d44bc7fbbe` |
 | Daily AI tokens > 1M (Reference) · Revenue > 3 sigma from property mean (Reference) | SQL alerts | `466768273185035` · `466768273185039` |
 | AI Gateway on `databricks-claude-sonnet-4-6` | usage tracking + inference table (script) | original config saved in `code/ai-gateway/` |
+| Domain "Revantage Workshop" + governed tag | Discover domain (account level, D18) | Revantage workspace only (`code/scripts/d18_domain.sh`); FEVM is at its governed-tag limit |
 
 ## Deliverables (`assets/`)
 | File | What | Source |
 |---|---|---|
-| `click-path.md` / `.docx` | Facilitator build-along walkthrough: 16 demos, every stage, prompt, checkpoint, watch-out, live screenshot | `code/deliverables/build_docs.py` (compiled from `code/prompts/`) |
+| `click-path.md` / `.docx` | Facilitator build-along walkthrough: 18 demos, every stage, prompt, checkpoint, watch-out, live screenshot | `code/deliverables/build_docs.py` (compiled from `code/prompts/`) |
 | `participant-handout.md` / `.docx` | Participant version: prompts, checkpoints, fallbacks; Snowflake view appendix | same script |
-| `…-internal.pptx` | Internal enablement deck (23 slides): build-live model, per-demo problem / build / value / why Databricks / watch-out | `code/deliverables/build_decks.py` (Databricks template, `slide_kit/`) |
-| `…-client.pptx` | Client deck (24 slides): build-along steps with the prompt you type, checkpoint, fallback; outcomes; proposed next steps | same script |
-| `…-modules.pptx` (149 slides) | Module-by-module build-along deck: per demo a "What we'll build" overview, "How we'll get there" steps, then one slide per step/prompt with the prompt (or click-path / SQL), the expected result, the fallback and a live screenshot of the expected output | `code/deliverables/build_modules_deck.py` (text from the guides; screenshots per `module_manifest.py`, SQL checkpoints via `capture_queries.py`) |
+| `…-internal.pptx` | Internal enablement deck (25 slides): build-live model, per-demo problem / build / value / why Databricks / watch-out | `code/deliverables/build_decks.py` (Databricks template, `slide_kit/`) |
+| `…-client.pptx` | Client deck (26 slides): build-along steps with the prompt you type, checkpoint, fallback; outcomes; proposed next steps | same script |
+| `…-modules.pptx` (166 slides) | Module-by-module build-along deck: per demo a "What we'll build" overview, "How we'll get there" steps, then one slide per step/prompt with the prompt (or click-path / SQL), the expected result, the fallback and a live screenshot of the expected output | `code/deliverables/build_modules_deck.py` (text from the guides; screenshots per `module_manifest.py`, SQL checkpoints via `capture_queries.py`) |
 | `architecture.png` / `.drawio` | Every asset in the inventory above | `code/deliverables/architecture.py` (drawio-diagram skill) |
 | `hero.png` | Portfolio Review dashboard | browser capture |
 

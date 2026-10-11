@@ -79,6 +79,21 @@ List agents: `databricks api get /api/2.0/tiles`.
 `BUNDLE_TARGET=<target> DATABRICKS_CONFIG_PROFILE=<p> code/ai-gateway/apply_ai_gateway.sh` (saves the endpoint's original config, enables usage tracking + inference table `ref_d13_*`). Send some traffic (e.g. 40 `ai_query` calls). Usage rows appear in `system.ai_gateway.usage` with a delay.
 **Verify:** the 5 queries in `code/reference/d13_ai_gateway_queries.sql` return rows (`:workspace_id` = workspace ID).
 
+### Step 7 — Genie accuracy ladder (D17)
+Starting state comes with Step 2 (`setup/sql/05_d17_legacy.sql`); the reference tables with Step 3 (`reference/d17_business_layer.sql` in `ref_analytics`); the agents *Revantage Accuracy Lab (Start/Reference)* with Step 1.
+Re-measure the ladder (fresh agent per rung, results in `ref_d17_benchmark_results`, scratch agents deleted):
+```bash
+code/data-gen/.venv/bin/python code/genie/d17_ladder.py --profile <p> --warehouse <id> --catalog <c> --schema <s> --parent <genie_space_path> --runs 2
+```
+**Verify:** R1 ≈ 5 % … R4 ≈ 50 %, R5–R7 ≥ 90 %; `code/tests/score_genie.py --space <Start id> --rung start` ≈ 0–2/10, `--space <Reference id> --rung ref` 10/10.
+
+### Step 8 — Domain and Pages (D18)
+```bash
+code/scripts/d18_domain.sh <p>     # governed tag + domain "Revantage Workshop" (needs MANAGE DISCOVER)
+```
+Then in the UI: Discover → Revantage Workshop → **Publish**; ⋮ → Manage Domains → Permissions → MANAGE for the participants' group; **Add to domain**: `ref_mv_*`, `gold_property_quarterly`; create and **Publish** the four Pages in `code/reference/d18_pages.md` (Create page → Genie Code, prompt in the D18 guide).
+**Verify:** Genie One "What is our NOI this quarter?" → thought process reads the Page; €6,375,345.36 for 2026-Q2. Not yet run end to end (FEVM account at its governed-tag limit): do it in the Revantage pre-flight.
+
 ## 4. Smoke test
 - [ ] `check_starting_state.py` 28/28 · `check_ref_pipeline.py` OK
 - [ ] Genie: `code/tests/ask_genie.py --space <Start id> "Which properties missed their quarterly target in 2026-Q2?"` → Peachtree Center, Harbor Tower, Zuidas Residences
@@ -86,6 +101,8 @@ List agents: `databricks api get /api/2.0/tiles`.
 - [ ] `SELECT MEASURE(target_attainment) FROM <c>.<s>.ref_mv_target_attainment WHERE fiscal_quarter='2026-Q2'` → 0.625
 - [ ] D16: `code/reference/d16_revenue_outliers.sql` (`${table}`=gold) → 0 rows
 - [ ] Both apps load; approvals queue has 5 Pending
+- [ ] D17: `score_genie.py` Start ≤ 2/10, Reference 10/10
+- [ ] D18: Genie One reads the Net profit Page (Step 8)
 
 ## 5. Workshop-day resets (run before each session that mutates state)
 | After | Run |
@@ -104,6 +121,7 @@ for app in <app_name> <approvals_app_name>; do  # revoke the one-time catalog gr
   SP=$(databricks apps get $app -o json | python3 -c "import sys,json;print(json.load(sys.stdin)['service_principal_client_id'])")
   databricks grants update catalog <catalog> --json "{\"changes\":[{\"principal\":\"$SP\",\"remove\":[\"USE_CATALOG\"]}]}"
 done
+code/scripts/d18_domain.sh <p> --teardown                # domain + governed tag (delete the Pages first: Discover → Pages → ⋮ → Delete)
 databricks bundle destroy -t <target>                     # apps, schema (all tables), Genie, dashboard, alerts, jobs, pipeline, Lakebase
 ```
 **Verify:** schema gone, apps deleted, `databricks api get /api/2.0/tiles` no longer lists the two agents.

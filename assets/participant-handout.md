@@ -810,6 +810,95 @@ Catalog Explorer → **Lineage** on the table, or run `code/reference/d16_blast_
 
 Open the reference alert (daily 07:00 Luxembourg, notifies the owner): it counts outliers and fires when > 0. Create your own from the Stage 4 query, wrapped as `SELECT COUNT(*) AS outliers FROM (…)`.
 
+## Demo 17: Genie Accuracy Ladder — "From 0 to 10 out of 10, one layer at a time"
+
+**Session:** Day 2, 2:45–3:20 (35 min) · **You build:** a Genie Agent on the legacy warehouse, made accurate step by step (business names → column comments → table descriptions and keys → metric views → instructions), with a benchmark score after every step · **Reference:** Genie Agent "Revantage Accuracy Lab (Reference)", tables `<catalog>.<schema>.ref_d17_*` (source `code/reference/d17_business_layer.sql`), scorecard `ref_d17_benchmark_results` (`code/genie/d17_ladder.py`)
+**Where:** Genie Agents (Configure, Benchmarks); SQL editor with Genie Code
+
+### Stage 1: Clone and take the baseline (5 min)
+
+Genie Agents → **Revantage Accuracy Lab (Start)** → ⋮ → **Clone** → name it `Accuracy Lab – <your_name>`, **Clone to** your home folder → **Clone**. Open the **Benchmark** tab: the 10 questions came with the clone (**Questions (10)**). Set **Mode: Chat** (single-turn SQL, about 3 minutes for 10 questions; Agent mode takes about 8; the mode resets to Agent whenever the page reloads, so check it before every run) → **Run all benchmarks**.
+
+**Expected:** **≈ 2 of 10** (20%). Click a question: Genie's judge shows the assessment (**Bad** · *Extra Rows*, *Filter Issue*), a **Failure analysis** comparing its SQL with the ground truth, and **Attempt fix**. Open one failure, e.g. "How many active leases do we have?": Genie guessed `LSE_STS_CD = 'Active'` and got 0 (the code is `A`). "What was total net profit in 2026-Q2?" sums the wrong thing (no idea which `ACCT_CLS_CD` is revenue).
+**Tip:** use a new query tab in the SQL editor for every stage below, so Genie Code doesn't re-run the previous stage's statements.
+
+### Stage 2: Business column names (7 min)
+
+**Prompt** (Genie Code, SQL editor):
+> Using <catalog>.<schema>.legacy_data_dictionary, create one table in <my_schema> for each legacy_* table in <catalog>.<schema>: name it after the dictionary's business_name for the table (the row where column_name is NULL) and rename every column to its business_name. Keep the values unchanged and don't add comments yet. Run it and show me the row counts.
+
+**Expected:** 6 tables `properties` 8, `gl_accounts` 15, `gl_transactions` 2,681, `leases` 52, `tenants` 40, `quarterly_targets` 96; values untouched (`account_class` is still `R`/`O`/`M`/`C`/`I`).
+Then in your agent: **Configure → Data** → remove the six `legacy_*` tables, add your six → **Benchmarks → Run all**.
+**Checkpoint:** **≈ 1 of 10** (10%). Readable names alone don't help: Genie now writes `account_class = 'Revenue'` and `lease_status = 'Active'`, and every filter returns 0.
+**If stuck:** run the `@rung R2` section of `code/reference/d17_business_layer.sql` with `ref_d17_` replaced by `<my_schema>.`.
+
+### Stage 3: Column comments (5 min)
+
+**Prompt** (Genie Code, SQL editor):
+> Add a column comment to every column of my six tables in <my_schema>, taken from the description in <catalog>.<schema>.legacy_data_dictionary (match on business_name). Run it and confirm with DESCRIBE TABLE on gl_accounts and leases.
+
+**Expected:** `ALTER TABLE … ALTER COLUMN … COMMENT …` for every column; `account_class` reads "R = Revenue, O = Operating expense, M = Management fee, C = CapEx, I = Intercompany recharge".
+**Run all benchmarks** again (no need to touch the agent: it reads the comments live).
+**Checkpoint:** **≈ 3 of 10** (30%). Genie decodes the codes now (CapEx and office revenue are right), but it still guesses the business rules: net profit subtracts CapEx and intercompany too (€5.59M instead of **€6.38M**), and "active leases" counts old lease versions.
+
+### Stage 4: Table descriptions and keys (6 min)
+
+**Prompt** (Genie Code, SQL editor):
+> For each of my six tables in <my_schema>, set the table comment from the legacy_data_dictionary row where column_name is NULL (use my table and column names instead of the legacy ones). Then add the primary keys and foreign keys those descriptions name; make the key columns NOT NULL first. Run it and show me the constraints.
+
+**Expected:** `COMMENT ON TABLE …`; `leases` says "one row per lease VERSION … the current one has the latest updated_at"; PKs on all six, FKs from `gl_transactions`, `leases`, `quarterly_targets`.
+**Checkpoint:** **≈ 5 of 10** (50%). The lease questions pass (39 active leases, €1,083,458.87 monthly rent): the grain was the missing fact. Net profit is still wrong: no table can tell Genie the *Finance* definition.
+
+### Stage 5: Metric views and instructions (6 min)
+
+**Configure → Data → Add** the governed metric views `<catalog>.<schema>.ref_mv_net_profit_margin`, `ref_mv_target_attainment`, `ref_mv_qoq_revenue_growth` (or your own from Demo 7) → **Run all**.
+**Checkpoint:** **9–10 of 10**. Net profit, margin, target misses and attainment now come from the approved definitions (€6.38M, 59.3%, Peachtree Center / Harbor Tower / Zuidas Residences, 62.5%).
+Then **Configure → Instructions** → paste:
+> Amounts are EUR. The latest complete fiscal quarter is 2026-Q2: "this quarter" means 2026-Q2 and "last quarter" means 2026-Q1; never use the calendar date to pick a quarter. Net profit = revenue (account_class R) - operating expense (O) - management fee (M); CapEx (C) and intercompany (I) are not deducted; prefer the metric views for net profit, margin and target attainment. The leases table keeps every version of a lease: always use only the latest version per lease_id before counting or summing; active means lease_status = 'A'. Property type codes: OFF = Office, MFH = Multifamily, RTL = Retail. Credit ratings best to worst: AAA, AA, A, BBB, BB, B; below investment grade means BB or B.
+
+**Checkpoint:** **10 of 10**, and it stays there when the question is phrased differently (the instructions carry the conventions the data can't).
+
+### Stage 6: Keep it accurate (6 min)
+
+- **Benchmark → Evaluations:** every run is kept with its accuracy; open a run to see each question's SQL next to the ground truth, the failure analysis, and **Attempt fix** (Genie proposes the instruction or example that would fix it). **Analyze with Genie** summarizes the context gaps across a run. Re-run after every schema or instruction change.
+- **Monitoring** tab: the questions people actually ask, thumbs up/down, and the answers to review. Turn a good answer into an **SQL example**; turn a recurring question into a new **benchmark** question.
+- **SQL examples, synonyms, join relationships** (the Reference agent has 3 examples, synonyms on 7 columns, 5 joins): they make answers stable across phrasings; the score stays at 10/10, the variance drops.
+
+## Demo 18: Domains, Pages & Metrics — "Teach Genie One what your words mean"
+
+**Session:** Day 2, 3:20–3:45 (25 min) · **You build:** a Page (business definition) in the Revantage domain, linked to its governed metric view, and check that Genie One uses it · **Reference:** the four Pages in `code/reference/d18_pages.md` (Net profit, Latest quarter, Active lease, Below investment grade), published by the facilitator in the domain "Revantage Workshop"
+**Where:** Discover (Domains, Pages); Genie One (Switch apps → Genie One, or the home page **Ask** box)
+
+### Stage 1: Tour the domain (4 min)
+
+**Discover** → **Browse by domain** → **Revantage Workshop**: the domain's assets, **Featured Metric views** (the `ref_mv_*` views: the domain's *Metrics*), **Pages**, and **Ask Genie** (a Genie scoped to the domain).
+
+### Stage 2: Ask before you define (4 min)
+
+**Prompt** (Genie One, new chat):
+> What is our NOI this quarter?
+
+**Expected:** open **Thought process**: Genie One searches the ontology ("Found … ontology results"), picks a metric view and a quarter, and shows its sources. Check *which* definition and *which* quarter it used. Without a Page it has to guess that NOI means net profit and that "this quarter" means the latest complete quarter (2026-Q2), not the calendar quarter.
+
+### Stage 3: Write the Page with Genie Code (8 min)
+
+**Discover → Create → Create page** → in the Genie Code panel click **Help me create a new page** (or type):
+> Help me create a page "Net profit (<your_name>)" in the Revantage Workshop domain. Description: Revantage's approved Finance net profit: revenue minus operating expense minus management fee; CapEx and intercompany recharges are not deducted. Definition: per property and fiscal quarter in EUR; in the general ledger account_class R - O - M. "This quarter" means the latest complete fiscal quarter in the workshop data, 2026-Q2. The authoritative source is the metric view <catalog>.<schema>.ref_mv_net_profit_margin over gold_property_quarterly. Synonyms: NOI, net operating income, bottom line. Related assets: <catalog>.<schema>.ref_mv_net_profit_margin and <catalog>.<schema>.gold_property_quarterly. Fill in the page fields but don't publish.
+
+**If stuck:** copy the "Net profit" entry of `code/reference/d18_pages.md` into the form by hand.
+
+### Stage 4: Ask again (4 min)
+
+**Prompt** (Genie One, **new** chat, so it doesn't reuse the previous one):
+> What is our NOI this quarter?
+
+**Expected:** **Thought process** shows **Read info for: knowledge_page…** and the answer says NOI is net profit "per the glossary page". With the Page and a single certified metric view, the expected answer is **€6,375,345.36 for 2026-Q2** from `ref_mv_net_profit_margin` (to confirm in the Revantage workspace pre-flight).
+
+### Stage 5: Metrics in the domain, and what Pages don't do (5 min)
+
+- **Domain → Add to domain** (or `ALTER VIEW … SET TAGS ('Revantage Workshop')`): add your Demo 7 metric views; they appear under the domain's metric views. Then try the domain's **Ask Genie**: it answers from the domain's assets only.
+- **Pages feed Genie One and Genie Code, not Genie Agents.** A Genie Agent answers from its own data and configuration: the same Demo 17 agent without metric views or instructions scored **50% with and without** the Net profit Page. For an agent, the definition goes into comments, metric views and instructions (Demo 17); for everyone else, into a Page.
+
 ## Appendix: the Snowflake view for Demo 3
 
 ```sql

@@ -33,6 +33,8 @@ SCREENSHOTS = {
     13: (f"{SHOTS}/d13-ai-gateway.png", "AI Gateway on the Claude endpoint: usage tracking and the inference table."),
     14: (f"{SHOTS}/d08-p4-forecast.png", "Forecast page: actuals, ai_forecast with its interval, and the target."),
     16: (f"{SHOTS}/d16-outlier-flagged.png", "After the bad load the leave-one-out rule flags exactly Harbor Tower 2026-Q3 (z = 171.9)."),
+    17: (f"{SHOTS}/d17-evaluations-history.png", "Benchmark history of one agent: 20% → 10% → 30% → 50% → 100% → 100% as each metadata layer is added."),
+    18: (f"{SHOTS}/d18-genie-one-reads-page.png", "Genie One reads the Net profit Page (\"Read info for: knowledge_page…\") before choosing a source."),
 }
 
 # Lines a participant shouldn't see (facilitator-only).
