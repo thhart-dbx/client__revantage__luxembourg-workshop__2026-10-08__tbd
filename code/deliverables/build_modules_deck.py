@@ -35,7 +35,7 @@ HL = [(Comment, "#7A869A", False, True), (String, "#2E7D32", False, False), (Num
       (Operator, "#5A6B73", False, False)]
 CODE_FILE = re.compile(r"`?(code/[\w./-]+\.(?:sql|py|sh))`?")
 # one line per module for the "Workshop at a glance" slide
-TAGLINE = {1: "Catalog, SQL editor, Genie Code: your bearings", 2: "Ask the portfolio questions in plain English",
+TAGLINE = {0: "Git folder with the repo, your own copy of the data", 1: "Catalog, SQL editor, Genie Code: your bearings", 2: "Ask the portfolio questions in plain English",
            3: "Migrate and fix a broken Snowflake view", 4: "Invoice PDFs to a Delta table",
            5: "Cited answers from the group policies", 6: "Audit the data before you trust it",
            7: "Define Net Profit Margin once", 8: "Executive Portfolio Review dashboard",
@@ -133,6 +133,22 @@ def steps_of(stage, guide):
              "do": None, "sql": None, "source": source} for p in prompts]
 
 
+def wrapped_rows(text, per_line):
+    """Lines a monospaced text takes when word-wrapped at per_line characters (long words split)."""
+    rows, col = 1, 0
+    for word in text.split():
+        if col and col + 1 + len(word) <= per_line:
+            col += 1 + len(word)
+            continue
+        if col:
+            rows, col = rows + 1, 0
+        need = len(word)
+        while need > per_line:
+            rows, need = rows + 1, need - per_line
+        col = need
+    return rows
+
+
 def rich(p, text, size, color=None):
     """Fill a paragraph: plain text as is, `inline code` monospaced in CODE_INK."""
     if text.count("`") % 2:  # a clipped span: drop the dangling backtick
@@ -214,8 +230,9 @@ class ModuleDeck(bd.Deck):
             self.add_textbox(s, day, x, 1.45, 5.9, 0.4, font_size=16, bold=True, color=bd.ACCENT)
             rule = s.shapes.add_connector(1, Inches(x), Inches(1.88), Inches(x + 5.9), Inches(1.88))
             rule.line.color.rgb = g.hex_to_rgb("#C9D2D6")
+            step = min(0.5, 5.0 / max(len(r) for _, r in d["days"]))
             for i, (num, time, name, tag) in enumerate(rows):
-                y = 1.98 + i * 0.5
+                y = 1.98 + i * step
                 self.add_textbox(s, time, x, y + 0.04, 1.2, 0.3, font_size=10, color=bd.MUTED)
                 badge = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(x + 1.2), Inches(y + 0.04), Inches(0.36),
                                            Inches(0.36))
@@ -295,7 +312,7 @@ class ModuleDeck(bd.Deck):
         if d.get("prompt"):  # the exact text to type: shown in full, never clipped
             text = d["prompt"]
             size = 13 if len(text) < 180 else 11 if len(text) < 330 else 10 if len(text) < 600 else 9
-            rows = -(-len(text) // int((w - 0.3) * 120 / size * 0.85))  # monospaced, with word-wrap slack
+            rows = wrapped_rows(text, int((w - 0.3) * 120 / size * 0.85))  # monospaced
             box_h = 0.25 + rows * size * 1.2 / 72
             self.add_textbox(s, "YOU TYPE (Genie Code / Genie)", 0.6, y, w, 0.3, font_size=10, bold=True,
                              color=bd.ACCENT)
@@ -368,7 +385,7 @@ def build():
             {"title": "If stuck", "description": "Open the reference (ref_… / \"(Reference)\")"}]},
         {"type": "content", "title": "Placeholders in the prompts", "bullets": [
             "<catalog>.<schema>: the shared workshop data (your facilitator gives you the names)",
-            "<my_schema>: your own sandbox schema; everything you build goes here",
+            "<my_schema>: your own copy of the data (Module 0); everything you build goes here",
             ":workspace_id: the number after ?o= in your browser URL",
             "End every prompt that builds something with \"run it and check the result\""]},
     ]

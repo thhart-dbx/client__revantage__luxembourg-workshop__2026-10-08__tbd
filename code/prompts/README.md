@@ -1,6 +1,6 @@
 # Genie Code prompt library
 
-One file per demo (`d01-platform-overview.md` … `d16-data-quality.md`). Participants copy prompts
+One file per module (`d00-getting-started.md` … `d18-domains-pages-metrics.md`). Participants copy prompts
 from these files during the workshop; facilitators use the expected results and "if stuck" steps to
 keep the room moving. The click-path and decks quote these files, so this is the source of truth.
 
@@ -13,7 +13,7 @@ A prompt that doesn't reliably produce the expected result is rewritten or marke
 | Placeholder | Meaning |
 |---|---|
 | `<catalog>.<schema>` | Where the starting data lives in your workspace (set by the setup job) |
-| `<my_schema>` | Your personal sandbox schema, if the facilitator created one; otherwise `<schema>` |
+| `<my_schema>` | Your own copy of the data, built in Module 0 (`<schema>_<your name>`); otherwise `<schema>` |
 | `<your_name>` | Short lowercase name, used to suffix the objects you create |
 
 ## File format

@@ -16,6 +16,12 @@ WS = "7474657569423450"  # FEVM workspace id used for the captures
 VOL = "/Volumes/thhart_october_2026_catalog/revantage_20261008"
 
 STEPS = {
+    # D0 Getting started (UI captures; Stage 4 run into the scratch schema revantage_20261008_m0test)
+    (0, "Stage 1", 0): ("file", "modules/m-d00-stage1-0.png"),
+    (0, "Stage 2", 0): ("file", "modules/m-d00-stage2-0.png"),
+    (0, "Stage 3", 1): ("file", "modules/m-d00-stage3-1.png"),
+    (0, "Stage 4", 0): ("file", "modules/m-d00-stage4-0.png"),
+    (0, "Stage 5", 1): ("file", "modules/m-d00-stage5-1.png"),
     # D1 Platform overview
     (1, "Stage 1", 0): ("url", "/?o=" + WS),
     (1, "Stage 2", 0): ("url", "/explore/data/volumes/thhart_october_2026_catalog/revantage_20261008/documents?o=" + WS),
@@ -146,7 +152,7 @@ STEPS = {
 }
 
 # Overview image per demo: the finished asset participants will have built.
-OVERVIEW = {1: "architecture.png", 2: "d02-genie-southeast.png", 3: "s9-d03-genie-code.png",
+OVERVIEW = {0: "m-d00-stage4-0.png", 1: "architecture.png", 2: "d02-genie-southeast.png", 3: "s9-d03-genie-code.png",
             4: "d04-extraction.png", 5: "d05-ka-building.png", 6: "m-d06-stage6-1.png",
             7: "d07-metric-view.png", 8: "d08-p1-executive.png", 9: "d09-app.png",
             10: "d10-pii-columns.png", 11: "d11-pipeline-graph.png", 12: "d12-approvals-app.png",

@@ -137,7 +137,7 @@ class Deck(g.DatabricksSlideGenerator):
                 g.DatabricksSlideGenerator.generate(self, {"slides": [sd]})
 
 
-AGENDA = ["Day 1 AM · Genie One, Genie Code, document agents",
+AGENDA = ["Day 1 AM · Getting started (Git folder, your own data), Genie One, Genie Code, document agents",
           "Day 1 PM · Metric views, dashboards, Apps, governance",
           "Day 2 AM · Lakeflow, Lakebase, AI Gateway, forecasting",
           "Day 2 PM · Build-your-own lab, Genie accuracy, domains & Pages, data quality"]
@@ -153,16 +153,17 @@ STORY = ["Southeast net profit fell 18.6% in 2026-Q2 (€2.58M → €2.09M)",
 # ---------------------------------------------------------------------------------------------
 INTERNAL = {"title": "Revantage Luxembourg Workshop", "slides": [
     {"type": "title", "title": "Revantage build-along workshop",
-     "subtitle": "Internal enablement: how to re-deliver the 18 demos", "date": "October 2026"},
+     "subtitle": "Internal enablement: how to re-deliver the 19 modules (0–18)", "date": "October 2026"},
     {"type": "stat-row", "title": "Verified before day one", "stats": [
-        {"value": "18", "label": "demos on one dataset"},
+        {"value": "19", "label": "modules on one dataset"},
         {"value": "18", "label": "deployed answer keys (ref_*)"},
         {"value": "100%", "label": "participant prompts run in the UI"}]},
     {"type": "agenda", "title": "Two days, four blocks", "items": AGENDA},
     {"type": "three-column", "title": "The build-live model",
      "columns": [
          {"header": "Starting state", "items": ["Bundle job loads data, PDFs, the broken Snowflake SQL",
-                                                "Each participant gets <my_schema>", "Reset scripts per demo"]},
+                                                "Module 0: each participant clones the repo as a Git folder and builds their own copy in <my_schema>",
+                                                "Reset scripts per demo"]},
          {"header": "Answer key (ref_*)", "items": ["Finished asset deployed by the bundle",
                                                     "Fallback when a live build stalls",
                                                     "Source of truth for checkpoint numbers"]},
@@ -174,6 +175,12 @@ INTERNAL = {"title": "Revantage Luxembourg Workshop", "slides": [
     {"type": "screenshot", "title": "Architecture: every asset the bundle deploys",
      "image": "architecture.png", "caption": "Source: assets/architecture.drawio (code/deliverables/architecture.py)"},
     {"type": "section", "title": "Day 1", "subtitle": "Ask, build, extract, define, present, govern"},
+    {"type": "demo", "title": "D0 · Getting started: Git folder + own copy of the data", "image": "modules/m-d00-stage4-0.png",
+     "problem": "Twenty laptops, one shared schema: one participant's broken build breaks the room.",
+     "build": "Link GitHub, clone the workshop repo as a Git folder, Run all on code/setup/participant_setup (≈3 min, 8 PASS checks).",
+     "value": "Every guide, prompt and reference source is in the workspace, and each participant has a private copy of the data, identical to the shared schema.",
+     "why": "Git folders put the repo next to the data; the same parameterised setup script the bundle job runs builds any schema on serverless.",
+     "watch": "The repo is private: invite every participant's GitHub user and confirm they accepted. Run the sandbox job first if participants can't CREATE SCHEMA."},
     {"type": "demo", "title": "D2 · Genie One: ask the portfolio", "image": "d02-genie-southeast.png",
      "problem": "Finance answers \"why did X move?\" with spreadsheets and analyst queues.",
      "build": "Participants teach the Start agent (instructions, sample questions) until it answers like the Reference.",
@@ -284,6 +291,7 @@ INTERNAL = {"title": "Revantage Luxembourg Workshop", "slides": [
         {"text": "Revantage workspace access + bundle target filled (revantage)", "checked": False},
         {"text": "Pre-flight: preflight.py, system table grants, D16 monitor, D2/D9 show-items", "checked": False},
         {"text": "Setup job + participant sandboxes run; starting-state check ALL PASS", "checked": False},
+        {"text": "Module 0: every participant's GitHub user invited to the repo (and accepted)", "checked": False},
         {"text": "All 18 references deployed and verified on FEVM (D18 domain: Revantage workspace)", "checked": True},
         {"text": "D18: run code/scripts/d18_domain.sh, publish domain + reference Pages, grant MANAGE", "checked": False},
         {"text": "Every participant prompt run in the Genie Code UI", "checked": True}]},
@@ -306,6 +314,11 @@ CLIENT = {"title": "Revantage Luxembourg Workshop", "slides": [
     {"type": "content", "title": "Your data, one story", "bullets": STORY},
     {"type": "screenshot", "title": "What we'll build together", "image": "architecture.png"},
     {"type": "section", "title": "Day 1", "subtitle": "Ask, build, extract, define, present, govern"},
+    {"type": "build-step", "title": "Your workshop in a Git folder, your own data", "image": "modules/m-d00-stage4-0.png",
+     "prompt_label": "YOU DO (Workspace → Create → Git folder) then Run all",
+     "prompt": "Explain what this notebook does, step by step, and which objects it will create.",
+     "checkpoint": "8 PASS lines: gold 80 rows / 8 properties, Southeast 2026-Q2 ≈ €2.09M, 15 PDFs; your copy equals the shared data (0 rows differ).",
+     "stuck": "Keep going on the shared data in <catalog>.<schema>; re-run the notebook once your schema exists."},
     {"type": "build-step", "title": "Ask your portfolio a question (Genie One)", "image": "d02-genie-southeast.png",
      "prompt": "Why did Southeast net profit drop in 2026-Q2? Break it down by property.",
      "checkpoint": "Southeast −€480K (−19%); Harbor Tower −€507K (−44%); the other two properties up.",
@@ -365,7 +378,7 @@ CLIENT = {"title": "Revantage Luxembourg Workshop", "slides": [
      "checkpoint": "Genie One reads the Page: NOI = net profit, this quarter = 2026-Q2.",
      "stuck": "code/reference/d18_pages.md."},
     {"type": "stat-row", "title": "What you'll leave with", "stats": [
-        {"value": "18", "label": "assets you built yourself"},
+        {"value": "19", "label": "assets you built yourself"},
         {"value": "1", "label": "governed dataset behind all of them"},
         {"value": "2", "label": "days, hands on keyboard"}]},
     {"type": "three-column", "title": "Outcomes for Revantage",

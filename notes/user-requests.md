@@ -7,3 +7,4 @@
 | 3 | Module deck: code fixed-width + highlighted, text as is, truncated code gets '…' and the file it lives in | 770cc6c |
 | 4 | Two new demos: (17) incrementally build a Genie space (column names, comments, table descriptions, keys, metric views, instructions, examples) and monitor accuracy, as for Spectrix; (18) Domains with Pages and Metrics to improve Genie answers. Slot: Day 2 2:45–3:45 (replaces Office Hours). Account-level governed tag + domain approved. | 3c58050 |
 | 5 | Summary slide: high-level overview of all the modules to be covered (module deck, slide 2) | 03b79ad |
+| 6 | Module 0: participants create a Git folder with the workshop repo and set up the datasets (own copy per participant; slot Day 1 8:30–9:00) | _pending_ |

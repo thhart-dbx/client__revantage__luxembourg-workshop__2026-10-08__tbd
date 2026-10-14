@@ -8,6 +8,7 @@ Placeholders: `<catalog>` and `<schema>` are the shared workshop catalog and sch
 
 ## Contents
 
+- [Demo 0: Getting Started — "Your own copy of the workshop"](#demo-0)
 - [Demo 1: Welcome & Platform Overview — "Where does my data live?"](#demo-1)
 - [Demo 2: Genie One — Property Performance Q&A](#demo-2)
 - [Demo 3: Genie Code — migrate and fix a Snowflake view](#demo-3)
@@ -26,6 +27,73 @@ Placeholders: `<catalog>` and `<schema>` are the shared workshop catalog and sch
 - [Demo 16: Data Quality & Observability — "Trust scorecard"](#demo-16)
 - [Demo 17: Genie Accuracy Ladder — "From 0 to 10 out of 10, one layer at a time"](#demo-17)
 - [Demo 18: Domains, Pages & Metrics — "Teach Genie One what your words mean"](#demo-18)
+
+<a id="demo-0"></a>
+## Demo 0: Getting Started — "Your own copy of the workshop"
+
+**Session:** Day 1, 8:30–9:00 (30 min) · **You build:** a Git folder with the workshop repo, and your own copy of the workshop data in `<my_schema>` · **Reference:** the shared starting state in `<catalog>.<schema>` (same data, value for value)
+**Starting state:** read access to the GitHub repo `thhart-dbx/client__revantage__luxembourg-workshop__2026-10-08__tbd`; USE CATALOG on `<catalog>`, read on `<catalog>.<schema>`, and either CREATE SCHEMA on `<catalog>` or a pre-created `<my_schema>` with ALL PRIVILEGES (sandbox job)
+**Where:** Settings (Linked accounts), Workspace (Git folder), notebook on serverless, Catalog Explorer, Genie Code side panel
+
+Everything you need for the two days lives in one Git repo: one guide per module with the exact
+prompts (`code/prompts/`), the handout (`assets/participant-handout.md`), the source of every reference
+asset, and a notebook that builds the workshop data. In this module you clone it into Databricks as a
+**Git folder**, then run the notebook to build your own copy of the data, so you can change it freely
+without affecting anyone else.
+
+![Your own copy of the workshop data: the setup notebook's 8 PASS checks.](../notes/agent-notes/screenshots/modules/m-d00-stage4-0.png)
+
+*Your own copy of the workshop data: the setup notebook's 8 PASS checks.*
+
+### Stage 1: Link your GitHub account (5 min)
+
+Profile (top right) → **Settings** → **Linked accounts** → **Git integration** → **Add Git credential** → Git provider **GitHub** → **Link Git account** and approve the Databricks app in GitHub (or choose **Personal access token** and paste a GitHub token with the `repo` scope).
+**Checkpoint:** Git integration lists your GitHub user with **GitHub (Linked)**.
+**If stuck:** the repo is private: check that your GitHub user has accepted the invitation to `thhart-dbx/client__revantage__luxembourg-workshop__2026-10-08__tbd` (github.com → your notifications).
+
+### Stage 2: Create the Git folder (5 min)
+
+**Workspace** → **Home** → **Create** → **Git folder**. Paste the Git repository URL `https://github.com/thhart-dbx/client__revantage__luxembourg-workshop__2026-10-08__tbd`: the provider (**GitHub**) and the Git folder name fill in by themselves → **Create Git folder**.
+**Checkpoint:** the folder shows the branch **main** at the top and contains `README.md`, `RUNBOOK.md`, `assets/` and `code/`.
+**If stuck:** "Repository not found" or "Invalid Git credentials" means the GitHub link (Stage 1) or the repo invitation is missing: fix that and create the Git folder again.
+
+### Stage 3: Find your way around the repo (5 min)
+
+Open `code/prompts/`: one guide per module (`d01-…` to `d18-…`), each with the prompts to type, the expected result and an "if stuck" fallback. `code/reference/` holds the answer-key SQL, `code/setup/` the data setup.
+Open `code/setup/participant_setup`, then the Genie Code panel (top right):
+> Explain what this notebook does, step by step, and which objects it will create.
+
+**Expected:** Genie Code walks through the cells (your settings, your schema with the `raw` and `documents` volumes, `setup_starting_state.py` generating the CSVs, copying the PDFs and building bronze → silver → gold, the PASS/FAIL checks) and lists what it creates: **1 schema, 2 volumes, 24 tables** (16 starting tables + 8 for Module 17) and **22 files** (7 CSVs + 15 PDFs).
+
+### Stage 4: Build your copy of the data (10 min)
+
+In `participant_setup`, first code cell: type `CATALOG = "<catalog>"` and `SHARED_SCHEMA = "<schema>"` (the names shared at the start of the session); leave `MY_SCHEMA` blank (it becomes `<schema>_<your name>`) and `AS_OF` as is. Compute **Serverless** → **Run all**. (A banner "This file is part of a bundle" can be dismissed.)
+**Expected:** after about 3 minutes, the last cell prints 8 **PASS** lines: gold 80 rows / 8 properties / 2024-Q1–2026-Q2, Southeast 2026-Q2 net profit ≈ €2.09M, 16 starting tables, 8 Module 17 legacy tables, 7 CSVs, 8 / 4 / 3 PDFs, and *"Done. In the module prompts, <my_schema> is …"*.
+**If stuck:** `AssertionError: Type the catalog and shared schema names…`: the first code cell is still empty; type both names, keep the quotes. `PERMISSION_DENIED` on CREATE SCHEMA: your schema hasn't been created for you yet; ask for the sandbox job to be run, then **Run all** again (the notebook is safe to re-run). Until then, every module works on the shared data in `<catalog>.<schema>`.
+
+### Stage 5: Check your copy (5 min)
+
+**Catalog** → `<catalog>` → `<my_schema>`: the bronze, silver and gold tables, the `legacy_*` tables, and the volumes `raw` and `documents`.
+**SQL Editor** → **+** → **Query** (a new, empty query), then open the Genie Code panel:
+> Compare <my_schema>.gold_property_quarterly with <catalog>.<schema>.gold_property_quarterly: same number of rows, and how many rows differ? Run it and check the result.
+
+**Expected:** Genie Code checks both schemas, writes the query into the editor, runs it and reports **80** rows in each and **0** rows that differ (a full outer join on `property_id` + `fiscal_quarter`, or `EXCEPT ALL`). Click **Reject** on the suggested edit if you don't want to keep the query. Your copy is the workshop data, value for value, so every expected result in the modules holds for it.
+**If stuck:**
+```sql
+SELECT COUNT(*) AS differences FROM (
+  SELECT * FROM <my_schema>.gold_property_quarterly
+  EXCEPT ALL
+  SELECT * FROM <catalog>.<schema>.gold_property_quarterly)
+```
+
+### 6. Reset
+
+Re-run `participant_setup` (**Run all**): it rebuilds your copy from scratch. Get the latest guides with the Git folder's branch button (**main**) → **Pull**; if Pull reports a conflict on `participant_setup`, discard your local change to it first (your two names are the only edit).
+
+### Wrap-up
+
+- **So what:** everyone has the material and a private copy of the data before the first module, so a broken build only ever breaks your own copy.
+- **Two schemas from here on:** `<catalog>.<schema>` is the shared workshop data and holds the answer keys (`ref_*`); `<my_schema>` is your copy, where you build. You can point any module prompt at `<my_schema>` instead of `<catalog>.<schema>`.
 
 <a id="demo-1"></a>
 ## Demo 1: Welcome & Platform Overview — "Where does my data live?"

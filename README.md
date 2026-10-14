@@ -1,4 +1,4 @@
-# Revantage Luxembourg Onsite — Build-Along Workshop (18 demos)
+# Revantage Luxembourg Onsite — Build-Along Workshop (Modules 0–18)
 
 Two-day, hands-on workshop for the Revantage Luxembourg data team (day 1 = 2026-10-13): Genie One and Genie Code,
 Agent Bricks (extraction + Knowledge Assistant), UC metric views, AI/BI dashboards, Databricks Apps, Unity Catalog
@@ -19,7 +19,7 @@ CapEx and needs two signatures. Every demo finds a piece of it. Facts and number
 | `code/prompts/dNN-*.md` | **Build-along guides**: per stage the Genie Code prompt, expected result, checkpoint, if-stuck. Start here. |
 | `code/prompts/verification/` | Recorded Genie / KA answers (Conversation API transcripts) |
 | `code/data-gen/`, `code/documents/` | Deterministic dataset generator (planted facts asserted) and the 15 PDFs |
-| `code/setup/` | Starting-state job (volumes → bronze/silver/gold), participant sandboxes, SQL runner |
+| `code/setup/` | Starting-state job (volumes → bronze/silver/gold), participant sandboxes, SQL runner; `participant_setup.py`: Module 0 notebook that builds a participant's own copy from their Git folder |
 | `code/reference/`, `code/pipelines/`, `code/genie/`, `code/dashboards/` | Reference solutions |
 | `code/app/`, `code/app-approvals/` | Next.js apps (lease tracker, invoice approvals on Lakebase) |
 | `code/preflight/preflight.py` | Read-only readiness check for the client workspace (go/no-go per demo) |
@@ -30,6 +30,7 @@ CapEx and needs two signatures. Every demo finds a piece of it. Facts and number
 
 | # | Session | Participants build | Reference | Verified by |
 |---|---|---|---|---|
+| 0 | Getting started | Git folder with this repo + own copy of the data (`participant_setup.py`) | shared starting state | Run all into a scratch schema: 8/8 PASS, `check_starting_state.py` ALL PASS, 0 rows differ (2026-10-14) |
 | 1 | Platform overview | first queries, Genie Code | — | SQL |
 | 2 | Genie One | 5 business questions | Genie Agent *Portfolio Q&A (Start)* | Conversation API 5/5 |
 | 3 | Genie Code | migrate a broken Snowflake view | `ref_d03_property_performance_v` | 176 → 64 rows |

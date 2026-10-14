@@ -10,6 +10,7 @@
 
 - **Workspace:** AWS or Azure; Unity Catalog; serverless SQL warehouse and serverless jobs/pipelines; Databricks Apps; Lakebase; Agent Bricks (Information Extraction, Knowledge Assistant); Genie (One + Code); AI/BI dashboards; data profiling.
 - **Facilitator permissions:** `USE CATALOG` + `CREATE SCHEMA` on the target catalog; create apps, jobs, pipelines, Lakebase instances, alerts; `CAN_MANAGE` on one pay-per-token endpoint (AI Gateway config); grant `USE CATALOG` to app service principals.
+- **Participants' GitHub access (Module 0):** every participant's GitHub user is invited to this (private) repo and has accepted; they link GitHub under Settings → Linked accounts.
 - **Admin grants for participants (Demo 13):** `SELECT` on `system.ai_gateway`, `system.serving`, `system.billing`, `system.access` (lineage).
 - **Tooling:** Databricks CLI ≥ 0.27x, `uv`, Node ≥ 20 + npm (cloud npm proxy locally), Chrome for UI steps.
 - **Pre-flight (read-only):** `code/data-gen/.venv/bin/python code/preflight/preflight.py --profile <p> --warehouse <id> --catalog <catalog>` → go/no-go per demo. FEVM result 2026-10-08: all 16 GO.
@@ -48,6 +49,10 @@ code/data-gen/.venv/bin/python code/tests/check_starting_state.py --profile <p> 
 ```
 **Verify:** 28/28 PASS (gold = oracle; planted facts F1–F7; 15 documents).
 Optional: `databricks bundle run setup_participant_sandboxes -t <target> --params participants=a@x.com,b@x.com,group=<group>`.
+Run it before Module 0 if participants can't `CREATE SCHEMA` on the catalog: it creates `<schema>_<name>`, which the Module 0 notebook fills.
+
+**Module 0 (each participant, or to test it):** Git folder of this repo → `code/setup/participant_setup` → first cell `CATALOG`, `SHARED_SCHEMA` (`MY_SCHEMA` blank = `<schema>_<name>`) → Run all on serverless (a job run can pass `catalog`, `shared_schema`, `my_schema` as parameters instead).
+**Verify:** 8 PASS lines; `check_starting_state.py --schema <my_schema>` ALL PASS. A test copy is dropped with `DROP SCHEMA <c>.<my_schema> CASCADE`.
 
 ### Step 3 — Reference answer keys
 ```bash
@@ -96,6 +101,7 @@ Then in the UI: Discover → Revantage Workshop → **Publish**; ⋮ → Manage 
 
 ## 4. Smoke test
 - [ ] `check_starting_state.py` 28/28 · `check_ref_pipeline.py` OK
+- [ ] Module 0: `participant_setup` run from the Git folder into a scratch schema → 8 PASS, then drop the scratch schema
 - [ ] Genie: `code/tests/ask_genie.py --space <Start id> "Which properties missed their quarterly target in 2026-Q2?"` → Peachtree Center, Harbor Tower, Zuidas Residences
 - [ ] Dashboard renders 4 pages; KPI counters €10.7M · 59.3% · 62.5% · −3.3%
 - [ ] `SELECT MEASURE(target_attainment) FROM <c>.<s>.ref_mv_target_attainment WHERE fiscal_quarter='2026-Q2'` → 0.625
@@ -116,6 +122,7 @@ Rerun `setup_starting_state` the day before if the date moves (lease windows) an
 ## 6. Teardown
 ```bash
 code/ai-gateway/apply_ai_gateway.sh --teardown            # restores the endpoint's original AI Gateway config
+# participant copies (Module 0) and sandboxes: DROP SCHEMA <catalog>.<schema>_<name> CASCADE for each; participants delete their Git folder
 # delete the two Agent Bricks agents (Agents → ⋮ → Delete): their vector-search endpoints bill while idle
 for app in <app_name> <approvals_app_name>; do  # revoke the one-time catalog grants
   SP=$(databricks apps get $app -o json | python3 -c "import sys,json;print(json.load(sys.stdin)['service_principal_client_id'])")

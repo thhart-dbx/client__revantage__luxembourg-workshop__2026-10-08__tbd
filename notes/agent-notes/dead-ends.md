@@ -1,0 +1,2 @@
+- 2026-10-14 · Module 0 widgets: `dbutils.widgets.text` ran without error but no widget bar appeared (panel height 0, also after reload) for the notebook in the Git folder under `code/` (bundle file banner). Replaced with a settings cell.
+- 2026-10-14 · Genie Code in the SQL editor answered the Module 0 comparison prompt without running it (and with invalid `COUNT(*) … EXCEPT SELECT *`) when the editor pane hadn't rendered; in a fresh **+ → Query** tab it ran a full outer join and reported 80/80/0.

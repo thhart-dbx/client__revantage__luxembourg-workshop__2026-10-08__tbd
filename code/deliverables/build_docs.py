@@ -1,4 +1,4 @@
-"""Build the click-path walkthrough and the participant handout from the 16 verified guides.
+"""Build the click-path walkthrough and the participant handout from the verified guides (Modules 0–18).
 
 The guides in code/prompts/ are the single source of truth (every prompt in them was run in the
 Genie Code UI, see code/prompts/verification/s9-genie-code-ui.md). This script compiles them into:
@@ -19,6 +19,7 @@ SHOTS = "../notes/agent-notes/screenshots"  # relative to assets/
 
 # One live screenshot per demo (captured with Chrome DevTools against the deployed objects).
 SCREENSHOTS = {
+    0: (f"{SHOTS}/modules/m-d00-stage4-0.png", "Your own copy of the workshop data: the setup notebook's 8 PASS checks."),
     1: ("architecture.png", "Everything the workshop builds, on one governed dataset."),
     2: (f"{SHOTS}/d02-genie-southeast.png", "Genie One answers the Southeast question: Harbor Tower drives the whole drop."),
     3: (f"{SHOTS}/s9-d03-genie-code.png", "Genie Code explains the Snowflake view and lists what to change for Databricks SQL."),
