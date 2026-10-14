@@ -34,7 +34,17 @@ HL = [(Comment, "#7A869A", False, True), (String, "#2E7D32", False, False), (Num
       (Keyword, "#0B5CAD", True, False), (Name.Builtin, "#8E3BA8", False, False),
       (Operator, "#5A6B73", False, False)]
 CODE_FILE = re.compile(r"`?(code/[\w./-]+\.(?:sql|py|sh))`?")
-for t in ("module-step", "module-overview", "module-steps"):
+# one line per module for the "Workshop at a glance" slide
+TAGLINE = {1: "Catalog, SQL editor, Genie Code: your bearings", 2: "Ask the portfolio questions in plain English",
+           3: "Migrate and fix a broken Snowflake view", 4: "Invoice PDFs to a Delta table",
+           5: "Cited answers from the group policies", 6: "Audit the data before you trust it",
+           7: "Define Net Profit Margin once", 8: "Executive Portfolio Review dashboard",
+           9: "Lease Expiry Tracker app", 10: "Business metadata, certification, PII masks",
+           11: "Raw CSVs to bronze, silver, gold", 12: "Invoice approvals on Lakebase, approved to Delta",
+           13: "AI usage and cost queries, plus an alert", 14: "Revenue forecast for Q3/Q4 vs target",
+           15: "Pick a track, build your own", 16: "Monitoring, outlier alert, blast radius",
+           17: "Genie accuracy, one layer at a time", 18: "Business definitions Genie One can use"}
+for t in ("module-step", "module-overview", "module-steps", "module-agenda"):
     g.VALID_SLIDE_TYPES.add(t)
     g.LAYOUT_MAPPINGS[t] = ["CUSTOM"]
 
@@ -195,6 +205,32 @@ class ModuleDeck(bd.Deck):
             self.add_textbox(s, name, x + 0.75, y + 0.02, 5.2, 0.4, font_size=16, bold=True, color=bd.DARK)
             self.add_textbox(s, kind, x + 0.75, y + 0.4, 5.2, 0.35, font_size=11, color=bd.MUTED)
 
+    def add_module_agenda_slide(self, d):
+        """All modules at a glance: one column per day, a row per module in session order."""
+        s = self._create_slide("module-agenda", d)
+        self._title(s, d["title"], d.get("subtitle"))
+        for col, (day, rows) in enumerate(d["days"]):
+            x = 0.6 + col * 6.3
+            self.add_textbox(s, day, x, 1.45, 5.9, 0.4, font_size=16, bold=True, color=bd.ACCENT)
+            rule = s.shapes.add_connector(1, Inches(x), Inches(1.88), Inches(x + 5.9), Inches(1.88))
+            rule.line.color.rgb = g.hex_to_rgb("#C9D2D6")
+            for i, (num, time, name, tag) in enumerate(rows):
+                y = 1.98 + i * 0.5
+                self.add_textbox(s, time, x, y + 0.04, 1.2, 0.3, font_size=10, color=bd.MUTED)
+                badge = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(x + 1.2), Inches(y + 0.04), Inches(0.36),
+                                           Inches(0.36))
+                badge.fill.solid()
+                badge.fill.fore_color.rgb = g.hex_to_rgb(bd.ACCENT)
+                badge.line.fill.background()
+                tf = badge.text_frame
+                tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
+                tf.paragraphs[0].text = str(num)
+                tf.paragraphs[0].alignment = PP_ALIGN.CENTER
+                tf.paragraphs[0].font.size, tf.paragraphs[0].font.bold = Pt(11), True
+                tf.paragraphs[0].font.color.rgb = g.hex_to_rgb("#FFFFFF")
+                self.add_textbox(s, name, x + 1.68, y - 0.04, 4.25, 0.3, font_size=12, bold=True, color=bd.DARK)
+                self.add_textbox(s, tag, x + 1.68, y + 0.2, 4.25, 0.28, font_size=10, color=bd.MUTED)
+
     def _box(self, s, x, y, w, h, fill="#EEF2F3"):
         box = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(y), Inches(w), Inches(h))
         box.fill.solid()
@@ -291,7 +327,7 @@ class ModuleDeck(bd.Deck):
 
     def generate(self, content):
         extra = {"module-step": self.add_module_step_slide, "module-overview": self.add_module_overview_slide,
-                 "module-steps": self.add_module_steps_slide}
+                 "module-steps": self.add_module_steps_slide, "module-agenda": self.add_module_agenda_slide}
         for sd in content["slides"]:
             if sd.get("type") in extra:
                 extra[sd["type"]](sd)
@@ -311,9 +347,20 @@ def header_field(header, name):
 def build():
     paths = {parse(p)[0]: p for p in (ROOT / "code" / "prompts").glob("d[0-9][0-9]-*.md")}
     guides = sorted((parse(p) for p in paths.values()), key=lambda x: x[0])
+    days = {}
+    for num, title, header, *_ in guides:
+        m = re.match(r"(Day \d+), ([\d:]+)[–-]([\d:]+)", header_field(header, "Session"))
+        days.setdefault(m.group(1), []).append((tuple(int(v) for v in m.group(2).split(":")), num,
+                                               f"{m.group(2)}–{m.group(3)}", title))
+    agenda = [(day, [(num, time, re.sub(r"^Demo \d+:\s*", "", title).split(" — ")[0], TAGLINE[num])
+                     for _, num, time, title in sorted(rows, key=lambda r: (r[0][0] + 12 * (r[0][0] < 8), r[0][1]))])
+              for day, rows in sorted(days.items())]
     slides = [
         {"type": "title", "title": "Build it yourself: module by module",
          "subtitle": "Revantage workshop · every step, the prompt, the expected result", "date": "October 2026"},
+        {"type": "module-agenda", "title": f"Workshop at a glance · {len(guides)} modules",
+         "subtitle": "Every module ends with a working asset you built, with a reference to fall back on",
+         "days": agenda},
         {"type": "timeline", "title": "How every module works", "steps": [
             {"title": "What we'll build", "description": "The finished asset you'll have at the end"},
             {"title": "How we'll get there", "description": "The steps, in order"},
