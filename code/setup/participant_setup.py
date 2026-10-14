@@ -7,24 +7,35 @@
 # MAGIC gold tables every module uses. Same data as the shared workshop schema, value for value, so the
 # MAGIC expected results in every module hold for your copy too.
 # MAGIC
-# MAGIC Fill in the two widgets at the top with the names your facilitator gives you, then **Run all**.
+# MAGIC Type the two names shared at the start of the session into the next cell, then **Run all**.
 # MAGIC Safe to re-run: it rebuilds your copy from scratch.
+
+# COMMAND ----------
+
+CATALOG = ""        # 1. the workshop catalog
+SHARED_SCHEMA = ""  # 2. the shared workshop schema
+MY_SCHEMA = ""      # 3. leave blank: becomes <SHARED_SCHEMA>_<your name>
+AS_OF = "2026-10-13"  # workshop day 1: leave as is
 
 # COMMAND ----------
 
 import re
 
-dbutils.widgets.text("catalog", "", "1. Workshop catalog")
-dbutils.widgets.text("shared_schema", "", "2. Shared workshop schema")
-dbutils.widgets.text("my_schema", "", "3. My schema (blank = <shared_schema>_<your name>)")
-dbutils.widgets.text("as_of", "2026-10-13", "4. Workshop day 1 (leave as is)")
 
-catalog = dbutils.widgets.get("catalog").strip()
-shared = dbutils.widgets.get("shared_schema").strip()
-assert catalog and shared, "Fill in the catalog and shared schema widgets (your facilitator has the names)."
+def param(name, typed):
+    """What you typed above; a job run can pass the same names as parameters instead."""
+    try:
+        return dbutils.widgets.get(name).strip() or typed
+    except Exception:
+        return typed
+
+
+catalog, shared = param("catalog", CATALOG), param("shared_schema", SHARED_SCHEMA)
+assert catalog and shared, "Type the catalog and shared schema names into the first code cell, then Run all again."
 me = spark.sql("SELECT current_user()").first()[0]
 name = re.sub(r"[^a-z0-9]+", "_", me.split("@")[0].lower()).strip("_")
-my_schema = dbutils.widgets.get("my_schema").strip() or f"{shared}_{name}"  # same rule as the sandbox job
+my_schema = param("my_schema", MY_SCHEMA) or f"{shared}_{name}"  # same rule as the sandbox job
+as_of = param("as_of", AS_OF)
 print(f"{me} -> {catalog}.{my_schema}")
 
 # COMMAND ----------
@@ -52,7 +63,7 @@ from pathlib import Path
 
 code_dir = Path(os.getcwd()).parent  # this notebook lives in <Git folder>/code/setup
 sys.argv = ["setup_starting_state.py", "--catalog", catalog, "--schema", my_schema,
-            "--as-of", dbutils.widgets.get("as_of"), "--bundle-root", str(code_dir)]
+            "--as-of", as_of, "--bundle-root", str(code_dir)]
 runpy.run_path(str(code_dir / "setup" / "setup_starting_state.py"), run_name="__main__")
 
 # COMMAND ----------
